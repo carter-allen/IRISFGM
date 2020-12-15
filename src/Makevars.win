@@ -1,0 +1,4 @@
+## Use the R_HOME indirection to support installations of multiple R version
+CXX_STD = CXX11
+PKG_CXXFLAGS = $(SHLIB_OPENMP_CXXFLAGS) -DVER=2.08
+PKG_LIBS = $(shell "${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe" -e "Rcpp:::LdFlags()") $(SHLIB_OPENMP_CXXFLAGS)
