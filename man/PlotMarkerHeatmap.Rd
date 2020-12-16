@@ -22,7 +22,7 @@ PlotMarkerHeatmap(
 
 \item{p.adj}{adjusted pvalue cutoff for gene selection threshold}
 
-\item{scale}{}
+\item{scale}{Scale by row or column.}
 }
 \value{
 heatmap

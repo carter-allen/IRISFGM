@@ -25,7 +25,7 @@ ProcessData(object, ...)
 )
 }
 \arguments{
-\item{object}{}
+\item{object}{Data object}
 
 \item{normalization}{two options: (1)library size noralization by using library size factor: 1e6, equal to CPM, or (2) using "scran" normalization method.}
 

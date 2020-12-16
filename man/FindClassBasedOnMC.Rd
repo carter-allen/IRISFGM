@@ -22,8 +22,8 @@ Unnormalized spectral clustering function. Uses Partitioning Around Medoids clus
 }
 \description{
 This function is for performing Markov chain clustering regarding generated co-expression gene modules. This clustering method is working for relative small dataset.
-If you have a large dataset, We recommend you should use Seurat clustering wrapped in this IRISFGM package. See details \code{\link{RunLTMG}},
-\code{\link{RunDimensionReduction}}, and \code{\link{RunClassification}}.
+If you have a large dataset, We recommend you should use Seurat clustering wrapped in this IRISFGM package. See details \code{RunLTMG},
+\code{RunDimensionReduction}, and \code{RunClassification}.
 }
 \examples{
 \dontrun{object <- FindClassBasedOnMC(object)}
