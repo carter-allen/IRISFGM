@@ -2,6 +2,13 @@
 #' @include Classes.R
 NULL
 
+#' separateBic
+#' separate biclusters 
+#'
+#' @param object Input IRIS-FGM object.
+#'
+#' @return It will reture a list for shoring gene and cell. 
+#'
 .separateBic <- function(object = NULL) {
     tmp.expression <- object@Processed_count
     bic.number <- length(unique(object@BiCluster@CoCond_cell$Condition))
@@ -19,14 +26,15 @@ NULL
 }
 
 
-#' PlotNetwork
-#'
-#' @description This function is for building the module- module network. Nodes mean individual module. Edges mean overlapped gene (or cell).
-#' The weight of line show the number of gene (or cell).
-#' @param object Input object
-#' @param edge.by This parameter decide the edge by 'cell' or by 'gene'. The default value is by gene.
-#' @param lay.out The type of layout to create, include linear (default), circle, kk.
 
+#' PlotNetwork
+#' This function is to plot the network for selected biclusters to show the genes (or cells) overlapping relations.
+#'
+#' @param object Input IRIS-FGM object.
+#' @param edge.by Should be "cell" or by "gene," indicating nodes label. The default value is by "gene."
+#' @param lay.out Should be one type of layouts to show nodes' arrangement, including 'linear'(default), 'star', 'circle', 'gem', 'dh', 'graphopt', 'grid', 'mds', 
+#' 'randomly', 'fr', 'kk', 'drl', 'lgl'.
+#' @param N.bicluster Should be two integers indicating the number of two biclusters.
 #'
 #' @name PlotNetwork
 #' @return It will generate a global network regarding overlapping genes or cells.
@@ -45,18 +53,39 @@ NULL
             tmp.block.2 <- Bic.list.select[[colnames(ntwork.adjacency.mtx)[j]]]
             if (edge.by == "gene") {
                 n.intersect <- length(intersect(rownames(tmp.block.1), rownames(tmp.block.2)))
+                n.intersect.proportion <- n.intersect/length(union(rownames(tmp.block.1), rownames(tmp.block.2)))
             } else if (edge.by == "cell") {
                 n.intersect <- length(intersect(colnames(tmp.block.1), colnames(tmp.block.2)))
+                n.intersect.proportion <- n.intersect/length(union(colnames(tmp.block.1), colnames(tmp.block.2)))
             } else {
                 stop(paste("Please select 'gene' or 'cell' to edge.by parameter"))
             }
-            ntwork.adjacency.mtx[i, j] <- n.intersect
+            ntwork.adjacency.mtx[i, j] <- n.intersect.proportion
         }
     }
     edge.list <- graph_from_adjacency_matrix(adjmatrix = ntwork.adjacency.mtx, mode = "undirected", weighted = T, diag = F)
     label = rownames(ntwork.adjacency.mtx)
-    p <- ggraph(edge.list, layout = lay.out) + geom_node_point(size = 5, color = "gray50") + geom_edge_arc(aes(width = weight), alpha = 0.8, color = "orange") + 
-        scale_edge_width(range = c(0.5, 2)) + geom_node_text(aes(label = label), repel = TRUE) + labs(edge_width = edge.by) + theme_void()
+    # degree.node <- degree(edge.list)
+    # layout_df <- create_layout(edge.list, layout = layout)
+    if ( lay.out == "linear"){
+        p <- ggraph(edge.list, layout = lay.out) + 
+            geom_node_point(size = 3, color = "gray50") + 
+            #geom_edge_link(aes(width = weight),alpha = 0.8, color = "orange") +
+            geom_edge_arc(aes(width = weight), alpha = 0.8, color = "orange") + 
+            scale_edge_width(range = c(0.5, 2)) + 
+            geom_node_text(aes(label = label), repel = TRUE) + 
+            labs(edge_width = paste0(edge.by," percentage\n between\n two nodes")) + 
+            theme_void() 
+    } else if( lay.out!= "linear"){
+        p <- ggraph(edge.list, layout = lay.out) + 
+            geom_node_point(size = 3, color = "gray50") + 
+            geom_edge_link(aes(width = weight),alpha = 0.8, color = "orange") +
+            #geom_edge_arc(aes(width = weight), alpha = 0.8, color = "orange") + 
+            scale_edge_width(range = c(0.5, 2)) + 
+            geom_node_text(aes(label = label), repel = TRUE) + 
+            labs(edge_width = paste0(edge.by," percentage\n between\n two nodes")) + 
+            theme_void()
+    }
     print(p)
 }
 
@@ -68,6 +97,13 @@ setMethod("PlotNetwork", "IRISFGM", .plotnetwork)
 
 
 
+#' GenerateNetObject
+#' Generate Net Object for the network use.
+#' @param object Input IRIS-FGM object.
+#'
+#' @param N.bicluster Should be two integers indicating the number of two biclusters.
+#' @param method Should be a statistical method to calculate edge weight based on expression data. It can be either "Spearman" (default) or "Pearson."
+#'
 #' @importFrom  stats cor
 .generateNetObject <- function(object, N.bicluster = c(1, 5), method = "spearman") {
     groups <- N.bicluster
@@ -102,37 +138,65 @@ setMethod("PlotNetwork", "IRISFGM", .plotnetwork)
     return(list(cort, rowidlist))
 }
 
-#' PlotModuleNetwork
-#' @description This function will visualize co-expression gene network based on coorelation analysis. The nodes represent the gene module network from the selected bicluster. The size of the nodes indicates the degree of presence. The thickness of edges indicates the value of the correlation coefficient.
-#' @param object Input object.
-#' @param N.bicluster number of biclsuter to plot.
-#' @param Node.color color of nodes. This parameter also accepts color codes, e.g. '#AE1503' or 'darkred.'
-#' @param cutoff this parameter decide the cutoff of correlation
-#' @importFrom igraph graph_from_adjacency_matrix degree
-#' @import ggraph dplyr
+
+#' @title PlotModuleNetwork
+#' @description This function will visualize co-expression gene network based on selected two biclusters. 
+#' The nodes represent the gene module network from the selected bicluster. 
+#' The size of the nodes indicates the degree of presence.
+#'  The thickness of edges indicates the value of the correlation coefficient.
+#'
+#' @param object Input IRIS-FGM object.
+#' @param method Should be a statistical method to calculate edge weight based on expression data. It can be either "Spearman" (default) or "Pearson."
+#' @param cutoff.neg Should be a cutoff to show a negative correlation between two nodes (default: -0.8).
+#' @param cutoff.pos Should be a cutoff to show a positive correlation between two nodes (default: 0.8).
+#' @param layout Should be one type of layouts to show nodes' arrangement, including 'linear', 'star', 'circle'(default), 'gem', 'dh', 'graphopt', 'grid', 'mds', 
+#' 'randomly', 'fr', 'kk', 'drl', 'lgl'.
+#' @param node.label Should be logic to show the nodes' label (default: TRUE).
+#' @param node.label.cex Should be a number to control the label size.
+#' @param N.bicluster Should be the two numbers of biclsuters.
+#' @param node.col 
+#'
+#' @importFrom igraph graph_from_adjacency_matrix degree vertex.attributes edge.attributes vertex.attributes<- edge.attributes<-
+#' @import ggraph
 #' @return
 #' @name PlotModuleNetwork
 #'
-#' @examples \dontrun{object <- PlotModuleNetwork(object = NULL, N.bicluster = c(1,5), Node.color = '#E8E504', cutoff=0.7, node.label.cex = 1 )}
-.plotmodulenetwork <- function(object = NULL, method = "spearman", N.bicluster = c(1, 5), cutoff.neg = -0.8, cutoff.pos = 0.95, layout = "circle", node.label = T, 
-    node.label.cex = 1) {
+#' @examples \dontrun{
+#' object <- PlotModuleNetwork(object = NULL, 
+#' N.bicluster = c(1,5), 
+#' Node.color = '#E8E504', 
+#' cutoff=0.7, 
+#' node.label.cex = 1) 
+#' }
+.plotmodulenetwork <- function(object = NULL, 
+                               method = "spearman",
+                               node.col = "orange",
+                               N.bicluster = c(1, 5),
+                               cutoff.neg = -0.8, 
+                               cutoff.pos = 0.8, 
+                               layout = "circle", 
+                               node.label = TRUE, 
+                               node.label.cex = 1) 
+{
     my.list <- .generateNetObject(object = object, N.bicluster = N.bicluster, method = method)
     cort <- my.list[[1]]
     my.adjacency <- ifelse(cort < cutoff.neg | cort > cutoff.pos, cort, 0)
     g <- graph_from_adjacency_matrix(my.adjacency, weighted = T, diag = F, mode = "undirected")
     if (length(N.bicluster) > 1) {
         vertex.attributes(g)$Bicluster <- c(rep(names(my.list[[2]][1]), length(my.list[[2]][[1]])), rep(names(my.list[[2]][2]), length(my.list[[2]][[2]])), 
-            rep(names(my.list[[2]][3]), length(my.list[[2]][[3]])), rep(names(my.list[[2]][4]), length(my.list[[2]][[4]])))
+                                            rep(names(my.list[[2]][3]), length(my.list[[2]][[3]])), rep(names(my.list[[2]][4]), length(my.list[[2]][[4]])))
     }
     if (length(N.bicluster) == 1) {
         vertex.attributes(g)$Bicluster <- rep(names(my.list[[2]][1]), length(my.list[[2]][[1]]))
     }
     edge.attributes(g)$status <- ifelse(edge.attributes(g)$weight < 0, "negative", "positive")
-    degree_number <- degree(g)
+    degree_number <- 10*(degree(g)-min(degree(g))/(max(degree(g)-min(degree(g)))))
+    #degree_number <- degree(g)
     layout <- create_layout(g, layout = layout)
     # create color panel
     p.base <- ggraph(layout)
-    p.base <- p.base + geom_node_point(aes(size = degree_number, alpha = degree_number), color = "orange")
+    #p.base <- p.base + geom_node_point(aes(size = degree_number, alpha = degree_number), color = node.col)
+    p.base <- p.base + geom_node_point(aes(size = degree_number), color = node.col)
     if (node.label == T) {
         p.base <- p.base + geom_node_text(aes(label = name, size = node.label.cex), repel = T)
     }

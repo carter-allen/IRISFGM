@@ -3,11 +3,21 @@
 #' @include LTMGSCA.R
 NULL
 
+#' MIN_return
+#' MIN_return
+#' @param x input vector
+#'
 #' @rdname MIN_return
 MIN_return <- function(x) {
     return(min(x[x > 0]))
 }
 
+#' Global_Zcut create Zcut 
+#' Global_Zcut create Zcut 
+#' @param MAT input matrix
+#'
+#' @param seed  set seed 
+#'
 #' @rdname Global_Zcut
 Global_Zcut <- function(MAT, seed = NULL) {
     VEC <- apply(MAT, 1, MIN_return)
@@ -18,7 +28,7 @@ Global_Zcut <- function(MAT, seed = NULL) {
         set.seed(seed)
         MIN_fit = normalmixEM(log(VEC), k = 2)
         INTER <- Intersect2Mixtures(Mean1 = MIN_fit$mu[1], SD1 = MIN_fit$sigma[1], Weight1 = MIN_fit$lambda[1], Mean2 = MIN_fit$mu[2], SD2 = MIN_fit$sigma[2], 
-            Weight2 = MIN_fit$lambda[2])
+                                    Weight2 = MIN_fit$lambda[2])
         Zcut_univ <- INTER$CutX
     }, error = function(e) {
     })
@@ -26,6 +36,13 @@ Global_Zcut <- function(MAT, seed = NULL) {
     return(exp(Zcut_univ))
 }
 
+#' BIC_LTMG
+#' BIC_LTMG
+#' @param y input y
+#' 
+#' @param rrr input vector
+#' @param Zcut input global z
+#'
 #' @rdname BIC_LTMG
 BIC_LTMG <- function(y, rrr, Zcut) {
     n <- length(y)
@@ -47,6 +64,13 @@ BIC_LTMG <- function(y, rrr, Zcut) {
     return(f)
 }
 
+#' BIC_ZIMG fits different model
+#' BIC_ZIMG fits different model
+#' @param y input vector
+#'
+#' @param rrr input vector 
+#' @param Zcut global zcut
+#'
 #' @rdname BIC_ZIMG
 BIC_ZIMG <- function(y, rrr, Zcut) {
     y <- y[y > Zcut]
@@ -67,6 +91,11 @@ BIC_ZIMG <- function(y, rrr, Zcut) {
     return(f)
 }
 
+#' Pure_CDF
+#' Pure_CDF
+#' 
+#' @param Vec input vector
+#'
 #' @rdname Pure_CDF
 Pure_CDF <- function(Vec) {
     ### Vec should be sorted ###
@@ -90,6 +119,13 @@ Pure_CDF <- function(Vec) {
     return(CDF)
 }
 
+#' KS_LTMG
+#' KS_LTMG
+#' @param y input y
+#'
+#' @param rrr input vector
+#' @param Zcut input global zcut
+#'
 #' @rdname KS_LTMG
 KS_LTMG <- function(y, rrr, Zcut) {
     y <- sort(y)
@@ -107,6 +143,13 @@ KS_LTMG <- function(y, rrr, Zcut) {
     return(max(abs(p_x - p_uni_x)))
 }
 
+#' KS_ZIMG
+#' KS_ZIMG
+#' @param y input y
+#'
+#' @param rrr input rrr
+#' @param Zcut input Zcut
+#'
 #' @rdname KS_ZIMG
 KS_ZIMG <- function(y, rrr, Zcut) {
     num_c <- nrow(rrr)
@@ -122,11 +165,21 @@ KS_ZIMG <- function(y, rrr, Zcut) {
     return(max(abs(p_x - p_uni_x)))
 }
 
+#' State_return
+#' State_return
+#' @param x input vector
+#'
 #' @rdname State_return
 State_return <- function(x) {
     return(order(x, decreasing = T)[1])
 }
 
+#' MINUS
+#' MINUS
+#' @param x input x
+#'
+#' @param y input y
+#'
 #' @rdname MINUS
 MINUS <- function(x, y) {
     if (x < y) {
@@ -136,6 +189,15 @@ MINUS <- function(x, y) {
     }
 }
 
+#' Fit_LTMG
+#' Fit_LTMG
+#' @param x input x
+#'
+#' @param n input n
+#' @param q input q
+#' @param k input k
+#' @param err random error
+#'
 #' @rdname Fit_LTMG
 Fit_LTMG <- function(x, n, q, k, err = 1e-10) {
     q <- max(q, min(x))
@@ -172,7 +234,7 @@ Fit_LTMG <- function(x, n, q, k, err = 1e-10) {
         im[is.na(im)] <- 0
         mean <- colSums(crossprod(x, pdf.x.portion) + (mean0 - sd0 * im) * cdf.q.portion.c)/denom
         sd <- sqrt((colSums((x - matrix(mean0, ncol = length(mean0), nrow = length(x), byrow = TRUE))^2 * pdf.x.portion) + sd0^2 * (1 - (q - mean0)/sd0 * 
-            im) * cdf.q.portion.c)/denom)
+                                                                                                                                        im) * cdf.q.portion.c)/denom)
         if (!is.na(match(NaN, sd))) {
             break
         }
@@ -183,6 +245,13 @@ Fit_LTMG <- function(x, n, q, k, err = 1e-10) {
     return(cbind(p, mean, sd))
 }
 
+#' LTMG
+#' LTMG
+#' @param VEC input vector
+#'
+#' @param Zcut_G input Zcut
+#' @param k input k as gene regulatory signal
+#'
 #' @rdname LTMG
 LTMG <- function(VEC, Zcut_G, k = 5) {
     y <- log(VEC)
@@ -203,8 +272,8 @@ LTMG <- function(VEC, Zcut_G, k = 5) {
                 rrr <- cbind(mixmdl$lambda, mixmdl$mu, mixmdl$sigma)
                 TEMP <- BIC_ZIMG(y, rrr, Zcut)
                 if (TEMP < MARK) {
-                  rrr_LTMG <- rrr
-                  MARK <- TEMP
+                    rrr_LTMG <- rrr
+                    MARK <- TEMP
                 }
             }, error = function(e) {
             })
@@ -220,8 +289,8 @@ LTMG <- function(VEC, Zcut_G, k = 5) {
                 TEMP <- BIC_LTMG(y, rrr, Zcut)
                 # print(TEMP)
                 if (TEMP < MARK) {
-                  rrr_LTMG <- rrr
-                  MARK <- TEMP
+                    rrr_LTMG <- rrr
+                    MARK <- TEMP
                 }
             }, error = function(e) {
             })
@@ -240,17 +309,30 @@ LTMG <- function(VEC, Zcut_G, k = 5) {
 #' Run LTMG module
 #' 
 #' We will use Left-truncated Mixture Gaussian distribution to model the regulatory signal of each gene. Parameter, 'Gene_use', decides number of top high variant gene for LTMG modeling, and here we use all genes.
+#'
 #' @param object Input IRIS-FGM object 
-#' @param Gene_use Using X numebr of top variant gene. input a number, recommend 2000.
+#' @param seed Set seeds for reproducibility
+#' @param k Number of components.
+#' @param Gene_use using X numebr of top variant gene. input a number, recommend 2000.
+#'
 #' @name RunLTMG
 #' @return it will reture a LTMG signal matrix
 #' @importFrom AdaptGauss Intersect2Mixtures
 #' @importFrom mixtools normalmixEM
 #' @importFrom stats sd
 #' @examples # If you want to explore DEG, we recommend you should use top 2000 highly variant gene. 
-#' \dontrun{object <- RunLTMG(object,Gene_use = 2000, seed = 123, k = 5)}
+#' \dontrun{
+#' object <- RunLTMG(object,
+#' Gene_use = 2000, 
+#' seed = 123, 
+#' k = 5)
+#' }
 #' # If you want to run bicluster based on LTMG model, we recommend you should use all genes.
-#' \dontrun{object <- RunLTMG(object,Gene_use ='all', seed = 123, k = 5)}
+#' \dontrun{
+#' object <- RunLTMG(object,
+#' Gene_use ='all', 
+#' seed = 123, 
+#' k = 5)}
 .RunLTMG <- function(object, Gene_use = NULL, seed = 123, k = 5) {
     MAT <- as.matrix(object@Processed_count)
     set.seed(seed)
@@ -291,13 +373,13 @@ LTMG <- function(VEC, Zcut_G, k = 5) {
             rrr_LTMG <- rrr
             for (K in 2:(k - 1)) {
                 tryCatch({
-                  mixmdl <- invisible(normalmixEM(y[y > Zcut], K))
-                  rrr <- cbind(mixmdl$lambda, mixmdl$mu, mixmdl$sigma)
-                  TEMP <- BIC_ZIMG(y, rrr, Zcut)
-                  if (TEMP < MARK) {
-                    rrr_LTMG <- rrr
-                    MARK <- TEMP
-                  }
+                    mixmdl <- invisible(normalmixEM(y[y > Zcut], K))
+                    rrr <- cbind(mixmdl$lambda, mixmdl$mu, mixmdl$sigma)
+                    TEMP <- BIC_ZIMG(y, rrr, Zcut)
+                    if (TEMP < MARK) {
+                        rrr_LTMG <- rrr
+                        MARK <- TEMP
+                    }
                 }, error = function(e) {
                 })
             }
@@ -307,14 +389,14 @@ LTMG <- function(VEC, Zcut_G, k = 5) {
             rrr_LTMG <- NULL
             for (K in 2:k) {
                 tryCatch({
-                  rrr <- Fit_LTMG(y, 100, Zcut, K)
-                  rrr <- matrix(as.numeric(rrr[!is.na(rrr[, 2]), ]), ncol = 3, byrow = F)
-                  TEMP <- BIC_LTMG(y, rrr, Zcut)
-                  # print(TEMP)
-                  if (TEMP < MARK) {
-                    rrr_LTMG <- rrr
-                    MARK <- TEMP
-                  }
+                    rrr <- Fit_LTMG(y, 100, Zcut, K)
+                    rrr <- matrix(as.numeric(rrr[!is.na(rrr[, 2]), ]), ncol = 3, byrow = F)
+                    TEMP <- BIC_LTMG(y, rrr, Zcut)
+                    # print(TEMP)
+                    if (TEMP < MARK) {
+                        rrr_LTMG <- rrr
+                        MARK <- TEMP
+                    }
                 }, error = function(e) {
                 })
             }
@@ -353,12 +435,15 @@ LTMG <- function(VEC, Zcut_G, k = 5) {
 setMethod("RunLTMG", "IRISFGM", .RunLTMG)
 #----------------------------------------------------------------------------
 
-#' Get LTMG matrix
-#' 
-#' Get LTMG matrix
+#' @name GetLTMGmatrix
+#' @title GetLTMGmatrix
+#' @description Get LTMG matrix
 #' 
 #' @param object Input IRIS-FGM object
-#' @examples \dontrun{GetLTMGmatrix(object)}
+#'
+#' @examples \dontrun{
+#' GetLTMGmatrix(object)
+#' }
 .GetLTMGmatrix <- function(object) {
     tmp <- object@LTMG@LTMG_discrete
     return(tmp)
@@ -370,16 +455,40 @@ setMethod("GetLTMGmatrix", "IRISFGM", .GetLTMGmatrix)
 # --------------------------------------------------
 
 # calculate single signal function and get function ---------------------
+#' @name CalBinarySingleSignal
+#' @title CalBinarySingleSignal
+#'  
+#' Binarizing single signal function via distinguishing zero or non-zero value based on LTMG matrix
+#' 
+#' @param object Input IRIS-FGM object
+#'
+#' @return It will return a binary matrix based on LTMG signal matrix.
+#'
+#' @examples \dontrun{
+#' object <- CalBinarySingleSignal(object)
+#' }
 .CalBinarySingleSignal <- function(object = NULL) {
     MAT <- object@LTMG@LTMG_discrete
     SingleSignal <- ifelse(MAT > 0, 1, MAT)
     object@LTMG@LTMG_BinarySingleSignal <- SingleSignal
     return(object)
 }
+
 #' @export
 #' @rdname CalBinarySingleSignal
 setMethod("CalBinarySingleSignal", "IRISFGM", .CalBinarySingleSignal)
 
+#' @name GetBinarySingleSignal
+#' @title GetBinarySingleSignal
+#' Get binary Single Signal matrix 
+#'
+#' @param object Input IRIS-FGM object
+#'
+#' @return It will export the Binarized matrix based on LTMG signal matrix.
+#'
+#' @examples \dontrun{
+#' GetBinarySingleSignal(object)
+#' }
 .GetBinarySingleSignal <- function(object = NULL) {
     tmp <- object@LTMG@LTMG_BinarySingleSignal
     return(tmp)
@@ -389,33 +498,42 @@ setMethod("CalBinarySingleSignal", "IRISFGM", .CalBinarySingleSignal)
 #' @rdname GetBinarySingleSignal
 setMethod("GetBinarySingleSignal", "IRISFGM", .GetBinarySingleSignal)
 # -------------------------------------------------------------------------- calculate multisignal function and get function--------------------------
-#' calculate multisignal
-#' This function is for calculating multisignal from LTMG signaling matrix.
+#' @name CalBinaryMultiSignal
+#' @title CalBinaryMultiSignal
+#' @description This function is for calculating multisignal from LTMG signaling matrix.
+#' 
 #' @param object Input IRIS-FGM
 #'
-#' @return it will return a binary matrix
+#' @return It will return a binary matrix based on LTMG signal matrix.
 #'
 #' @examples \dontrun{object <- CalBinaryMultiSignal(object)}
 .CalBinaryMultiSignal <- function(object = NULL) {
     x <- object@LTMG@LTMG_discrete
     x <- x[rowSums(x) > 0, ]
-    MultiSig <- c()
+    number.row <- apply(x, 1, function(x) { 
+        max(x)
+    })
+    MultiSig <- matrix(rep(0,sum(number.row)*ncol(x)),ncol = ncol(x))
     pb <- txtProgressBar(min = 0, max = nrow(x), style = 3)
+    start.idx <- 1
+    name.MultiSig <- c()
     for (i in 1:nrow(x)) {
         tmp.gene <- x[i, ]
         tmp.gene.name <- rownames(x)[i]
         tmp.signal <- max(tmp.gene)
-        tmp.signal.min <- min(tmp.gene)
+        end.idx <- start.idx+tmp.signal-1
         sub.MultiSig <- c()
         for (j in 1:tmp.signal) {
             tmp.sub.ms <- ifelse(tmp.gene == j, 1, 0)
             sub.MultiSig <- rbind(sub.MultiSig, tmp.sub.ms)
-            
         }
-        rownames(sub.MultiSig) <- paste0(tmp.gene.name, "_", 1:tmp.signal)
-        MultiSig <- rbind(MultiSig, sub.MultiSig)
+        MultiSig[start.idx:end.idx,] <- sub.MultiSig
+        name.MultiSig <- c(name.MultiSig,paste0(tmp.gene.name, "_", 1:tmp.signal))
+        start.idx <- end.idx+1
         setTxtProgressBar(pb, i)
     }
+    rownames(MultiSig) <- name.MultiSig
+    colnames(MultiSig) <- colnames(x)
     close(pb)
     object@LTMG@LTMG_BinaryMultisignal <- MultiSig
     return(object)
@@ -425,11 +543,13 @@ setMethod("GetBinarySingleSignal", "IRISFGM", .GetBinarySingleSignal)
 #' @rdname CalBinaryMultiSignal
 setMethod("CalBinaryMultiSignal", "IRISFGM", .CalBinaryMultiSignal)
 
-#' Get multisignal binary matrix
+#' @name GetBinaryMultiSignal
+#' @title GetBinaryMultiSignal
+#'  
 #' This function is for getting multisignal from LTMG signaling matrix.
 #' @param object Input IRIS-FGM
 #'
-#' @return it will get a binary matrix
+#' @return It will get a binary matrix based on LTMG signal matrix.
 #'
 #' @examples \dontrun{object <- CalBinaryMultiSignal(object)}
 .GetBinaryMultiSignal <- function(object = NULL) {

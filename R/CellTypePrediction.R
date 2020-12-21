@@ -6,6 +6,7 @@ NULL
 #' 
 #' genrate graph
 #'
+#' @param blocks input blocks
 GRAPH <- function(blocks) {
     A <- readLines(blocks)
     TEMP <- grep("Conds", A, value = TRUE)  ## extract condition lines in each BC
@@ -40,10 +41,17 @@ GRAPH <- function(blocks) {
 
 ####### 2. cell type prediction ####### cell type prediction based on weighted graph
 
+#' MCL clustering
+#' MCL clustering
 #' @importFrom igraph graph.data.frame
 #' @importFrom igraph as_adjacency_matrix
 #' @importFrom MCL mcl
-## clustering function Raw is the original expression matrix
+#'
+#' @param Raw input data
+#' @param blocks input blocks
+#'
+#' @return MCL clustering results
+#'
 MCL <- function(Raw, blocks) {
     RAW <- read.table(Raw, header = T, sep = "\t")
     CellNum <- dim(RAW)[2] - 1  # the number of cells
@@ -95,6 +103,13 @@ MCL <- function(Raw, blocks) {
     return(label)
 }
 
+#' spectral Clustering method 
+#' spectral Clustering method 
+#' @param Raw input  
+#'
+#' @param blocks input blocks
+#' @param K number of clusters; this parameter is used for SC clustering method. 
+#'
 #' @importFrom igraph graph.data.frame
 #' @importFrom igraph as_adjacency_matrix
 #' @importFrom anocva spectralClustering
@@ -123,6 +138,15 @@ SC <- function(Raw, blocks, K) {
 ## Raw is the path to the original expression matrix method should be either 'MCL' or 'SC', and if 'SC', user also need to specify K, the number of
 ## clusters
 
+#' Packaging clustering method
+#' This function is used for choosing clustering method 
+#' @param Raw input raw discretized data which is chars file
+#' @param blocks input block identified by IRISFGM
+#' @param method chosse method, either MCL or SC.
+#' @param K number of cluster
+#'
+#' @return clustering results
+#'
 CLUSTERING <- function(Raw, blocks, method = "MCL", K = NULL) {
     RST <- as.numeric()
     if (method == "MCL") {
@@ -145,9 +169,10 @@ CLUSTERING <- function(Raw, blocks, method = "MCL", K = NULL) {
 #' @param K expected number of predicted clusters when you are using 'SC' method for cell clustering and this parameter does not work for 'MCL'
 #'
 #' @useDynLib IRISFGM
-#' @export
 #' @name FindClassBasedOnMC
-#' @examples \dontrun{object <- FindClassBasedOnMC(object)}
+#' @examples \dontrun{
+#' object <- FindClassBasedOnMC(object)
+#' }
 .final <- function(object = NULL, method = "MCL", K = 5) {
     # chars file
     input <- paste0(getwd(), "/tmp_expression.txt.chars")

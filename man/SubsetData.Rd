@@ -43,6 +43,11 @@ This function is used for filtering out low-quality data based on previous resul
 }
 \examples{
 # Use Yan's data which posts on github tutorial
-\dontrun{ object <- SubsetData(object, nFeature.upper=15000,nFeature.lower=8000, Counts.upper=700000,Counts.lower=400000)}
+\dontrun{ 
+object <- SubsetData(object, 
+    nFeature.upper=15000,
+    nFeature.lower=8000, 
+    Counts.upper=700000,
+    Counts.lower=400000)}
 
 }

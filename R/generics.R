@@ -20,6 +20,8 @@ setGeneric(name = "RunLTMG", def = function(object, ...) standardGeneric("RunLTM
 
 
 
+#' @title title
+#' @name name
 #' @export
 #' @rdname GetAddNormalNoise
 setGeneric(name = "GetNormalNoiseMatirx", def = function(object, ...) standardGeneric("GetNormalNoiseMatirx"))
@@ -96,12 +98,12 @@ setGeneric(name = "PlotDimension", def = function(object, ...) standardGeneric("
 setGeneric(name = "FindClassBasedOnMC", def = function(object, ...) standardGeneric("FindClassBasedOnMC"))
 
 #' @export
-#' @rdname PlotNetwork
-setGeneric(name = "PlotNetwork", def = function(object, ...) standardGeneric("PlotNetwork"))
-
-#' @export
 #' @rdname DotPlotPathway
 setGeneric(name = "DotPlotPathway", def = function(object, ...) standardGeneric("DotPlotPathway"))
+
+#' @export
+#' @rdname PlotNetwork
+setGeneric(name = "PlotNetwork", def = function(object, ...) standardGeneric("PlotNetwork"))
 
 #' @export
 #' @rdname PlotMeta
