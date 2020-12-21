@@ -1,18 +1,20 @@
 
-#' set IRIS-CEM object
 #' CreateIRISFGMObject
 #' @description Create IRIS-FGM object
-#'
-#' @param x input expression matrix which should be a matrix or dataframe.
+#' @param x Input expression matrix which should be a matrix or dataframe.
 #' @param min.cell each gene should be expressed by at least this many cell.
 #' @param min.gene each cell should express this many gene at least.
-
+#' @param LTMGr Automatically create LTMG object.
+#' @param Bicluster Automatically create Bicluster object.
 #'
 #' @return it should return a IRISFGM object of which structure can be found in tutorial.
 #' @export
 #'
 #' @examples \dontrun{object <- CreateIRISCEMObject(x = input_matrix, min.cell = 0, min.gene =0}
-CreateIRISFGMObject <- function(x = input_matrix, min.cell = 0, min.gene = 0, LTMGr = new(Class = "LTMGr"), Bicluster = new(Class = "Bicluster")) {
+CreateIRISFGMObject <- function(x = input_matrix, min.cell = 0, 
+                                min.gene = 0, 
+                                LTMGr = new(Class = "LTMGr"), 
+                                Bicluster = new(Class = "Bicluster")) {
     raw.matrix <- as.matrix(x)
     raw.matrix.filterbycell <- raw.matrix[(rowSums(raw.matrix > 0) > min.cell), ]
     raw.matrix.filterbygene <- raw.matrix.filterbycell[, (colSums(raw.matrix.filterbycell > 0) > min.gene)]

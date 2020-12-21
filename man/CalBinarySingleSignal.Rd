@@ -8,7 +8,7 @@
  
 Binarizing single signal function via distinguishing zero or non-zero value based on LTMG matrix}
 \usage{
-CalBinarySingleSignal(object, ...)
+CalBinarySingleSignal(object)
 
 .CalBinarySingleSignal(object = NULL)
 

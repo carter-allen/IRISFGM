@@ -98,7 +98,7 @@ setMethod("RunDiscretization", "IRISFGM", .runDiscretization)
 #' @param NumBlockOutput number of blocks to report. Default: 100.
 #' @param BlockOverlap filtering overlapping blocks. Default: 0.7.
 #' @param BlockCellMin minimum column width of the block. Default: 15 columns.
-.runBiclusterBaseOnDiscretization <- function(object = NULL, OpenDual = TRUE, Extension = 1, NumBlockOutput = 100, BlockOverlap = 1, BlockCellMin = 15) {
+.runBiclusterBaseOnDiscretization <- function(object = NULL, OpenDual = TRUE, Extension = 1, NumBlockOutput = 100, BlockOverlap = 0.7, BlockCellMin = 15) {
     tmp.dir <- paste0(getwd(), "/tmp_expression.txt.chars")
     if (file.exists(tmp.dir)) {
         qubic(i = tmp.dir, d = TRUE, C = OpenDual, c = Extension, o = NumBlockOutput, f = BlockOverlap, k = BlockCellMin)
@@ -117,7 +117,7 @@ setMethod("RunDiscretization", "IRISFGM", .runDiscretization)
 #' @param OpenDual the flag using the lower bound of condition number. Default: 5 percent of the gene number in current bicluster.
 #' @param NumBlockOutput number of blocks to report. Default: 100.
 #' @param BlockOverlap filtering overlapping blocks. Default: 0.7.
-#' @param Extension 
+#' @param Extension consistency level of the block (0.5-1.0], the minimum ratio between the number of identical valid symbols in a column and the total number of rows in the output. Default: 1.0.
 #' @param BlockCellMin minimum column width of the block. Default: 15 columns.
 #'
 #' @name RunBicluster
@@ -142,7 +142,7 @@ setMethod("RunDiscretization", "IRISFGM", .runDiscretization)
 #' BlockOverlap = 0.7, 
 #' BlockCellMin = 15)
 #' }
-.runBicluster <- function(object = NULL, DiscretizationModel = "Quantile", OpenDual = FALSE, Extension = 0.9, NumBlockOutput = 100, BlockOverlap = 0.7, BlockCellMin = 15) {
+.runBicluster <- function(object = NULL, DiscretizationModel = "Quantile", OpenDual = FALSE, Extension = 1.0, NumBlockOutput = 100, BlockOverlap = 0.7, BlockCellMin = 15) {
     if (DiscretizationModel != "LTMG" && DiscretizationModel != "Quantile") {
         stop("please select either LTMG or Quantile")
     }

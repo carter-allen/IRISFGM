@@ -23,6 +23,8 @@ DotPlotPathway(object, ...)
 \arguments{
 \item{object}{Input IRIS-FGM object}
 
+\item{...}{other parameter}
+
 \item{genes.source}{Decide the plot source either "CTS", 
 "MC" or "Bicluster." "CTS" means DEGs from DEsingle label, 
 "MC" means DEGs from MC label, and "Bicluster" means using gene module from the selected bicluster.}

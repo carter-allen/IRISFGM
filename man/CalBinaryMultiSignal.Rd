@@ -6,7 +6,7 @@
 \alias{CalBinaryMultiSignal,IRISFGM-method}
 \title{CalBinaryMultiSignal}
 \usage{
-CalBinaryMultiSignal(object, ...)
+CalBinaryMultiSignal(object)
 
 .CalBinaryMultiSignal(object = NULL)
 

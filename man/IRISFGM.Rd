@@ -13,16 +13,16 @@ IRISFGM class
 \section{Slots}{
 
 \describe{
-\item{\code{raw_count}}{matrix.}
-
 \item{\code{MetaInfo}}{ANY.}
-
-\item{\code{processed_count}}{ANY.}
 
 \item{\code{Discretization}}{matrix.}
 
-\item{\code{LTMG}}{LTMGr.}
+\item{\code{Raw_count}}{ANY}
 
-\item{\code{Bicluster}}{Bicluster.}
+\item{\code{Processed_count}}{ANY}
+
+\item{\code{BiCluster}}{Bicluster}
+
+\item{\code{LTMG}}{LTMGr.}
 }}
 

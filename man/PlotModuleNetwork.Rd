@@ -37,7 +37,7 @@ PlotModuleNetwork(object, ...)
 
 \item{method}{Should be a statistical method to calculate edge weight based on expression data. It can be either "Spearman" (default) or "Pearson."}
 
-\item{node.col}{}
+\item{node.col}{Should a color name (or color code) for nodes}
 
 \item{N.bicluster}{Should be the two numbers of biclsuters.}
 
@@ -53,7 +53,7 @@ PlotModuleNetwork(object, ...)
 \item{node.label.cex}{Should be a number to control the label size.}
 }
 \value{
-
+It will generate co-expression network based on selected bicluster (can be one or multiple.)
 }
 \description{
 This function will visualize co-expression gene network based on selected two biclusters. 
