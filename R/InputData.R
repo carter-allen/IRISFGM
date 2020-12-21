@@ -51,7 +51,7 @@ ReadFrom10X_h5 <- function(input = NULL, use.names = TRUE, unique.features = TRU
             if (length(x = types.unique) > 1) {
                 message("Genome ", genome, " has multiple modalities, returning a list of matrices for this genome")
                 sparse.mat <- sapply(X = types.unique, FUN = function(x) {
-                  return(sparse.mat[which(x = types == x), ])
+                    return(sparse.mat[which(x = types == x), ])
                 }, simplify = FALSE, USE.NAMES = TRUE)
             }
         }
@@ -73,7 +73,8 @@ setMethod("ReadFrom10X_h5", "IRISFGM", ReadFrom10X_h5)
 #' Read 10X folder based on Seurat package
 #' 
 #' This function provide a method for reading in a folder from 10X platform. In this folder, it should contain three files: barcode, matrix, and gene.
-#' @param Input.dir Input 10X Chromium output data by using output folder
+#'
+#' @param input.dir Input directory. It should contain three file, including barcode file, feature file, and sparse counts matrix.
 #'
 #' @return The output from \code{\link{Read10X}}
 #' @export

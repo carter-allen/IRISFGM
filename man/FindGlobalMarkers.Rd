@@ -5,13 +5,13 @@
 \alias{.findglobalMarkers}
 \alias{FindGlobalMarkers,IRISFGM-method}
 \title{This function is for finding global marker
-FindGlobalMarkers is based on Seurat FindAllMarkers}
+FindGlobalMarkers is based on Seurat FindAllMarkers and the data from Tmp.seurat slots.}
 \usage{
 FindGlobalMarkers(object, ...)
 
 .findglobalMarkers(
   object = NULL,
-  idents = "Seurat0.6",
+  idents = NULL,
   logfc.threshold = 0.25,
   test.use = "wilcox",
   only.pos = TRUE,
@@ -21,7 +21,7 @@ FindGlobalMarkers(object, ...)
 
 \S4method{FindGlobalMarkers}{IRISFGM}(
   object = NULL,
-  idents = "Seurat0.6",
+  idents = NULL,
   logfc.threshold = 0.25,
   test.use = "wilcox",
   only.pos = TRUE,
@@ -37,14 +37,25 @@ FindGlobalMarkers(object, ...)
 \item{logfc.threshold}{Limit testing to genes which show, on average, at least X-fold difference (log-scale) between the two groups of cells. Default is 0.25 Increasing logfc.threshold speeds up the function, but can miss weaker signals.}
 
 \item{test.use}{same as \code{\link{FindAllMarkers}}}
+
+\item{only.pos}{keep postive result}
+
+\item{random.seed}{set seed for reproducibility}
+
+\item{min.pct}{only test genes that are detected in a minimum fraction of min.pct cells in either of the two populations. Meant to speed up the function by not testing genes that are very infrequently expressed. Default is 0.1}
 }
 \value{
 Output is a differentially expressed gene list
 }
 \description{
 This function is for finding global marker
-FindGlobalMarkers is based on Seurat FindAllMarkers
+FindGlobalMarkers is based on Seurat FindAllMarkers and the data from Tmp.seurat slots.
 }
 \examples{
-\dontrun{Global_marker <- FindGlobalMarkers(object)}
+\dontrun{
+Global_marker <- FindGlobalMarkers(object,
+idents = "Seurat0.6",
+logfc.threshold = 0.25,
+test.use = "wilcox"
+)}
 }

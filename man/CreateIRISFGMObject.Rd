@@ -2,7 +2,8 @@
 % Please edit documentation in R/Object.R
 \name{CreateIRISFGMObject}
 \alias{CreateIRISFGMObject}
-\title{Title}
+\title{set IRIS-CEM object
+CreateIRISFGMObject}
 \usage{
 CreateIRISFGMObject(
   x = input_matrix,
@@ -23,7 +24,7 @@ CreateIRISFGMObject(
 it should return a IRISFGM object of which structure can be found in tutorial.
 }
 \description{
-Title
+Create IRIS-FGM object
 }
 \examples{
 \dontrun{object <- CreateIRISCEMObject(x = input_matrix, min.cell = 0, min.gene =0}

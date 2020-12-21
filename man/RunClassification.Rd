@@ -3,11 +3,20 @@
 \name{RunClassification}
 \alias{RunClassification}
 \alias{.runClassification}
+\alias{RunClassification,IRISFGM-method}
 \title{Classify cell type prediction}
 \usage{
 RunClassification(object, ...)
 
 .runClassification(
+  object,
+  dims = 1:15,
+  k.param = 20,
+  resolution = 0.6,
+  algorithm = 1
+)
+
+\S4method{RunClassification}{IRISFGM}(
   object,
   dims = 1:15,
   k.param = 20,
@@ -33,5 +42,10 @@ It will generate cell type inforamtion.
 This function is based on Seurat package.
 }
 \examples{
-\dontrun{object <- RunClassification(object, dims = 1:15, k.param = 20, resolution = 0.6, algorithm = 1)}
+\dontrun{
+object <- RunClassification(object, 
+dims = 1:15,
+k.param = 20, 
+resolution = 0.6,
+algorithm = 1)}
 }

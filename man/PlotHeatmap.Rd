@@ -27,11 +27,17 @@ PlotHeatmap(object, ...)
 )
 }
 \arguments{
-\item{object}{IRISFGM object}
+\item{object}{Input IRISFGM object}
 
-\item{N.bicluster}{number of biclusters}
+\item{N.bicluster}{Number of biclusters.}
 
-\item{show.overlap}{parameter indicates whether figure show the overlap part betwween two selected biclusters.}
+\item{show.overlap}{Parameter (logic) indicates whether the figure shows the overlap part between two selected biclusters.}
+
+\item{seed}{Set seeds for reproducibility.}
+
+\item{show.annotation}{Parameter (logic) indicates whether to show annotation (biclusters number and cell cluster labels).}
+
+\item{show.clusters}{Parameter (logic) indicates whether to show the cell cluster label.}
 }
 \description{
 plot heatmap based on bicluster

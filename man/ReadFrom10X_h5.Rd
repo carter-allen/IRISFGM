@@ -27,5 +27,5 @@ It will return a gene expression matrix.
 This function provide a method for reading in HDF5 file from 10X platform.
 }
 \examples{
-\dontrun{input_mat <- ReadFrom10X_h5(input= "my.h5")}
+\dontrun{input_mat <- ReadFrom10X_h5(input= 'my.h5')}
 }

@@ -1,5 +1,21 @@
 
-#' @describeIn QUBIC Performs a QUalitative BIClustering.
+#' @name qubic
+#' @title qubic
+#' @description  QUBIC Performs a QUalitative BIClustering.
+#'
+#' @param i input 
+#' @param N index
+#' @param R index
+#' @param Fa index
+#' @param d index
+#' @param D index
+#' @param C index
+#' @param n index
+#' @param q index
+#' @param f index
+#' @param k index
+#' @param c index
+#' @param o index
 #'
 #' @usage qubic(i, R = FALSE, F = FALSE, d = FALSE, f = 0.85, k = 13, c = 0.90, o = 5000)
 #'

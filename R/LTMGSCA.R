@@ -68,7 +68,7 @@ SeparateKRpkmNew2 <- function(x, n, q, err = 1e-10) {
         im[is.na(im)] <- 0
         mean <- colSums(crossprod(x, t(pdf.x.portion)) + (mean0 - sd0 * im) * cdf.q.portion.c)/denom
         sd <- sqrt((colSums((x - matrix(mean0, ncol = length(mean0), nrow = length(x), byrow = TRUE))^2 * t(pdf.x.portion)) + sd0^2 * (1 - (q - mean0)/sd0 * 
-            im) * cdf.q.portion.c)/denom)
+                                                                                                                                           im) * cdf.q.portion.c)/denom)
         if (!is.na(match(NaN, sd))) {
             break
         }
@@ -126,7 +126,7 @@ SeparateKRpkmNew <- function(x, n, q, k, err = 1e-10) {
         im[is.na(im)] <- 0
         mean <- colSums(crossprod(x, pdf.x.portion) + (mean0 - sd0 * im) * cdf.q.portion.c)/denom
         sd <- sqrt((colSums((x - matrix(mean0, ncol = length(mean0), nrow = length(x), byrow = TRUE))^2 * pdf.x.portion) + sd0^2 * (1 - (q - mean0)/sd0 * 
-            im) * cdf.q.portion.c)/denom)
+                                                                                                                                        im) * cdf.q.portion.c)/denom)
         if (!is.na(match(NaN, sd))) {
             break
         }
@@ -288,7 +288,7 @@ SeparateKRpkmNewLRPlus <- function(x, n, q, r, s = 0.05, k = 2, err = 1e-10, M =
                 ccc[1, 3] <- s
                 ccc[2, 3] <- sd(x[[i]][which(x[[i]] >= q)])
                 if (is.na(ccc[2, 3])) {
-                  ccc[2, 3] <- s
+                    ccc[2, 3] <- s
                 }
             }
             results_c[[i]] <- ccc
@@ -373,7 +373,7 @@ SeparateKRpkmNewLRPlus <- function(x, n, q, r, s = 0.05, k = 2, err = 1e-10, M =
                 mean0[2, col] <- q
             }
             sd0[, col] <- sqrt((colSums((x_r[[col]] - matrix(mean[, col], ncol = length(mean[, col]), nrow = length(x_r[[col]]), byrow = TRUE))^2 * t[[col]]) + 
-                (sd[, col])^2 * (1 - (q - mean[, col])/sd[, col] * im) * pZil2 * c[[col]])/denom2)
+                                    (sd[, col])^2 * (1 - (q - mean[, col])/sd[, col] * im) * pZil2 * c[[col]])/denom2)
             if (denom2[1] == 0 || sd0[1, col] > r) {
                 sd0[1, col] <- r
             }

@@ -25,9 +25,12 @@ ProcessData(object, ...)
 )
 }
 \arguments{
-\item{object}{Data object}
+\item{object}{Input IRISFGM object}
 
-\item{normalization}{two options: (1)library size noralization by using library size factor: 1e6, equal to CPM, or (2) using "scran" normalization method.}
+\item{normalization}{two options: (1)library size noralization by using library size factor: 1e6, equal to CPM (count-per-million-reads), or 
+(2) using 'scran' normalization method.}
+
+\item{library.size}{Sets the scale factor for cpm normalization}
 
 \item{IsImputation}{imputation method is provided by DrImpute. Default is FALSE.}
 

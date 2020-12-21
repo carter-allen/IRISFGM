@@ -6,6 +6,9 @@
 \usage{
 GRAPH(blocks)
 }
+\arguments{
+\item{blocks}{input blocks}
+}
 \description{
 genrate graph
 }
