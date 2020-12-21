@@ -10,9 +10,22 @@ Generate temporal discretized file}
   OpenDual = TRUE,
   Extension = 1,
   NumBlockOutput = 100,
-  BlockOverlap = 1,
+  BlockOverlap = 0.7,
   BlockCellMin = 15
 )
+}
+\arguments{
+\item{object}{input IRISFMG object}
+
+\item{OpenDual}{the flag using the lower bound of condition number. Default: 5 percent of the gene number in current bicluster.}
+
+\item{Extension}{consistency level of the block (0.5-1.0], the minimum ratio between the number of identical valid symbols in a column and the total number of rows in the output. Default: 1.0.}
+
+\item{NumBlockOutput}{number of blocks to report. Default: 100.}
+
+\item{BlockOverlap}{filtering overlapping blocks. Default: 0.7.}
+
+\item{BlockCellMin}{minimum column width of the block. Default: 15 columns.}
 }
 \description{
 Run Discretization

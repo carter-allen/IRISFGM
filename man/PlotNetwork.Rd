@@ -4,7 +4,8 @@
 \alias{PlotNetwork}
 \alias{.plotnetwork}
 \alias{PlotNetwork,IRISFGM-method}
-\title{PlotNetwork}
+\title{PlotNetwork
+This function is to plot the network for selected biclusters to show the genes (or cells) overlapping relations.}
 \usage{
 PlotNetwork(object, ...)
 
@@ -23,19 +24,22 @@ PlotNetwork(object, ...)
 )
 }
 \arguments{
-\item{object}{Input object}
+\item{object}{Input IRIS-FGM object.}
 
-\item{edge.by}{This parameter decide the edge by "cell" or by "gene". The default value is by gene.}
+\item{edge.by}{Should be "cell" or by "gene," indicating nodes label. The default value is by "gene."}
 
-\item{lay.out}{The type of layout to create, include linear (default), circle, kk.}
+\item{lay.out}{Should be one type of layouts to show nodes' arrangement, including 'linear'(default), 'star', 'circle', 'gem', 'dh', 'graphopt', 'grid', 'mds', 
+'randomly', 'fr', 'kk', 'drl', 'lgl'.}
+
+\item{N.bicluster}{Should be two integers indicating the number of two biclusters.}
 }
 \value{
 It will generate a global network regarding overlapping genes or cells.
 }
 \description{
-This function is for building the module- module network. Nodes mean individual module. Edges mean overlapped gene (or cell).
-The weight of line show the number of gene (or cell).
+PlotNetwork
+This function is to plot the network for selected biclusters to show the genes (or cells) overlapping relations.
 }
 \examples{
-\dontrun{object <- PlotNetwork(object,edge.by = "gene",N.bicluster =c(1:20) )}
+\dontrun{object <- PlotNetwork(object,edge.by = 'gene',N.bicluster =c(1:20) )}
 }

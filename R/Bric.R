@@ -1,12 +1,39 @@
 
-#' @describeIn QUBIC Performs a QUalitative BIClustering.
+#' @name qubic
+#' @title qubic
+#' @description  QUBIC Performs a QUalitative BIClustering.
 #'
-#' @usage qubic(i, R = FALSE, F = FALSE, d = FALSE, f = 0.85, k = 13, c = 0.90, o = 5000)
+#' @param i input 
+#' @param N index
+#' @param R index
+#' @param Fa index
+#' @param d index
+#' @param D index
+#' @param C index
+#' @param n index
+#' @param q index
+#' @param f index
+#' @param k index
+#' @param c index
+#' @param o index
+#'
 #'
 #' @importFrom Rcpp evalCpp
 
 
-qubic <- function(i = NULL, N = FALSE, R = FALSE, Fa = FALSE, d = FALSE, D = FALSE, C = FALSE, n = FALSE, q = 0.05, f = 0.85, k = 13, c = 0.9, o = 100) {
+qubic <- function(i = NULL, 
+                  N = FALSE, 
+                  R = FALSE, 
+                  Fa = FALSE, 
+                  d = FALSE, 
+                  D = FALSE, 
+                  C = FALSE, 
+                  n = FALSE, 
+                  q = 0.05, 
+                  f = 0.85, 
+                  k = 13, 
+                  c = 0.9, 
+                  o = 100) {
     vec <- c("./qubic", "-i", i)
     if (N) 
         vec <- c(vec, "-N")

@@ -15,6 +15,8 @@ AddMeta(object, ...)
 \arguments{
 \item{object}{input IRIS-FGM object}
 
+\item{...}{other parameter}
+
 \item{meta.info}{meta information table should be a data frame with rows representing cell and coloumn representing different group condition}
 }
 \value{
@@ -24,5 +26,8 @@ It will add meta informatoin to IRISFGM.
 This function can import cell annotation information to IRIS-FGM object.
 }
 \examples{
-\dontrun{AddMeta(object, meta.info = my.meta)}  
+\dontrun{
+AddMeta(object, 
+meta.info = my.meta)
+}  
 }

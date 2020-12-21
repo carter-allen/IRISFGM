@@ -2,17 +2,29 @@
 #' @include Classes.R
 NULL
 
+#' RunGO
+#' RunGO
+#' @param genes.use Provide gene list
+#' @param species which species is in the provided gene list 
+#'
+#' @return GO pathway enrichment analysis
 .RunGO <- function(genes.use = NULL, species = "mouse") {
     if (grepl("mouse", species, ignore.case = T)) {
         pathway <- invisible(suppressMessages(enrichGO(gene = genes.use, OrgDb = org.Mm.eg.db, ont = "ALL", keyType = "SYMBOL", pAdjustMethod = "BH", pvalueCutoff = 0.05, 
-            qvalueCutoff = 0.05)))
+                                                       qvalueCutoff = 0.05)))
     } else if (grepl("human", species, ignore.case = T)) {
         pathway <- invisible(suppressMessages(enrichGO(gene = genes.use, OrgDb = org.Hs.eg.db, ont = "ALL", keyType = "SYMBOL", pAdjustMethod = "BH", pvalueCutoff = 0.05, 
-            qvalueCutoff = 0.05)))
+                                                       qvalueCutoff = 0.05)))
     }
     return(pathway)
 }
 
+#' convert ID
+#' convert ID
+#' @param genes.use Provide gene list
+#' @param species which species is in the provided gene list 
+#'
+#' @return converted ID
 .IDConvert <- function(genes.use = NULL, species = NULL) {
     if (grepl("mouse", species, ignore.case = T)) {
         gene.convert <- bitr(genes.use, fromType = "SYMBOL", toType = c("ENSEMBL", "ENTREZID"), OrgDb = org.Mm.eg.db)
@@ -22,13 +34,20 @@ NULL
     return(gene.convert)
 }
 
+#' RunKEGG
+#' RunKEGG
+#' @param genes.use Provide gene list
+#' @param species which species is in the provided gene list
+#'
+#' @return KEGG results
+#'
 .RunKEGG <- function(genes.use = NULL, species = "mouse") {
     if (grepl("mouse", species, ignore.case = T)) {
         pathway <- invisible(suppressMessages(enrichKEGG(gene = genes.use, organism = "mmu", keyType = "kegg", pAdjustMethod = "BH", pvalueCutoff = 0.05, 
-            qvalueCutoff = 0.05)))
+                                                         qvalueCutoff = 0.05)))
     } else if (grepl("human", species, ignore.case = T)) {
         pathway <- invisible(suppressMessages(enrichKEGG(gene = genes.use, organism = "hsa", keyType = "kegg", pAdjustMethod = "BH", pvalueCutoff = 0.05, 
-            qvalueCutoff = 0.05)))
+                                                         qvalueCutoff = 0.05)))
     }
     return(pathway)
 }
@@ -36,6 +55,7 @@ NULL
 #' 
 #' This function will perform enrichment analysis based on a gene module or identified differentially expressed genes (DEG).
 #' This function is also depended on clusterProfiler, AnnotationDbi, org.Mm.eg.db, and org.Hs.eg.db package.
+#'
 #' @param object Input IRIS-FGM object
 #'
 #' @param N.bicluster Select the numebr of bicluster to perform this function.
@@ -56,8 +76,13 @@ NULL
 #' # If you want to perform this function based on the gene module from an identified bicluster, you should use: 
 #' \dontrun{object <- RunPathway(object = NULL,N.bicluster = NULL, selected.gene.cutoff = 0.05,
 #' species = 'Human', database = 'GO', genes.source = 'Bicluster' }
-.runPathway <- function(object = NULL, N.bicluster = c(10, 11, 12, 13), selected.gene.cutoff = 0.05, species = "Human", database = "GO", genes.source = c("CTS", 
-    "Bicluster")) {
+.runPathway <- function(object = NULL, 
+                        N.bicluster = c(10, 11, 12, 13), 
+                        selected.gene.cutoff = 0.05, 
+                        species = "Human", 
+                        database = "GO", 
+                        genes.source = c("CTS", 
+                                         "Bicluster")) {
     
     if (genes.source == "CTS") {
         tmp.table <- as.data.frame(object@LTMG@MarkerGene)
@@ -112,29 +137,47 @@ NULL
 #' @export
 setMethod("RunPathway", "IRISFGM", .runPathway)
 
+
+#' DotPlotPathway
+#'
 #' Plot dotplot for enrichment pathway
-#'
 #' @param object Input IRIS-FGM object
-#' @param genes.source decide the plot source either 'CTS' or 'Bicluster.' 'CTS' means from cell-type-specific DEGs, 
-#' and 'Bicluster means using gene module from the selected bicluster.'
-#' @importfrom clusterProfiler dotplot
+#' @param genes.source Decide the plot source either "CTS", 
+#' "MC" or "Bicluster." "CTS" means DEGs from DEsingle label, 
+#' "MC" means DEGs from MC label, and "Bicluster" means using gene module from the selected bicluster.
+#' @param showCategory Show this number of pathway results.
 #'
-#' @return dot plot
+#' @return This function will generate dot plot for pathway enrichment results.
+#' @importFrom clusterProfiler dotplot
 #' @name DotPlotPathway
-#' 
-#' @examples
-.dotplotpathway <- function(object = object, genes.source = c("CTS", "MC", "module")) {
+#' @examples \dontrun{
+#' DotPlotPathway(object,genes.source = "module" )
+#' }
+.dotPlotPathway <- function(object = NULL, genes.source = c("CTS", "MC", "Bicluster"),showCategory= 20) {
+    object_tmp <- object 
+    if(length(genes.source) > 1){
+        stop(paste0("\nPlease select one gene source from CTS, MC, and Bicluster."))
+    }
     if (genes.source == "CTS") {
-        print(dotplot(object@LTMG@Pathway, showCategory = 20))
+        if(is.null(object_tmp@LTMG@Pathway)){
+            stop("please run RunPathway and set genes.source as 'CTS'")
+        }
+        print(dotplot(object_tmp@LTMG@Pathway, showCategory = 20))
     }
     if (genes.source == "MC") {
-        print(dotplot(object@BiCluster@PathwayFromMC, showCategory = 20))
+        if(is.null(object_tmp@BiCluster@PathwayFromMC)){
+            stop("please run RunPathway and set genes.source as 'Bicluster'")
+        }
+        print(dotplot(object_tmp@BiCluster@PathwayFromMC, showCategory = 20))
     }
     if (genes.source == "Bicluster") {
-        print(dotplot(object@BiCluster@PathwayFromModule, showCategory = 20))
+        if(is.null(object_tmp@BiCluster@PathwayFromModule)){
+            stop("please run RunPathway and set genes.source as 'Bicluster'")
+        }
+        print(dotplot(object_tmp@BiCluster@PathwayFromModule, showCategory = 20))
     }
 }
 
 #' @rdname DotPlotPathway
-#' @export 
-setMethod("DotPlotPathway", "IRISFGM", .dotplotpathway)
+#' @export
+setMethod("DotPlotPathway", "IRISFGM", .dotPlotPathway)

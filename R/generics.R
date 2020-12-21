@@ -10,6 +10,10 @@ setGeneric(name = "ReadFrom10X_folder", def = function(object, ...) standardGene
 #' @export
 setGeneric(name = "ReadFrom10X_h5", def = function(object, ...) standardGeneric("ReadFrom10X_h5"))
 
+#' @param object 
+#'
+#' @param ... other parameter
+#'
 #' @export
 #' @rdname AddMeta
 setGeneric(name = "AddMeta", def = function(object, ...) standardGeneric("AddMeta"))
@@ -20,10 +24,6 @@ setGeneric(name = "RunLTMG", def = function(object, ...) standardGeneric("RunLTM
 
 
 
-#' @export
-#' @rdname GetAddNormalNoise
-setGeneric(name = "GetNormalNoiseMatirx", def = function(object, ...) standardGeneric("GetNormalNoiseMatirx"))
-
 
 #' @export
 #' @rdname GetLTMGmatrix
@@ -33,7 +33,7 @@ setGeneric(name = "GetLTMGmatrix", def = function(object, ...) standardGeneric("
 
 #' @export
 #' @rdname CalBinarySingleSignal
-setGeneric(name = "CalBinarySingleSignal", def = function(object, ...) standardGeneric("CalBinarySingleSignal"))
+setGeneric(name = "CalBinarySingleSignal", def = function(object) standardGeneric("CalBinarySingleSignal"))
 
 
 #' @export
@@ -42,7 +42,7 @@ setGeneric(name = "GetBinarySingleSignal", def = function(object, ...) standardG
 
 #' @export
 #' @rdname CalBinaryMultiSignal
-setGeneric(name = "CalBinaryMultiSignal", def = function(object, ...) standardGeneric("CalBinaryMultiSignal"))
+setGeneric(name = "CalBinaryMultiSignal", def = function(object) standardGeneric("CalBinaryMultiSignal"))
 
 
 #' @export
@@ -95,13 +95,17 @@ setGeneric(name = "PlotDimension", def = function(object, ...) standardGeneric("
 #' @rdname FindClassBasedOnMC
 setGeneric(name = "FindClassBasedOnMC", def = function(object, ...) standardGeneric("FindClassBasedOnMC"))
 
-#' @export
-#' @rdname PlotNetwork
-setGeneric(name = "PlotNetwork", def = function(object, ...) standardGeneric("PlotNetwork"))
-
+#' @param object 
+#'
+#' @param ... other parameter
+#'
 #' @export
 #' @rdname DotPlotPathway
 setGeneric(name = "DotPlotPathway", def = function(object, ...) standardGeneric("DotPlotPathway"))
+
+#' @export
+#' @rdname PlotNetwork
+setGeneric(name = "PlotNetwork", def = function(object, ...) standardGeneric("PlotNetwork"))
 
 #' @export
 #' @rdname PlotMeta

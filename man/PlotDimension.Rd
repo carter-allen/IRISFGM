@@ -15,7 +15,7 @@ PlotDimension(object, ...)
 \arguments{
 \item{object}{Input IRIS-FGM Object}
 
-\item{reduction}{Choose one of approaches for dimension reduction, including "pca", "tsne", "umap".}
+\item{reduction}{Choose one of approaches for dimension reduction, including 'pca', 'tsne', 'umap'.}
 
 \item{pt_size}{Point size, default is 0.}
 }

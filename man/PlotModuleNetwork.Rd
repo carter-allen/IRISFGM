@@ -11,40 +11,62 @@ PlotModuleNetwork(object, ...)
 .plotmodulenetwork(
   object = NULL,
   method = "spearman",
+  node.col = "orange",
   N.bicluster = c(1, 5),
   cutoff.neg = -0.8,
-  cutoff.pos = 0.95,
+  cutoff.pos = 0.8,
   layout = "circle",
-  node.label = T,
+  node.label = TRUE,
   node.label.cex = 1
 )
 
 \S4method{PlotModuleNetwork}{IRISFGM}(
   object = NULL,
   method = "spearman",
+  node.col = "orange",
   N.bicluster = c(1, 5),
   cutoff.neg = -0.8,
-  cutoff.pos = 0.95,
+  cutoff.pos = 0.8,
   layout = "circle",
-  node.label = T,
+  node.label = TRUE,
   node.label.cex = 1
 )
 }
 \arguments{
-\item{object}{Input object.}
+\item{object}{Input IRIS-FGM object.}
 
-\item{N.bicluster}{number of biclsuter to plot.}
+\item{method}{Should be a statistical method to calculate edge weight based on expression data. It can be either "Spearman" (default) or "Pearson."}
 
-\item{Node.color}{color of nodes. This parameter also accepts color codes, e.g. "#AE1503" or "darkred."}
+\item{node.col}{Should a color name (or color code) for nodes}
 
-\item{cutoff}{this parameter decide the cutoff of correlation}
+\item{N.bicluster}{Should be the two numbers of biclsuters.}
+
+\item{cutoff.neg}{Should be a cutoff to show a negative correlation between two nodes (default: -0.8).}
+
+\item{cutoff.pos}{Should be a cutoff to show a positive correlation between two nodes (default: 0.8).}
+
+\item{layout}{Should be one type of layouts to show nodes' arrangement, including 'linear', 'star', 'circle'(default), 'gem', 'dh', 'graphopt', 'grid', 'mds', 
+'randomly', 'fr', 'kk', 'drl', 'lgl'.}
+
+\item{node.label}{Should be logic to show the nodes' label (default: TRUE).}
+
+\item{node.label.cex}{Should be a number to control the label size.}
 }
 \value{
-
+It will generate co-expression network based on selected bicluster (can be one or multiple.)
 }
 \description{
-This function will visualize co-expression gene network based on coorelation analysis. The nodes represent the gene module network from the selected bicluster. The size of the nodes indicates the degree of presence. The thickness of edges indicates the value of the correlation coefficient.
+This function will visualize co-expression gene network based on selected two biclusters. 
+The nodes represent the gene module network from the selected bicluster. 
+The size of the nodes indicates the degree of presence.
+ The thickness of edges indicates the value of the correlation coefficient.
 }
 \examples{
-\dontrun{object <- PlotModuleNetwork(object = NULL, N.bicluster = c(1,5), Node.color = "#E8E504", cutoff=0.7, node.label.cex = 1 )}
+\dontrun{
+object <- PlotModuleNetwork(object = NULL, 
+N.bicluster = c(1,5), 
+Node.color = '#E8E504', 
+cutoff=0.7, 
+node.label.cex = 1) 
+}
 }

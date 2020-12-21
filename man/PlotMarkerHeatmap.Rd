@@ -7,14 +7,18 @@ This function will generate global marker gene heatmap}
 \usage{
 PlotMarkerHeatmap(
   Globalmarkers = NULL,
-  idents = "Seurat0.6",
+  object = NULL,
+  idents = NULL,
   top.gene = 50,
   p.adj = 0.05,
-  scale = "row"
+  scale = "row",
+  label.size = 1
 )
 }
 \arguments{
 \item{Globalmarkers}{output from FindGlobalMarkers}
+
+\item{object}{input IRISFGM object}
 
 \item{idents}{set current idents}
 
@@ -22,7 +26,8 @@ PlotMarkerHeatmap(
 
 \item{p.adj}{adjusted pvalue cutoff for gene selection threshold}
 
-\item{scale}{Scale by row or column.}
+\item{scale}{character indicating if the values should be centered and scaled in either the row direction or the column direction, 
+or none. The default is "row" if symm false, and "none" otherwise.}
 }
 \value{
 heatmap
@@ -30,4 +35,13 @@ heatmap
 \description{
 PlotMarkerHeatmap will visualize global marker
 This function will generate global marker gene heatmap
+}
+\examples{
+\dontrun{
+markers <- FindGlobalMarkers(Global_marker,
+object = object,
+idents = "Seurat0.6",
+top.gene = 50,
+scale = "row")
+}
 }

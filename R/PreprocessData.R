@@ -4,11 +4,14 @@ NULL
 #' Process data
 #'
 #' @description  Process data via normalization and imputation.
-#' @param object
 #'
-#' @param normalization two options: (1)library size noralization by using library size factor: 1e6, equal to CPM, or (2) using 'scran' normalization method.
+#' @param object Input IRISFGM object
+#'
+#' @param normalization two options: (1)library size noralization by using library size factor: 1e6, equal to CPM (count-per-million-reads), or 
+#' (2) using 'scran' normalization method.
 #' @param seed set seed for reproducibility.
 #' @param IsImputation imputation method is provided by DrImpute. Default is FALSE.
+#' @param library.size Sets the scale factor for cpm normalization
 #'
 #' @name ProcessData
 #'

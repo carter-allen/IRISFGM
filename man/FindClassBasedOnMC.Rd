@@ -15,16 +15,18 @@ FindClassBasedOnMC(object, ...)
 \arguments{
 \item{object}{input IRIS-FGM object}
 
-\item{method}{using MCL(Markov Cluster) algorithm to predict clusters. There is alternative option which is "SC." ( 
+\item{method}{using MCL(Markov Cluster) algorithm to predict clusters. There is alternative option which is 'SC.' ( 
 Unnormalized spectral clustering function. Uses Partitioning Around Medoids clustering instead of K-means.)}
 
-\item{K}{expected number of predicted clusters when you are using "SC" method for cell clustering and this parameter does not work for "MCL"}
+\item{K}{expected number of predicted clusters when you are using 'SC' method for cell clustering and this parameter does not work for 'MCL'}
 }
 \description{
 This function is for performing Markov chain clustering regarding generated co-expression gene modules. This clustering method is working for relative small dataset.
-If you have a large dataset, We recommend you should use Seurat clustering wrapped in this IRISFGM package. See details \code{RunLTMG},
-\code{RunDimensionReduction}, and \code{RunClassification}.
+If you have a large dataset, We recommend you should use Seurat clustering wrapped in this IRISFGM package. See details \code{\link{RunLTMG}},
+\code{\link{RunDimensionReduction}}, and \code{\link{RunClassification}}.
 }
 \examples{
-\dontrun{object <- FindClassBasedOnMC(object)}
+\dontrun{
+object <- FindClassBasedOnMC(object)
+}
 }

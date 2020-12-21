@@ -10,16 +10,21 @@ NULL
 #'
 #' @return It will add meta informatoin to IRISFGM.
 #' @name AddMeta
-#' @examples \dontrun{AddMeta(object, meta.info = my.meta)}  
+#' @examples \dontrun{
+#' AddMeta(object, 
+#' meta.info = my.meta)
+#' }  
 .addMeta <- function(object = NULL, meta.info = NULL) {
     if (is.null(meta.info)) {
         message("Do not provide meta info table for the object.")
         message("using original cell identity")
-        meta.info <- data.frame(row.names = as.character(colnames(object@Raw_count)), Original = as.character(colnames(object@Raw_count)), ncount_RNA = as.numeric(colSums(object@Raw_count)), 
-            nFeature = as.numeric(colSums(object@Raw_count > 0)))
+        meta.info <- data.frame(row.names = as.character(colnames(object@Raw_count)), 
+                                Original = as.character(colnames(object@Raw_count)), 
+                                ncount_RNA = as.numeric(colSums(object@Raw_count)), 
+                                nFeature = as.numeric(colSums(object@Raw_count > 0)))
         object@MetaInfo <- meta.info
     } else {
-        if (colnames(object@Raw_count) != rownames(meta.info)) {
+        if (!identical(colnames(object@Raw_count),rownames(meta.info))) {
             stop("\n There is inconsisten cell names between meta info and original raw count.
            \n Please check rownames of meta info and colnames of original raw count.")
         } else {
@@ -49,7 +54,7 @@ setMethod("AddMeta", "IRISFGM", .addMeta)
         stop("Can not find meta data, please run AddMeta")
     }
     my.data <- data.frame(row.names = rownames(object@MetaInfo), RNA_count = object@MetaInfo$ncount_RNA, Feature_number = object@MetaInfo$nFeature, RNA_count.name = rep("RNA_count", 
-        nrow(object@MetaInfo)), Feature_number.name = rep("Feature_number", nrow(object@MetaInfo)))
+                                                                                                                                                                         nrow(object@MetaInfo)), Feature_number.name = rep("Feature_number", nrow(object@MetaInfo)))
     p.1 <- ggplot(data = my.data, aes(x = RNA_count.name, y = RNA_count)) + geom_violin(trim = FALSE, color = "#E69F00", fill = "#E69F00") + geom_jitter(shape = 16) + 
         labs(x = NULL) + ggtitle("RNA_count")
     p.2 <- ggplot(data = my.data, aes(x = Feature_number.name, y = Feature_number)) + geom_violin(trim = FALSE, color = "#E69F00", fill = "#E69F00") + geom_jitter(shape = 16) + 
@@ -73,7 +78,6 @@ setMethod("PlotMeta", "IRISFGM", .plotMeta)
 #' @param Counts.lower select lower limit for number of UMI counts
 #' @name SubsetData 
 #' @return it will filter out some cell regarding threshhold.
-#' @export
 #'
 #' @examples # Use Yan's data which posts on github tutorial
 #' \dontrun{ 

@@ -5,12 +5,15 @@ NULL
 #' Run dimension reduction based on seurat method 
 #' 
 #' This function is based on the Seurat package to perform dimension reduction. The input matirx is the LTMG signaling matrix.
-#' @param object input IRIS-FGM
 #'
+#' @param object Input IRIS-FGM object.
 #' @param reduction select a method for dimension reduction, including umap, tsne, and pca.
 #' @param dims select the number of PCs from PCA results to perform the following dimension reduction and cell clustering.
+#' @param perplexity Perplexity parameter as optimal number of neighbors.
+#' @param seed Set the seed of R‘s random number generator, which is useful for creating simulations or random objects that can be reproduced.
 #' @param mat.source choose source data for running this function either from LTMG signal matrix or from processed data. Values of this parameter are 'LTMG' and 'UMImatrix' 
-#' @name RundimensionReduction
+#'
+#' @name RunDimensionReduction 
 #' @importFrom Seurat CreateSeuratObject ScaleData RunPCA RunTSNE RunUMAP FindVariableFeatures
 #' @return This function will generate pca, tsne, or umap dimension reduction results.
 #' @examples \dontrun{
@@ -19,7 +22,8 @@ NULL
 #'    reduction = 'umap', 
 #'    dims = 1:15 ,
 #'    perplexity = 15, 
-#'    seed = 1)}
+#'    seed = 1)
+#'    }
 .runDimensionReduction <- function(object, mat.source = c("LTMG", "UMImatrix"), reduction = "umap", dims = 1:15, perplexity = 15, seed = 1) {
     if (mat.source == "LTMG") {
         Tmp.seurat <- CreateSeuratObject(object@LTMG@LTMG_discrete)
@@ -50,7 +54,7 @@ NULL
 }
 
 
-#' @rdname RunDimensionRecution
+#' @rdname RunDimensionReduction
 #' @export
 setMethod("RunDimensionReduction", "IRISFGM", .runDimensionReduction)
 
@@ -59,16 +63,23 @@ setMethod("RunDimensionReduction", "IRISFGM", .runDimensionReduction)
 #' Classify cell type prediction
 #' 
 #' This function is based on Seurat package.
+#'
 #' @param object input IRIS-FGM object.
 #' @param k.param Defines k for the k-nearest neighbor algorithm.
 #' @param resolution Value of the resolution parameter, use a value above (below) 1.0 if you want to obtain a larger (smaller) number of communities.
 #' @param algorithm Algorithm for modularity optimization (1 = original Louvain algorithm; 2 = Louvain algorithm with multilevel refinement; 3 = SLM algorithm; 4 = Leiden algorithm). Leiden requires the leidenalg python.
-#' @param dims \tDimensions of reduction to use as input.
+#' @param dims Dimensions of reduction to use as input.
+#'
 #' @name RunClassification
 #' @importFrom Seurat FindNeighbors FindClusters
 #' @import ggplot2
 #' @return It will generate cell type inforamtion.
-#' @examples \dontrun{object <- RunClassification(object, dims = 1:15, k.param = 20, resolution = 0.6, algorithm = 1)}
+#' @examples \dontrun{
+#' object <- RunClassification(object, 
+#' dims = 1:15,
+#' k.param = 20, 
+#' resolution = 0.6,
+#' algorithm = 1)}
 .runClassification <- function(object, dims = 1:15, k.param = 20, resolution = 0.6, algorithm = 1) {
     if (is.null(object@LTMG@Tmp.seurat)) {
         stop("There is no temporary seurat obejct getting detected. \n Try to run RundimensionRuduction first.")
@@ -79,7 +90,7 @@ setMethod("RunDimensionReduction", "IRISFGM", .runDimensionReduction)
     tmp.meta <- object@MetaInfo
     tmp.colname <- colnames(tmp.meta)
     res.index <- grep(paste0("res.", resolution), colnames(Tmp.seurat@meta.data))
-    tmp.colname <- c(tmp.colname, paste0("Seurat", resolution))
+    tmp.colname <- c(tmp.colname, paste0("Seurat_r_", resolution,"_k_",k.param))
     tmp.meta <- cbind(tmp.meta, Tmp.seurat@meta.data[, res.index])
     colnames(tmp.meta) <- tmp.colname
     object@MetaInfo <- tmp.meta
@@ -87,7 +98,7 @@ setMethod("RunDimensionReduction", "IRISFGM", .runDimensionReduction)
     return(object)
 }
 
-#' @rdname RunDimensionRecution
+#' @rdname RunClassification
 #' @export
 setMethod("RunClassification", "IRISFGM", .runClassification)
 
@@ -97,12 +108,12 @@ setMethod("RunClassification", "IRISFGM", .runClassification)
 #' Visualize dimension reduction results
 #'
 #' Generate Umap and it requires user to input cell label index on console window.
+#'
 #' @param object Input IRIS-FGM Object
 #' @param reduction Choose one of approaches for dimension reduction, including 'pca', 'tsne', 'umap'.
 #' @param pt_size Point size, default is 0.
 #'
 #' @return generate plot on umap space.
-#' @export
 #' @name PlotDimension
 #' @examples \dontrun{PlotDimension(object)}
 .plotDimension <- function(object, reduction = "umap", pt_size = 1) {

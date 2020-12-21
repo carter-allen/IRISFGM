@@ -2,25 +2,43 @@
 % Please edit documentation in R/generics.R, R/EnrichPathway.R
 \name{DotPlotPathway}
 \alias{DotPlotPathway}
-\alias{.dotplotpathway}
+\alias{.dotPlotPathway}
 \alias{DotPlotPathway,IRISFGM-method}
-\title{Plot dotplot for enrichment pathway}
+\title{DotPlotPathway}
 \usage{
 DotPlotPathway(object, ...)
 
-.dotplotpathway(object = object, genes.source = c("CTS", "MC", "module"))
+.dotPlotPathway(
+  object = NULL,
+  genes.source = c("CTS", "MC", "Bicluster"),
+  showCategory = 20
+)
 
-\S4method{DotPlotPathway}{IRISFGM}(object = object, genes.source = c("CTS", "MC", "module"))
+\S4method{DotPlotPathway}{IRISFGM}(
+  object = NULL,
+  genes.source = c("CTS", "MC", "Bicluster"),
+  showCategory = 20
+)
 }
 \arguments{
 \item{object}{Input IRIS-FGM object}
 
-\item{genes.source}{decide the plot source either "CTS" or "Bicluster." "CTS" means from cell-type-specific DEGs, 
-and "Bicluster means using gene module from the selected bicluster."}
+\item{...}{other parameter}
+
+\item{genes.source}{Decide the plot source either "CTS", 
+"MC" or "Bicluster." "CTS" means DEGs from DEsingle label, 
+"MC" means DEGs from MC label, and "Bicluster" means using gene module from the selected bicluster.}
+
+\item{showCategory}{Show this number of pathway results.}
 }
 \value{
-dot plot
+This function will generate dot plot for pathway enrichment results.
 }
 \description{
 Plot dotplot for enrichment pathway
+}
+\examples{
+\dontrun{
+DotPlotPathway(object,genes.source = "module" )
+}
 }
