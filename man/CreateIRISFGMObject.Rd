@@ -2,8 +2,7 @@
 % Please edit documentation in R/Object.R
 \name{CreateIRISFGMObject}
 \alias{CreateIRISFGMObject}
-\title{set IRIS-CEM object
-CreateIRISFGMObject}
+\title{CreateIRISFGMObject}
 \usage{
 CreateIRISFGMObject(
   x = input_matrix,
@@ -14,11 +13,15 @@ CreateIRISFGMObject(
 )
 }
 \arguments{
-\item{x}{input expression matrix which should be a matrix or dataframe.}
+\item{x}{Input expression matrix which should be a matrix or dataframe.}
 
 \item{min.cell}{each gene should be expressed by at least this many cell.}
 
 \item{min.gene}{each cell should express this many gene at least.}
+
+\item{LTMGr}{Automatically create LTMG object.}
+
+\item{Bicluster}{Automatically create Bicluster object.}
 }
 \value{
 it should return a IRISFGM object of which structure can be found in tutorial.

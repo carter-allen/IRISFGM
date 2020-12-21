@@ -4,7 +4,21 @@
 \alias{qubic}
 \title{qubic}
 \usage{
-qubic(i, R = FALSE, F = FALSE, d = FALSE, f = 0.85, k = 13, c = 0.90, o = 5000)
+qubic(
+  i = NULL,
+  N = FALSE,
+  R = FALSE,
+  Fa = FALSE,
+  d = FALSE,
+  D = FALSE,
+  C = FALSE,
+  n = FALSE,
+  q = 0.05,
+  f = 0.85,
+  k = 13,
+  c = 0.9,
+  o = 100
+)
 }
 \arguments{
 \item{i}{input}

@@ -12,7 +12,7 @@ RunBicluster(object, ...)
   object = NULL,
   DiscretizationModel = "Quantile",
   OpenDual = FALSE,
-  Extension = 0.9,
+  Extension = 1,
   NumBlockOutput = 100,
   BlockOverlap = 0.7,
   BlockCellMin = 15
@@ -22,7 +22,7 @@ RunBicluster(object, ...)
   object = NULL,
   DiscretizationModel = "Quantile",
   OpenDual = FALSE,
-  Extension = 0.9,
+  Extension = 1,
   NumBlockOutput = 100,
   BlockOverlap = 0.7,
   BlockCellMin = 15
@@ -35,7 +35,7 @@ RunBicluster(object, ...)
 
 \item{OpenDual}{the flag using the lower bound of condition number. Default: 5 percent of the gene number in current bicluster.}
 
-\item{Extension}{}
+\item{Extension}{consistency level of the block (0.5-1.0], the minimum ratio between the number of identical valid symbols in a column and the total number of rows in the output. Default: 1.0.}
 
 \item{NumBlockOutput}{number of blocks to report. Default: 100.}
 

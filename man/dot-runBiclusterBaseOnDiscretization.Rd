@@ -10,7 +10,7 @@ Generate temporal discretized file}
   OpenDual = TRUE,
   Extension = 1,
   NumBlockOutput = 100,
-  BlockOverlap = 1,
+  BlockOverlap = 0.7,
   BlockCellMin = 15
 )
 }

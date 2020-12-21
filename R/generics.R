@@ -10,6 +10,10 @@ setGeneric(name = "ReadFrom10X_folder", def = function(object, ...) standardGene
 #' @export
 setGeneric(name = "ReadFrom10X_h5", def = function(object, ...) standardGeneric("ReadFrom10X_h5"))
 
+#' @param object 
+#'
+#' @param ... other parameter
+#'
 #' @export
 #' @rdname AddMeta
 setGeneric(name = "AddMeta", def = function(object, ...) standardGeneric("AddMeta"))
@@ -20,12 +24,6 @@ setGeneric(name = "RunLTMG", def = function(object, ...) standardGeneric("RunLTM
 
 
 
-#' @title title
-#' @name name
-#' @export
-#' @rdname GetAddNormalNoise
-setGeneric(name = "GetNormalNoiseMatirx", def = function(object, ...) standardGeneric("GetNormalNoiseMatirx"))
-
 
 #' @export
 #' @rdname GetLTMGmatrix
@@ -35,7 +33,7 @@ setGeneric(name = "GetLTMGmatrix", def = function(object, ...) standardGeneric("
 
 #' @export
 #' @rdname CalBinarySingleSignal
-setGeneric(name = "CalBinarySingleSignal", def = function(object, ...) standardGeneric("CalBinarySingleSignal"))
+setGeneric(name = "CalBinarySingleSignal", def = function(object) standardGeneric("CalBinarySingleSignal"))
 
 
 #' @export
@@ -44,7 +42,7 @@ setGeneric(name = "GetBinarySingleSignal", def = function(object, ...) standardG
 
 #' @export
 #' @rdname CalBinaryMultiSignal
-setGeneric(name = "CalBinaryMultiSignal", def = function(object, ...) standardGeneric("CalBinaryMultiSignal"))
+setGeneric(name = "CalBinaryMultiSignal", def = function(object) standardGeneric("CalBinaryMultiSignal"))
 
 
 #' @export
@@ -97,6 +95,10 @@ setGeneric(name = "PlotDimension", def = function(object, ...) standardGeneric("
 #' @rdname FindClassBasedOnMC
 setGeneric(name = "FindClassBasedOnMC", def = function(object, ...) standardGeneric("FindClassBasedOnMC"))
 
+#' @param object 
+#'
+#' @param ... other parameter
+#'
 #' @export
 #' @rdname DotPlotPathway
 setGeneric(name = "DotPlotPathway", def = function(object, ...) standardGeneric("DotPlotPathway"))

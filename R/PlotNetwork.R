@@ -154,11 +154,11 @@ setMethod("PlotNetwork", "IRISFGM", .plotnetwork)
 #' @param node.label Should be logic to show the nodes' label (default: TRUE).
 #' @param node.label.cex Should be a number to control the label size.
 #' @param N.bicluster Should be the two numbers of biclsuters.
-#' @param node.col 
+#' @param node.col Should a color name (or color code) for nodes
 #'
 #' @importFrom igraph graph_from_adjacency_matrix degree vertex.attributes edge.attributes vertex.attributes<- edge.attributes<-
 #' @import ggraph
-#' @return
+#' @return It will generate co-expression network based on selected bicluster (can be one or multiple.)
 #' @name PlotModuleNetwork
 #'
 #' @examples \dontrun{

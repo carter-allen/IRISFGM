@@ -17,12 +17,23 @@
 #' @param c index
 #' @param o index
 #'
-#' @usage qubic(i, R = FALSE, F = FALSE, d = FALSE, f = 0.85, k = 13, c = 0.90, o = 5000)
 #'
 #' @importFrom Rcpp evalCpp
 
 
-qubic <- function(i = NULL, N = FALSE, R = FALSE, Fa = FALSE, d = FALSE, D = FALSE, C = FALSE, n = FALSE, q = 0.05, f = 0.85, k = 13, c = 0.9, o = 100) {
+qubic <- function(i = NULL, 
+                  N = FALSE, 
+                  R = FALSE, 
+                  Fa = FALSE, 
+                  d = FALSE, 
+                  D = FALSE, 
+                  C = FALSE, 
+                  n = FALSE, 
+                  q = 0.05, 
+                  f = 0.85, 
+                  k = 13, 
+                  c = 0.9, 
+                  o = 100) {
     vec <- c("./qubic", "-i", i)
     if (N) 
         vec <- c(vec, "-N")
