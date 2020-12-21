@@ -4,7 +4,7 @@
 \alias{FindClassBasedOnMC}
 \alias{.final}
 \alias{FindClassBasedOnMC,IRISFGM-method}
-\title{Markov Clustering}
+\title{FindClassBasedOnMC}
 \usage{
 FindClassBasedOnMC(object, ...)
 
@@ -14,6 +14,8 @@ FindClassBasedOnMC(object, ...)
 }
 \arguments{
 \item{object}{input IRIS-FGM object}
+
+\item{...}{other arguments passed to methods}
 
 \item{method}{using MCL(Markov Cluster) algorithm to predict clusters. There is alternative option which is 'SC.' ( 
 Unnormalized spectral clustering function. Uses Partitioning Around Medoids clustering instead of K-means.)}

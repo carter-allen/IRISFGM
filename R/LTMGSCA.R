@@ -486,8 +486,7 @@ SeparateKRpkmNewLR <- function(x, n, q, r, s = 0.05, k = 2, err = 1e-10, M = Inf
     return(SeparateKRpkmNewLRPlus(x, n, q, r, s, k, err, M, m)[[1]])
 }
 
-#' Title
-#' Title
+#' LogSeparateKRpkmNewLR
 LogSeparateKRpkmNewLR <- function(x, n, q, r, k = 2) {
     return(SeparateKRpkmNewLR(log(x), n, log(q), r, k))
 }

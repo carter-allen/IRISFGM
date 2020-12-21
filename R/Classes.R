@@ -32,7 +32,6 @@ setClass("LTMGr", slots = c(LTMG_discrete = "matrix", LTMG_BinarySingleSignal = 
 #' @slot LTMG LTMGr.
 #'
 #' @return IRIS-FGM object
-#' @export
 #' @name IRISFGM
 #' @rdname IRISFGM
 #' @exportClass IRISFGM

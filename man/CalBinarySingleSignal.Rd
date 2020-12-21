@@ -4,9 +4,7 @@
 \alias{CalBinarySingleSignal}
 \alias{.CalBinarySingleSignal}
 \alias{CalBinarySingleSignal,IRISFGM-method}
-\title{CalBinarySingleSignal
- 
-Binarizing single signal function via distinguishing zero or non-zero value based on LTMG matrix}
+\title{CalBinarySingleSignal}
 \usage{
 CalBinarySingleSignal(object)
 
@@ -21,6 +19,8 @@ CalBinarySingleSignal(object)
 It will return a binary matrix based on LTMG signal matrix.
 }
 \description{
+CalBinarySingleSignal
+
 CalBinarySingleSignal
  
 Binarizing single signal function via distinguishing zero or non-zero value based on LTMG matrix

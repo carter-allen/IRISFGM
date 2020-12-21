@@ -4,8 +4,7 @@
 \alias{PlotNetwork}
 \alias{.plotnetwork}
 \alias{PlotNetwork,IRISFGM-method}
-\title{PlotNetwork
-This function is to plot the network for selected biclusters to show the genes (or cells) overlapping relations.}
+\title{PlotNetwork}
 \usage{
 PlotNetwork(object, ...)
 
@@ -26,6 +25,8 @@ PlotNetwork(object, ...)
 \arguments{
 \item{object}{Input IRIS-FGM object.}
 
+\item{...}{other arguments passed to methods}
+
 \item{edge.by}{Should be "cell" or by "gene," indicating nodes label. The default value is by "gene."}
 
 \item{lay.out}{Should be one type of layouts to show nodes' arrangement, including 'linear'(default), 'star', 'circle', 'gem', 'dh', 'graphopt', 'grid', 'mds', 
@@ -37,6 +38,8 @@ PlotNetwork(object, ...)
 It will generate a global network regarding overlapping genes or cells.
 }
 \description{
+PlotNetwork
+
 PlotNetwork
 This function is to plot the network for selected biclusters to show the genes (or cells) overlapping relations.
 }

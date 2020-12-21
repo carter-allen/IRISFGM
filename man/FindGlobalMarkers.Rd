@@ -4,8 +4,7 @@
 \alias{FindGlobalMarkers}
 \alias{.findglobalMarkers}
 \alias{FindGlobalMarkers,IRISFGM-method}
-\title{This function is for finding global marker
-FindGlobalMarkers is based on Seurat FindAllMarkers and the data from Tmp.seurat slots.}
+\title{FindGlobalMarkers}
 \usage{
 FindGlobalMarkers(object, ...)
 
@@ -32,6 +31,8 @@ FindGlobalMarkers(object, ...)
 \arguments{
 \item{object}{input IRIS-FGM object}
 
+\item{...}{other arguments passed to methods}
+
 \item{idents}{choose an idents for labelling cells}
 
 \item{logfc.threshold}{Limit testing to genes which show, on average, at least X-fold difference (log-scale) between the two groups of cells. Default is 0.25 Increasing logfc.threshold speeds up the function, but can miss weaker signals.}
@@ -48,6 +49,8 @@ FindGlobalMarkers(object, ...)
 Output is a differentially expressed gene list
 }
 \description{
+FindGlobalMarkers
+
 This function is for finding global marker
 FindGlobalMarkers is based on Seurat FindAllMarkers and the data from Tmp.seurat slots.
 }

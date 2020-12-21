@@ -4,7 +4,7 @@
 \alias{RunDimensionReduction}
 \alias{.runDimensionReduction}
 \alias{RunDimensionReduction,IRISFGM-method}
-\title{Run dimension reduction based on seurat method}
+\title{RunDimensionReduction}
 \usage{
 RunDimensionReduction(object, ...)
 
@@ -28,6 +28,8 @@ RunDimensionReduction(object, ...)
 }
 \arguments{
 \item{object}{Input IRIS-FGM object.}
+
+\item{...}{other arguments passed to methods}
 
 \item{mat.source}{choose source data for running this function either from LTMG signal matrix or from processed data. Values of this parameter are 'LTMG' and 'UMImatrix'}
 

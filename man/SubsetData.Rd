@@ -4,7 +4,7 @@
 \alias{SubsetData}
 \alias{.subset_data}
 \alias{SubsetData,IRISFGM-method}
-\title{Subset data by number of count and numebr of gene.}
+\title{SubsetData}
 \usage{
 SubsetData(object, ...)
 
@@ -26,6 +26,8 @@ SubsetData(object, ...)
 }
 \arguments{
 \item{object}{input IRIS-FGM object}
+
+\item{...}{other arguments passed to methods}
 
 \item{nFeature.upper}{select upper limit for number of feature}
 

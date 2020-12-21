@@ -4,7 +4,7 @@
 \alias{RunClassification}
 \alias{.runClassification}
 \alias{RunClassification,IRISFGM-method}
-\title{Classify cell type prediction}
+\title{RunClassification}
 \usage{
 RunClassification(object, ...)
 
@@ -26,6 +26,8 @@ RunClassification(object, ...)
 }
 \arguments{
 \item{object}{input IRIS-FGM object.}
+
+\item{...}{other arguments passed to methods}
 
 \item{dims}{Dimensions of reduction to use as input.}
 

@@ -4,7 +4,7 @@
 \alias{AddMeta}
 \alias{.addMeta}
 \alias{AddMeta,IRISFGM-method}
-\title{Create addmeta function for adding meta information}
+\title{AddMeta}
 \usage{
 AddMeta(object, ...)
 
@@ -15,7 +15,7 @@ AddMeta(object, ...)
 \arguments{
 \item{object}{input IRIS-FGM object}
 
-\item{...}{other parameter}
+\item{...}{other arguments passed to methods}
 
 \item{meta.info}{meta information table should be a data frame with rows representing cell and coloumn representing different group condition}
 }

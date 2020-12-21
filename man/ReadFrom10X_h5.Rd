@@ -3,7 +3,7 @@
 \name{ReadFrom10X_h5}
 \alias{ReadFrom10X_h5}
 \alias{ReadFrom10X_h5,IRISFGM-method}
-\title{Read 10X HDF5 file based on Seurat package}
+\title{ReadFrom10X_h5}
 \usage{
 ReadFrom10X_h5(input = NULL, use.names = TRUE, unique.features = TRUE)
 

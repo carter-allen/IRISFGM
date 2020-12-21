@@ -4,8 +4,7 @@
 \alias{GetBinarySingleSignal}
 \alias{.GetBinarySingleSignal}
 \alias{GetBinarySingleSignal,IRISFGM-method}
-\title{GetBinarySingleSignal
-Get binary Single Signal matrix}
+\title{GetBinarySingleSignal}
 \usage{
 GetBinarySingleSignal(object, ...)
 
@@ -15,11 +14,15 @@ GetBinarySingleSignal(object, ...)
 }
 \arguments{
 \item{object}{Input IRIS-FGM object}
+
+\item{...}{other arguments passed to methods}
 }
 \value{
 It will export the Binarized matrix based on LTMG signal matrix.
 }
 \description{
+GetBinarySingleSignal
+
 GetBinarySingleSignal
 Get binary Single Signal matrix
 }

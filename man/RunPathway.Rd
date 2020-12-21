@@ -4,7 +4,7 @@
 \alias{RunPathway}
 \alias{.runPathway}
 \alias{RunPathway,IRISFGM-method}
-\title{Functional enrichment analysis}
+\title{RunPathway}
 \usage{
 RunPathway(object, ...)
 
@@ -28,6 +28,8 @@ RunPathway(object, ...)
 }
 \arguments{
 \item{object}{Input IRIS-FGM object}
+
+\item{...}{other arguments passed to methods}
 
 \item{N.bicluster}{Select the numebr of bicluster to perform this function.}
 

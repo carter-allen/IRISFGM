@@ -4,7 +4,7 @@
 \alias{RunBicluster}
 \alias{.runBicluster}
 \alias{RunBicluster,IRISFGM-method}
-\title{Run cluster}
+\title{RunBicluster}
 \usage{
 RunBicluster(object, ...)
 
@@ -30,6 +30,8 @@ RunBicluster(object, ...)
 }
 \arguments{
 \item{object}{input IRIS-FGM object}
+
+\item{...}{other arguments passed to methods}
 
 \item{DiscretizationModel}{use different discretization method, including 'Quantile' and 'LTMG.'}
 

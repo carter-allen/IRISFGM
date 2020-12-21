@@ -15,6 +15,8 @@ RunDiscretization(object, ...)
 \arguments{
 \item{object}{input IRIS-FGM object}
 
+\item{...}{other arguments passed to methods}
+
 \item{q}{quantile number which is used as discretized cutoff. The bigger q means more cells will be categorized into 1 in terms of binarizing one gene.}
 }
 \value{

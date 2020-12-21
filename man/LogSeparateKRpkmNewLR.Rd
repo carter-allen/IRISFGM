@@ -2,12 +2,10 @@
 % Please edit documentation in R/LTMGSCA.R
 \name{LogSeparateKRpkmNewLR}
 \alias{LogSeparateKRpkmNewLR}
-\title{Title
-Title}
+\title{LogSeparateKRpkmNewLR}
 \usage{
 LogSeparateKRpkmNewLR(x, n, q, r, k = 2)
 }
 \description{
-Title
-Title
+LogSeparateKRpkmNewLR
 }

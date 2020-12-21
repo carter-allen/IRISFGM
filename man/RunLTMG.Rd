@@ -4,7 +4,7 @@
 \alias{RunLTMG}
 \alias{.RunLTMG}
 \alias{RunLTMG,IRISFGM-method}
-\title{Run LTMG module}
+\title{RunLTMG}
 \usage{
 RunLTMG(object, ...)
 
@@ -14,6 +14,8 @@ RunLTMG(object, ...)
 }
 \arguments{
 \item{object}{Input IRIS-FGM object}
+
+\item{...}{other arguments passed to methods}
 
 \item{Gene_use}{using X numebr of top variant gene. input a number, recommend 2000.}
 

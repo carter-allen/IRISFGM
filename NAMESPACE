@@ -113,8 +113,3 @@ importFrom(scran,quickCluster)
 importFrom(stats,cor)
 importFrom(stats,sd)
 useDynLib(IRISFGM)
-importFrom("grDevices", "colorRampPalette")
-importFrom("graphics", "legend")
-importFrom("stats", "cutree", "dist", "dnorm", "hclust", "heatmap","na.omit", "pnorm","rnorm", "var")
-importFrom("utils", "combn", "read.table", "setTxtProgressBar","txtProgressBar", "write.table")
-

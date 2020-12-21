@@ -4,9 +4,7 @@
 \alias{GetBinaryMultiSignal}
 \alias{.GetBinaryMultiSignal}
 \alias{GetBinaryMultiSignal,IRISFGM-method}
-\title{GetBinaryMultiSignal
- 
-This function is for getting multisignal from LTMG signaling matrix.}
+\title{GetBinaryMultiSignal}
 \usage{
 GetBinaryMultiSignal(object, ...)
 
@@ -16,11 +14,15 @@ GetBinaryMultiSignal(object, ...)
 }
 \arguments{
 \item{object}{Input IRIS-FGM}
+
+\item{...}{other arguments passed to methods}
 }
 \value{
 It will get a binary matrix based on LTMG signal matrix.
 }
 \description{
+GetBinaryMultiSignal
+
 GetBinaryMultiSignal
  
 This function is for getting multisignal from LTMG signaling matrix.

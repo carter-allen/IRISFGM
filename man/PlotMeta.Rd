@@ -4,7 +4,7 @@
 \alias{PlotMeta}
 \alias{.plotMeta}
 \alias{PlotMeta,IRISFGM-method}
-\title{Generate violin plot based on meta data.}
+\title{PlotMeta}
 \usage{
 PlotMeta(object, ...)
 
@@ -14,6 +14,8 @@ PlotMeta(object, ...)
 }
 \arguments{
 \item{object}{input IRIS-FGM object}
+
+\item{...}{other arguments passed to methods}
 }
 \value{
 It will generate two violin plots regarding number of RNA count and identified gene number.
