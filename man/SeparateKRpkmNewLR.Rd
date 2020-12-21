@@ -2,12 +2,36 @@
 % Please edit documentation in R/LTMGSCA.R
 \name{SeparateKRpkmNewLR}
 \alias{SeparateKRpkmNewLR}
-\title{Title
-Title}
+\title{SeparateKRpkmNewLRPlus
+Calcuate the LTMG_2LR for some genes
+Calcuate the LTMG_2LR for some genes}
 \usage{
 SeparateKRpkmNewLR(x, n, q, r, s = 0.05, k = 2, err = 1e-10, M = Inf, m = -Inf)
 }
+\arguments{
+\item{x}{data, a List of NumericVector}
+
+\item{n}{rounds}
+
+\item{q}{cutoff of the elements in x}
+
+\item{r}{maximum value of the standard diversion}
+
+\item{s}{minimum value of the standard diversionzz}
+
+\item{k}{number of peaks, should be 2}
+
+\item{err}{the upper bound on the absolute error}
+
+\item{M}{set to positive infinity}
+
+\item{m}{set to negative infinity}
+}
+\value{
+a matrix contains pi, mean and sd
+}
 \description{
-Title
-Title
+SeparateKRpkmNewLRPlus
+Calcuate the LTMG_2LR for some genes
+Calcuate the LTMG_2LR for some genes
 }

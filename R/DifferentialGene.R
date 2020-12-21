@@ -122,8 +122,8 @@ setMethod("FindGlobalMarkers", "IRISFGM", .findglobalMarkers)
 #' @param top.gene this number of genes will be used for generating heatmap
 #' @param p.adj adjusted pvalue cutoff for gene selection threshold
 #' @param idents set current idents
-#' @param scale character indicating if the values should be centered and scaled in either the row direction or the column direction, 
-#' or none. The default is "row" if symm false, and "none" otherwise.
+#' @param scale character indicating if the values should be centered and scaled in either the row direction or the column direction, or none. The default is "row" if symm false, and "none" otherwise.
+#' @param label.size Number to decide label size
 #' 
 #' @return heatmap
 #' @name PlotMarkerHeatmap

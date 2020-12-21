@@ -5,7 +5,7 @@
 \title{Title
 Title}
 \usage{
-Pi_Zj_Zcut_new(q, mean, sd, wl0)
+Pi_Zj_Zcut_new(q, mean, sd, w10)
 }
 \arguments{
 \item{q}{q}

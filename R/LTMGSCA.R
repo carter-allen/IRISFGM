@@ -18,10 +18,10 @@ InverseMillsRatio <- function(q, mean, sd) {
 #' @param mean mean
 #' @param sd sd
 #' @param w10 w10
-Pi_Zj_Zcut_new <- function(q, mean, sd, wl0) {
-    a <- wl0 * pnorm(q, mean, sd)
+Pi_Zj_Zcut_new <- function(q, mean, sd, w10) {
+    a <- w10 * pnorm(q, mean, sd)
     if (sum(a) == 0) 
-        return(wl0)
+        return(w10)
     return(a/sum(a))
 }
 
@@ -203,6 +203,7 @@ LogSeparateKRpkmNew <- function(x, n, q, k, err = 1e-10) {
     return(SeparateKRpkmNew(log(x), n, log(q), k, err))
 }
 
+#' SeparateKRpkmNewLRPlus
 #' Calcuate the LTMG_2LR for some genes
 #' Calcuate the LTMG_2LR for some genes
 #' @param x data, a List of NumericVector
@@ -212,6 +213,8 @@ LogSeparateKRpkmNew <- function(x, n, q, k, err = 1e-10) {
 #' @param s minimum value of the standard diversionzz
 #' @param k number of peaks, should be 2
 #' @param err the upper bound on the absolute error
+#' @param M set to positive infinity
+#' @param m set to negative infinity
 #'
 #' @return a matrix contains pi, mean and sd
 #'
@@ -480,13 +483,31 @@ SeparateKRpkmNewLRPlus <- function(x, n, q, r, s = 0.05, k = 2, err = 1e-10, M =
     return(list(ret, i))
 }
 
-#' Title
-#' Title
+#' SeparateKRpkmNewLRPlus
+#' Calcuate the LTMG_2LR for some genes
+#' Calcuate the LTMG_2LR for some genes
+#' @param x data, a List of NumericVector
+#' @param n rounds
+#' @param q cutoff of the elements in x
+#' @param r maximum value of the standard diversion
+#' @param s minimum value of the standard diversionzz
+#' @param k number of peaks, should be 2
+#' @param err the upper bound on the absolute error
+#' @param M set to positive infinity
+#' @param m set to negative infinity
+#'
+#' @return a matrix contains pi, mean and sd
 SeparateKRpkmNewLR <- function(x, n, q, r, s = 0.05, k = 2, err = 1e-10, M = Inf, m = -Inf) {
     return(SeparateKRpkmNewLRPlus(x, n, q, r, s, k, err, M, m)[[1]])
 }
 
 #' LogSeparateKRpkmNewLR
+#'
+#' @param x data, a List of NumericVectors
+#' @param n rounds
+#' @param q cutoff of the elements in x
+#' @param r maximum value of the standard diversion
+#' @param k number of peaks, should be 2 
 LogSeparateKRpkmNewLR <- function(x, n, q, r, k = 2) {
     return(SeparateKRpkmNewLR(log(x), n, log(q), r, k))
 }
