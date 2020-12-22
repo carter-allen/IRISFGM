@@ -38,7 +38,7 @@ NULL
 #' @rdname AddMeta
 #' @export
 setMethod("AddMeta", "IRISFGM", .addMeta)
-
+globalVariables(c("RNA_count.name","RNA_count","Feature_number.name","Feature_number"))
 #' Generate violin plot based on meta data.
 #' 
 #' This function can plot figure based on numebr total count information and this step is for the quality control. we shoud exclude extreme value in data.

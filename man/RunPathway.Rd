@@ -53,7 +53,7 @@ This function is also depended on clusterProfiler, AnnotationDbi, org.Mm.eg.db, 
 # If you want to perform this function based on identified DEGs, you should use: 
 \dontrun{object <- RunPathway(object = NULL,N.bicluster = NULL, selected.gene.cutoff = 0.05,
 species = 'Human', database = 'GO', genes.source = 'CTS' }
-# If you want to perform this function based on the gene module from an identified bicluster, you should use: 
+# To rum this function based on the gene module from an identified bicluster use: 
 \dontrun{object <- RunPathway(object = NULL,N.bicluster = NULL, selected.gene.cutoff = 0.05,
 species = 'Human', database = 'GO', genes.source = 'Bicluster' }
 }

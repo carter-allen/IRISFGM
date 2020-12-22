@@ -1,4 +1,3 @@
-
 #' ProcessData
 #'
 #' @param ... other arguments passed to methods

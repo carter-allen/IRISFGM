@@ -1,6 +1,6 @@
 Package: IRISFGM
 Type: Package
-Title: IRISFGM for Comprehensive analysis based on single-cell RNA-Seq
+Title: Comprehensive Analysis of Gene Interactivity Networks Based on Single-Cell RNA-Seq
 Version: 0.99.0
 Date: 2020-12-22
 Author: Yuzhou Chang
