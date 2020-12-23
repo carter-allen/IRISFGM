@@ -24,7 +24,7 @@ NULL
 #'    perplexity = 15, 
 #'    seed = 1)
 #'    }
-.runDimensionReduction <- function(object, mat.source = c("LTMG", "UMImatrix"), reduction = "umap", dims = 1:15, perplexity = 15, seed = 1) {
+.runDimensionReduction <- function(object, mat.source = c("LTMG", "UMImatrix"), reduction = "umap", dims = seq_len(15), perplexity = 15, seed = 1) {
     if (mat.source == "LTMG") {
         Tmp.seurat <- CreateSeuratObject(object@LTMG@LTMG_discrete)
         Tmp.seurat <- ScaleData(Tmp.seurat)
@@ -37,12 +37,12 @@ NULL
     }
     Tmp.seurat <- suppressMessages(RunPCA(Tmp.seurat, features = rownames(Tmp.seurat@assays$RNA)))
     object@LTMG@DimReduce@PCA <- Tmp.seurat@reductions$pca@cell.embeddings
-    if (grepl("tsne", reduction, ignore.case = T) || grepl("umap", reduction, ignore.case = T)) {
-        if (grepl("tsne", reduction, ignore.case = T)) {
+    if (grepl("tsne", reduction, ignore.case = TRUE) || grepl("umap", reduction, ignore.case = TRUE)) {
+        if (grepl("tsne", reduction, ignore.case = TRUE)) {
             Tmp.seurat <- RunTSNE(Tmp.seurat, dims = dims, seed.use = seed, perplexity = perplexity)
             object@LTMG@DimReduce@TSNE <- Tmp.seurat@reductions$tsne@cell.embeddings
         }
-        if (grepl("umap", reduction, ignore.case = T)) {
+        if (grepl("umap", reduction, ignore.case = TRUE)) {
             Tmp.seurat <- suppressMessages(RunUMAP(Tmp.seurat, dims = dims))
             object@LTMG@DimReduce@UMAP <- Tmp.seurat@reductions$umap@cell.embeddings
         }
@@ -80,7 +80,7 @@ setMethod("RunDimensionReduction", "IRISFGM", .runDimensionReduction)
 #' k.param = 20, 
 #' resolution = 0.6,
 #' algorithm = 1)}
-.runClassification <- function(object, dims = 1:15, k.param = 20, resolution = 0.6, algorithm = 1) {
+.runClassification <- function(object, dims = seq_len(15), k.param = 20, resolution = 0.6, algorithm = 1) {
     if (is.null(object@LTMG@Tmp.seurat)) {
         stop("There is no temporary seurat obejct getting detected. \n Try to run RundimensionRuduction first.")
     }
@@ -118,20 +118,20 @@ setMethod("RunClassification", "IRISFGM", .runClassification)
 #' @examples \dontrun{PlotDimension(object)}
 .plotDimension <- function(object, reduction = "umap", pt_size = 1) {
     
-    if (grepl("tsne", reduction, ignore.case = T) || grepl("umap", reduction, ignore.case = T) || grepl("pca", reduction, ignore.case = T)) {
+    if (grepl("tsne", reduction, ignore.case = TRUE) || grepl("umap", reduction, ignore.case = TRUE) || grepl("pca", reduction, ignore.case = TRUE)) {
         
-        if (grepl("tsne", reduction, ignore.case = T)) {
+        if (grepl("tsne", reduction, ignore.case = TRUE)) {
             tmp.plot.table <- object@LTMG@DimReduce@TSNE[, c(1, 2)]
-        } else if (grepl("umap", reduction, ignore.case = T)) {
+        } else if (grepl("umap", reduction, ignore.case = TRUE)) {
             tmp.plot.table <- object@LTMG@DimReduce@UMAP[, c(1, 2)]
-        } else if (grepl("tsne", reduction, ignore.case = T)) {
+        } else if (grepl("tsne", reduction, ignore.case = TRUE)) {
             tmp.plot.table <- object@LTMG@DimReduce@PCA[, c(1, 2)]
         }
     } else {
         stop("choose a dimension reduction method from pca, umap, or tsne")
     }
     message("select condition to present")
-    message(paste0(c(1:ncol(object@MetaInfo)), " : ", c(colnames(object@MetaInfo)), "\n"))
+    message(paste0(c(seq_len(ncol(object@MetaInfo))), " : ", c(colnames(object@MetaInfo)), "\n"))
     ident.index <- readline(prompt = "select index of cell condition: ")
     ident.index <- as.numeric(ident.index)
     tmp.ident <- object@MetaInfo[, ident.index]

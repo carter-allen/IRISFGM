@@ -50,7 +50,7 @@ ReadFrom10X_h5 <- function(input = NULL, use.names = TRUE, unique.features = TRU
             types.unique <- unique(x = types)
             if (length(x = types.unique) > 1) {
                 message("Genome ", genome, " has multiple modalities, returning a list of matrices for this genome")
-                sparse.mat <- sapply(X = types.unique, FUN = function(x) {
+                sparse.mat <- vapply(X = types.unique, FUN = function(x) {
                     return(sparse.mat[which(x = types == x), ])
                 }, simplify = FALSE, USE.NAMES = TRUE)
             }

@@ -10,12 +10,12 @@ NULL
 GRAPH <- function(blocks) {
     A <- readLines(blocks)
     TEMP <- grep("Conds", A, value = TRUE)  ## extract condition lines in each BC
-    BC <- sapply(strsplit(TEMP, ":", 2), "[", 2)  # only keep cell names
+    BC <- vapply(strsplit(TEMP, ":", 2), "[", 2)  # only keep cell names
     
     CONDS <- as.character()  # store the conditions
     label_C <- as.numeric()  # store the occurence of one condistions
     
-    for (j in 1:length(BC)) {
+    for (j in seq_len(length(BC))) {
         BCcond <- unlist(strsplit(BC[j], split = " "))
         BCcond <- BCcond[BCcond != ""]  # exclude the blank string
         CONDS <- c(CONDS, BCcond)
@@ -27,7 +27,7 @@ GRAPH <- function(blocks) {
     Node <- t(combn(uniq_C, 2))
     
     Wt <- rep(-1, dim(Node)[1])
-    for (k in 1:dim(Node)[1]) {
+    for (k in seq_len(dim(Node)[1])) {
         member1 <- df_C[which(df_C$conds %in% Node[k, 1]), ]  # identify which BC the k th Node appear
         member2 <- df_C[which(df_C$conds %in% Node[k, 2]), ]
         Wt[k] <- length(intersect(member1[, 2], member2[, 2]))  # the weight between two node
@@ -53,7 +53,7 @@ GRAPH <- function(blocks) {
 #' @return MCL clustering results
 #'
 MCL <- function(Raw, blocks) {
-    RAW <- read.table(Raw, header = T, sep = "\t")
+    RAW <- read.table(Raw, header = TRUE, sep = "\t")
     CellNum <- dim(RAW)[2] - 1  # the number of cells
     Graph <- GRAPH(blocks)
     G <- igraph::graph.data.frame(Graph, directed = FALSE)  # convert file into graph
@@ -62,23 +62,23 @@ MCL <- function(Raw, blocks) {
     Covered <- length(V_name)  # the #of covered cells
     
     CLUST <- list()
-    for (i in 1:100) {
+    for (i in seq_len(100)) {
         CLUST[[i]] <- MCL::mcl(A, addLoops = FALSE, inflation = i, max.iter = 200)
     }
     KK <- as.data.frame(do.call(rbind, lapply(CLUST, "[[", 1)))  # extract the number of clusters
     CAN_I <- c(which(as.numeric(as.character(KK$V1)) >= 2))  # results that has more than 5 clusters
     tt <- as.numeric(as.character(KK$V1))
-    tt <- sort(table(tt), decreasing = T)[1]
+    tt <- sort(table(tt), decreasing = TRUE)[1]
     Final_K <- as.numeric(names(tt))
     
     if (length(CAN_I) != 0) {
         MATRIX <- rep(0, Covered) %o% rep(0, Covered)
-        for (k in 1:length(CAN_I)) {
+        for (k in seq_len(length(CAN_I))) {
             MCL_label <- CLUST[[CAN_I[k]]]$Cluster  # record the label
             ClusterNum <- unique(MCL_label)  # record the number of clusters
             TEMP <- rep(0, Covered) %o% rep(0, Covered)
             temp <- rep(0, Covered) %o% rep(0, length(ClusterNum))
-            for (n in 1:length(ClusterNum)) {
+            for (n in seq_len(length(ClusterNum))) {
                 index <- which(MCL_label == ClusterNum[n])
                 temp[index, n] <- 1
                 TEMP <- TEMP + temp[, n] %o% temp[, n]
@@ -114,7 +114,7 @@ MCL <- function(Raw, blocks) {
 #' @importFrom igraph as_adjacency_matrix
 #' @importFrom anocva spectralClustering
 SC <- function(Raw, blocks, K) {
-    RAW <- read.table(Raw, header = T, sep = "\t")  # expression data
+    RAW <- read.table(Raw, header = TRUE, sep = "\t")  # expression data
     CellNum <- dim(RAW)[2] - 1  # the number of cells
     Graph <- GRAPH(blocks)
     G <- igraph::graph.data.frame(Graph, directed = FALSE)  # convert file into graph
@@ -177,7 +177,7 @@ CLUSTERING <- function(Raw, blocks, method = "MCL", K = NULL) {
     # chars file
     input <- paste0(getwd(), "/tmp_expression.txt.chars")
     tmp.label <- CLUSTERING(input, paste0(input, ".blocks"), method, K = K)  # not sure how to deal with that K
-    if (any(grepl("MC", colnames(object@MetaInfo), ignore.case = T))) {
+    if (any(grepl("MC", colnames(object@MetaInfo), ignore.case = TRUE))) {
         number.bric.label <- length(grep("MC", colnames(object@MetaInfo)))
         bric.label.orginal.name <- colnames(object@MetaInfo)[grep("MC", colnames(object@MetaInfo))]
         object@MetaInfo <- cbind(object@MetaInfo, MC_Label = tmp.label)

@@ -9,7 +9,6 @@ NULL
 #'
 #' @param normalization two options: (1)library size noralization by using library size factor: 1e6, equal to CPM (count-per-million-reads), or 
 #' (2) using 'scran' normalization method.
-#' @param seed set seed for reproducibility.
 #' @param IsImputation imputation method is provided by DrImpute. Default is FALSE.
 #' @param library.size Sets the scale factor for cpm normalization
 #'
@@ -21,18 +20,17 @@ NULL
 #' @importFrom Seurat as.sparse
 #' @importFrom DrImpute DrImpute
 
-.processData <- function(object = NULL, normalization = "cpm", library.size = 1e+05, IsImputation = FALSE, seed = 123) {
+.processData <- function(object = NULL, normalization = "cpm", library.size = 1e+05, IsImputation = FALSE) {
     if (is.null(object@MetaInfo)) {
         stop("Can not find meta data, please run AddMeta")
     }
     Input <- object@Raw_count[, rownames(object@MetaInfo)]
-    set.seed(seed)
-    random.number <- sample(c(1:nrow(Input)), 100)
+    random.number <- sample(seq_len(nrow(Input)), 100)
     if (all(as.numeric(unlist(Input[random.number, ]))%%1 == 0)) {
         ## normalization##############################
-        if (grepl("cpm", ignore.case = T, normalization)) {
+        if (grepl("cpm", ignore.case = TRUE, normalization)) {
             my.normalized.data <- (Input/colSums(Input)) * library.size
-        } else if (grepl("scran", ignore.case = T, normalization)) {
+        } else if (grepl("scran", ignore.case = TRUE, normalization)) {
             sce <- SingleCellExperiment(assays = list(counts = Input))
             clusters <- quickCluster(sce, min.size = floor(ncol(Input)/3))
             sce <- computeSumFactors(sce, clusters = clusters)

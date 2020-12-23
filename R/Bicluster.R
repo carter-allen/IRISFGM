@@ -10,12 +10,12 @@ NULL
 #' @param keyword 'Conds' for co-regulatory or 'Genes' for co-expression gene
 .getBlock <- function(object = NULL, keyword = "Conds") {
     tmp.block <- readLines(paste0(getwd(), "/tmp_expression.txt.chars.blocks"))
-    tmp.bc <- grep(keyword, tmp.block, value = T)
-    tmp.cel.module <- sapply(strsplit(tmp.bc, ":", 2), "[", 2)
+    tmp.bc <- grep(keyword, tmp.block, value = TRUE)
+    tmp.cel.module <- vapply(strsplit(tmp.bc, ":", 2), "[", 2)
     CONDS <- as.character()  # store the conditions
     label_C <- as.numeric()  # store the occurence of one condistions
     
-    for (j in 1:length(tmp.cel.module)) {
+    for (j in seq_len(length(tmp.cel.module))) {
         BCcond <- unlist(strsplit(tmp.cel.module[j], split = " "))
         BCcond <- BCcond[BCcond != ""]  # exclude the blank string
         CONDS <- c(CONDS, BCcond)
@@ -54,11 +54,11 @@ NULL
     tmp.dir <- paste0(getwd(), "/tmp_expression.txt")
     tmp.count <- object@Processed_count
     tmp.count <- cbind(ID = rownames(tmp.count), tmp.count)
-    write.table(tmp.count, file = tmp.dir, row.names = F, quote = F, sep = "\t")
+    write.table(tmp.count, file = tmp.dir, row.names = FALSE, quote = FALSE, sep = "\t")
     message("writing quantile discretization file ...")
     qubic(i = tmp.dir, Fa = TRUE, q = q, R = FALSE)
     tmp.chars <- paste0(getwd(), "/tmp_expression.txt.chars")
-    tmp.readin <- read.table(tmp.chars, row.names = 1, header = T)
+    tmp.readin <- read.table(tmp.chars, row.names = 1, header = TRUE)
     object@Discretization <- as.matrix(tmp.readin)
     return(object)
 }
@@ -83,7 +83,7 @@ setMethod("RunDiscretization", "IRISFGM", .runDiscretization)
     tmp.dir <- paste0(getwd(), "/tmp_expression.txt.chars")
     tmp.multi <- object@LTMG@LTMG_BinaryMultisignal
     tmp.multi <- cbind(ID = rownames(tmp.multi), tmp.multi)
-    write.table(tmp.multi, file = tmp.dir, row.names = F, quote = F, sep = "\t")
+    write.table(tmp.multi, file = tmp.dir, row.names = FALSE, quote = FALSE, sep = "\t")
     print("finished!")
     print("running biclustering . . .")
     qubic(i = tmp.dir, d = TRUE, C = OpenDual, c = Extension, o = NumBlockOutput, f = BlockOverlap, k = BlockCellMin)

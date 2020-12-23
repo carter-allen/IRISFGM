@@ -10,12 +10,12 @@ output:
     toc: yes
     highlight: pygments
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
-  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteIndexEntry{IRISFGM Vignette}
+  %\VignetteEngine{knitr::knitr}
   \usepackage[utf8]{inputenc}
 ---
 
-```{r setup, include=FALSE}
+```{r setup, include=FALSE, eval = FALSE}
 knitr::opts_knit$set(root.dir = "d:/my_analysis/BRIC_TEST/2.Yan/")
 library(IRISFGM)
 load("d:/my_analysis/BRIC_TEST/2.Yan/YanObjectBRIC_qubic1.Rdata")
@@ -131,7 +131,7 @@ object <- AddMeta(object, meta.info = NULL)
 ```
 
 3. plotmeta: plot meta information based on RNA count and Feature number. This step is for the following subset step in terms of filtering out low quality data.    
-```{r plot_metadata,eval= TRUE, echo = TRUE}
+```{r plot_metadata,eval= FALSE, echo = TRUE}
 PlotMeta(object)
 ```
 
@@ -214,17 +214,17 @@ object <- RunBicluster(object, DiscretizationModel = "Quantile",OpenDual = TRUE,
 The cell type prediction of IRIS-FGM is based on the biclustering results. In short, it will construct a weighted graph based on the biclusters and then do clustering on the weighted graph. Currently, we provide two commonly used clustering method: MCL .
 
 
-```{r cell_type, eval=TRUE, echo =TRUE}
+```{r cell_type, eval=FALSE, echo =TRUE}
 object <- FindClassBasedOnMC(object)
 ```
 ## Visualize block and network.
 
-```{r visualize_block, eval = TRUE, echo =TRUE }
+```{r visualize_block, eval = FALSE, echo =TRUE }
 PlotHeatmap(object ,N.bicluster =c(1,5),show.annotation = T)
 ```
 
 
-```{r visualize_network, eval = TRUE, echo =TRUE }
+```{r visualize_network, eval = FALSE, echo =TRUE }
 PlotModuleNetwork(object, N.bicluster = 1, Node.color = "#E8E504")
 ```
 

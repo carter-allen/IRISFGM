@@ -42,7 +42,7 @@ SeparateKRpkmNew2 <- function(x, n, q, err = 1e-10) {
         return(cbind(0, 0, 0))
     }
     mean <- c()
-    for (i in 1:k) {
+    for (i in seq_len(k)) {
         mean <- c(mean, sort(x)[floor(i * length(x)/(k + 1))])
     }
     if (k > 1) {
@@ -52,7 +52,7 @@ SeparateKRpkmNew2 <- function(x, n, q, err = 1e-10) {
     p <- rep(1/k, k)
     sd <- rep(sqrt(var(x)), k)
     pdf.x.portion <- matrix(0, length(x), k)
-    for (i in 1:n) {
+    for (i in seq_len(n)) {
         p0 <- p
         mean0 <- mean
         sd0 <- sd
@@ -100,7 +100,7 @@ SeparateKRpkmNew <- function(x, n, q, k, err = 1e-10) {
         return(cbind(0, 0, 0))
     }
     mean <- c()
-    for (i in 1:k) {
+    for (i in seq_len(k)) {
         mean <- c(mean, sort(x)[floor(i * length(x)/(k + 1))])
     }
     mean[1] <- min(x) - 1  # What is those two lines for?
@@ -109,7 +109,7 @@ SeparateKRpkmNew <- function(x, n, q, k, err = 1e-10) {
     sd <- rep(sqrt(var(x)), k)
     pdf.x.portion <- matrix(0, length(x), k)
     
-    for (i in 1:n) {
+    for (i in seq_len(n)) {
         p0 <- p
         mean0 <- mean
         sd0 <- sd
@@ -152,7 +152,7 @@ SeparateKRpkmNewp <- function(x, n, q, k, err = 1e-10) {
     c <- sum(x < q)
     x <- x[which(x >= q)]
     mean <- c()
-    for (i in 1:k) {
+    for (i in seq_len(k)) {
         mean <- c(mean, sort(x)[floor(i * length(x)/(k + 1))])
     }
     mean[1] <- min(x) - 1  # What is those two lines for?
@@ -161,12 +161,12 @@ SeparateKRpkmNewp <- function(x, n, q, k, err = 1e-10) {
     sd <- rep(sqrt(var(x)), k)
     t <- matrix(0, length(x), k)
     
-    for (i in 1:n) {
+    for (i in seq_len(n)) {
         p0 <- p
         mean0 <- mean
         sd0 <- sd
         
-        for (row in 1:nrow(t)) {
+        for (row in seq_len(nrow(t))) {
             all <- p0 * dnorm(x[row], mean0, sd0)
             t[row, ] <- all/sum(all)
         }
@@ -180,7 +180,7 @@ SeparateKRpkmNewp <- function(x, n, q, k, err = 1e-10) {
         
         a <- rep(0, length(sd))
         
-        for (col in 1:length(sd)) {
+        for (col in seq_len(length(sd))) {
             a[col] <- sum((x - mean0[col])^2 * t[, col])
         }
         
@@ -219,12 +219,12 @@ LogSeparateKRpkmNew <- function(x, n, q, k, err = 1e-10) {
 #' @return a matrix contains pi, mean and sd
 #'
 SeparateKRpkmNewLRPlus <- function(x, n, q, r, s = 0.05, k = 2, err = 1e-10, M = Inf, m = -Inf) {
-    c <- sapply(x, function(x) sum(x < q), simplify = "array")
+    c <- vapply(x, function(x) sum(x < q), simplify = "array")
     
     x_r0 <- lapply(x, function(x) x[which(x < q)])
     x_r <- lapply(x, function(x) x[which(x >= q)])
-    x_r0.length <- sapply(x_r0, length)
-    x_r.length <- sapply(x_r, length)
+    x_r0.length <- vapply(x_r0, length)
+    x_r.length <- vapply(x_r, length)
     x_r.non.zero <- x_r.length > 0
     x_r.non.allpos <- x_r0.length > 0
     x_r.input <- (x_r.non.allpos * x_r.non.zero) > 0
@@ -234,7 +234,7 @@ SeparateKRpkmNewLRPlus <- function(x, n, q, r, s = 0.05, k = 2, err = 1e-10, M =
     if (sum(x_r.non.zero * x_r.non.allpos) == 0) {
         warning("Completely all 0/all pos conditions\n")
         results_c <- list()
-        for (i in 1:length(x)) {
+        for (i in seq_len(length(x))) {
             ccc <- matrix(0, 2, 3)
             colnames(ccc) <- c("p", "mean", "sd")
             if (x_r.non.zero[i] == 0) {
@@ -258,13 +258,10 @@ SeparateKRpkmNewLRPlus <- function(x, n, q, r, s = 0.05, k = 2, err = 1e-10, M =
         return(results_c)
     }
     
-    if (is.na(max(x_r.length[x_r.input]) < 5)) {
-        browser()
-    }
     if (max(x_r.length[x_r.input]) < 5) {
         warning("Too little non-zero part, forced ZIG\n")
         results_c <- list()
-        for (i in 1:length(x)) {
+        for (i in seq_len(length(x))) {
             ccc <- matrix(0, 2, 3)
             colnames(ccc) <- c("p", "mean", "sd")
             if (x_r.non.zero[i] == 0) {
@@ -309,9 +306,9 @@ SeparateKRpkmNewLRPlus <- function(x, n, q, r, s = 0.05, k = 2, err = 1e-10, M =
     p <- matrix(1/k, nrow = k, ncol = ncol)
     
     mean <- matrix(nrow = k, ncol = ncol)
-    for (col in 1:ncol) {
+    for (col in seq_len(ncol)) {
         ni <- length(x_r[[col]])
-        for (row in 1:k) {
+        for (row in seq_len(k)) {
             tg_ic <- floor(row * ni/(k + 1))
             cc <- sort(x_r[[col]])[tg_ic]
             if (tg_ic < 1) {
@@ -337,13 +334,13 @@ SeparateKRpkmNewLRPlus <- function(x, n, q, r, s = 0.05, k = 2, err = 1e-10, M =
     sd0 <- sd
     
     t <- lapply(x_r, function(x) matrix(nrow = length(x), ncol = k))
-    for (i in 1:n) {
+    for (i in seq_len(n)) {
         ccc <- matrix(nrow = k, ncol = ncol)
         wad <- rep(0, ncol + 1)
         mean_all <- rep(0, ncol + 1)
         sd_all <- rep(0, ncol + 1)
         sd_all_1_sum <- 0
-        for (col in 1:ncol) {
+        for (col in seq_len(ncol)) {
             t_u <- t(p[, col] * vapply(x_r[[col]], function(x) dnorm(x, mean[, col], sd[, col]), rep(0, k)))
             t[[col]] <- t_u/rowSums(t_u)
             pZil2 <- Pi_Zj_Zcut_new(q, mean[, col], sd[, col], p[, col])
@@ -362,7 +359,6 @@ SeparateKRpkmNewLRPlus <- function(x, n, q, r, s = 0.05, k = 2, err = 1e-10, M =
                 print(col)
                 print(dnorm(x_r[[col]][1], mean[1, col], sd[1, col]))
                 print(dnorm(x_r[[col]][2], mean[2, col], sd[2, col]))
-                browser()
             }
             if (anyNA(mean0)) {
                 warning("mean0 conttains NA\n")
@@ -402,7 +398,7 @@ SeparateKRpkmNewLRPlus <- function(x, n, q, r, s = 0.05, k = 2, err = 1e-10, M =
         sd_all[1] <- sqrt(sd_all_1_sum/c_sum)
         
         t0 <- matrix(nrow = sum(vapply(x_r, length, 0)), ncol = k + ncol - 1)
-        for (row in 1:nrow(t0)) {
+        for (row in seq_len(nrow(t0))) {
             t0_u <- wad * dnorm(x_all[row], mean_all, sd_all)
             t0[row, ] <- t0_u/sum(t0_u)
         }
@@ -414,7 +410,7 @@ SeparateKRpkmNewLRPlus <- function(x, n, q, r, s = 0.05, k = 2, err = 1e-10, M =
         mean0[1, ] <- (sum(x_all * t0[, 1]) + (mean_all[1] - sd_all[1] * im1) * pZil0[1] * c_sum)/denom0[1]
         sd0[1, ] <- sqrt((sum((x_all - mean_all[1])^2 * t0[, 1]) + sd_all[1]^2 * (1 - (q - mean_all[1])/sd_all[1] * im1) * pZil0[1] * c_sum)/denom0[1])
         
-        for (col in 1:ncol) {
+        for (col in seq_len(ncol)) {
             t_u <- t(p[, col] * vapply(x_r[[col]], function(x) dnorm(x, mean[, col], sd[, col]), c(0, 0)))
             t[[col]] <- t_u/rowSums(t_u)
             pZil <- Pi_Zj_Zcut_new(q, mean[, col], sd[, col], p[, col])
@@ -422,7 +418,7 @@ SeparateKRpkmNewLRPlus <- function(x, n, q, r, s = 0.05, k = 2, err = 1e-10, M =
             p0[, col] <- p_u/sum(p_u)
         }
         
-        for (col in 1:ncol) {
+        for (col in seq_len(ncol)) {
             sd0[1, col] <- min(sd0[1, col], r)
             sd0[2, col] <- max(min(sd0[2, col], r), s)
             mean0[1, col] <- min(mean0[1, col], q)
@@ -457,7 +453,7 @@ SeparateKRpkmNewLRPlus <- function(x, n, q, r, s = 0.05, k = 2, err = 1e-10, M =
         ret[[index]] <- cbind(p = p[, col], mean = mean[, col], sd = sd[, col])
         col <- col + 1
     }
-    for (index in 1:length(x)) {
+    for (index in seq_len(length(x))) {
         if ((x_r.non.zero[index] * x_r.non.allpos[index]) == 0) {
             ccc <- matrix(0, 2, 3)
             colnames(ccc) <- c("p", "mean", "sd")
