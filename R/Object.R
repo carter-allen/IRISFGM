@@ -11,6 +11,7 @@
 #' @export
 #'
 #' @examples \dontrun{object <- CreateIRISCEMObject(x = input_matrix, min.cell = 0, min.gene =0}
+globalVariables(c("input_matrix"))
 CreateIRISFGMObject <- function(x = input_matrix, min.cell = 0, 
                                 min.gene = 0, 
                                 LTMGr = new(Class = "LTMGr"), 

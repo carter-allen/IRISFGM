@@ -2,7 +2,8 @@
 % Please edit documentation in R/LTMGSCA.R
 \name{SeparateKRpkmNewLRPlus}
 \alias{SeparateKRpkmNewLRPlus}
-\title{Calcuate the LTMG_2LR for some genes
+\title{SeparateKRpkmNewLRPlus
+Calcuate the LTMG_2LR for some genes
 Calcuate the LTMG_2LR for some genes}
 \usage{
 SeparateKRpkmNewLRPlus(
@@ -31,11 +32,16 @@ SeparateKRpkmNewLRPlus(
 \item{k}{number of peaks, should be 2}
 
 \item{err}{the upper bound on the absolute error}
+
+\item{M}{set to positive infinity}
+
+\item{m}{set to negative infinity}
 }
 \value{
 a matrix contains pi, mean and sd
 }
 \description{
+SeparateKRpkmNewLRPlus
 Calcuate the LTMG_2LR for some genes
 Calcuate the LTMG_2LR for some genes
 }

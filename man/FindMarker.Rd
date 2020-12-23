@@ -4,8 +4,7 @@
 \alias{FindMarker}
 \alias{.findMarker}
 \alias{FindMarker,IRISFGM-method}
-\title{Find marker based on DEsingle method
-Find marker based on DEsingle method}
+\title{FindMarker}
 \usage{
 FindMarker(object, ...)
 
@@ -16,11 +15,15 @@ FindMarker(object, ...)
 \arguments{
 \item{object}{input IRISFGM object}
 
+\item{...}{other arguments passed to methods}
+
 \item{SimpleResult}{marker gene only output log fold change (LFC), p-value, and adjusted p-value.}
 
 \item{FDR}{a number to specify the threshold of FDR, default by 0.05}
 }
 \description{
+FindMarker
+
 Find marker based on DEsingle method
 Find marker based on DEsingle method
 }

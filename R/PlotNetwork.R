@@ -42,6 +42,7 @@ NULL
 #' @importFrom ggraph ggraph geom_node_point geom_edge_arc scale_edge_width geom_node_text theme_graph
 #' @import ggplot2
 #' @examples \dontrun{object <- PlotNetwork(object,edge.by = 'gene',N.bicluster =c(1:20) )}
+globalVariables(c("name", "weight", "status","weight"))
 .plotnetwork <- function(object, edge.by = "gene", lay.out = "linear", N.bicluster = c(1:20)) {
     Bic.list <- .separateBic(object)
     Bic.list.select <- Bic.list[N.bicluster]

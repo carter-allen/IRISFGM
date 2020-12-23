@@ -4,7 +4,7 @@
 \alias{ProcessData}
 \alias{.processData}
 \alias{ProcessData,IRISFGM-method}
-\title{Process data}
+\title{ProcessData}
 \usage{
 ProcessData(object, ...)
 
@@ -26,6 +26,8 @@ ProcessData(object, ...)
 }
 \arguments{
 \item{object}{Input IRISFGM object}
+
+\item{...}{other arguments passed to methods}
 
 \item{normalization}{two options: (1)library size noralization by using library size factor: 1e6, equal to CPM (count-per-million-reads), or 
 (2) using 'scran' normalization method.}

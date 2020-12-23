@@ -35,6 +35,8 @@ PlotModuleNetwork(object, ...)
 \arguments{
 \item{object}{Input IRIS-FGM object.}
 
+\item{...}{other arguments passed to methods}
+
 \item{method}{Should be a statistical method to calculate edge weight based on expression data. It can be either "Spearman" (default) or "Pearson."}
 
 \item{node.col}{Should a color name (or color code) for nodes}

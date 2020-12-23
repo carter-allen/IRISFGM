@@ -58,7 +58,7 @@ qubic <- function(i = NULL,
     unloadNamespace("IRISFGM")
     ret <- .main(vec)
     if (ret == 42) 
-        return(IRISFGM::qubic(paste0(i, ".chars"), d = TRUE))
+        return(qubic(paste0(i, ".chars"), d = TRUE))
     # return (ret)
 }
 

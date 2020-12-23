@@ -4,7 +4,7 @@
 \alias{PlotDimension}
 \alias{.plotDimension}
 \alias{PlotDimension,IRISFGM-method}
-\title{Visualize dimension reduction results}
+\title{PlotDimension}
 \usage{
 PlotDimension(object, ...)
 
@@ -14,6 +14,8 @@ PlotDimension(object, ...)
 }
 \arguments{
 \item{object}{Input IRIS-FGM Object}
+
+\item{...}{other arguments passed to methods}
 
 \item{reduction}{Choose one of approaches for dimension reduction, including 'pca', 'tsne', 'umap'.}
 

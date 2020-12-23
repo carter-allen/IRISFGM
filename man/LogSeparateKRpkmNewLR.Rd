@@ -2,12 +2,21 @@
 % Please edit documentation in R/LTMGSCA.R
 \name{LogSeparateKRpkmNewLR}
 \alias{LogSeparateKRpkmNewLR}
-\title{Title
-Title}
+\title{LogSeparateKRpkmNewLR}
 \usage{
 LogSeparateKRpkmNewLR(x, n, q, r, k = 2)
 }
+\arguments{
+\item{x}{data, a List of NumericVectors}
+
+\item{n}{rounds}
+
+\item{q}{cutoff of the elements in x}
+
+\item{r}{maximum value of the standard diversion}
+
+\item{k}{number of peaks, should be 2}
+}
 \description{
-Title
-Title
+LogSeparateKRpkmNewLR
 }

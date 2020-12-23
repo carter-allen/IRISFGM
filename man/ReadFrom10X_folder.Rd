@@ -3,7 +3,7 @@
 \name{ReadFrom10X_folder}
 \alias{ReadFrom10X_folder}
 \alias{ReadFrom10X_folder,IRISFGM-method}
-\title{Read 10X folder based on Seurat package}
+\title{ReadFrom10X_folder}
 \usage{
 ReadFrom10X_folder(input.dir = NULL)
 

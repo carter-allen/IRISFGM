@@ -26,8 +26,9 @@ PlotMarkerHeatmap(
 
 \item{p.adj}{adjusted pvalue cutoff for gene selection threshold}
 
-\item{scale}{character indicating if the values should be centered and scaled in either the row direction or the column direction, 
-or none. The default is "row" if symm false, and "none" otherwise.}
+\item{scale}{character indicating if the values should be centered and scaled in either the row direction or the column direction, or none. The default is "row" if symm false, and "none" otherwise.}
+
+\item{label.size}{Number to decide label size}
 }
 \value{
 heatmap

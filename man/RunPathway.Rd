@@ -4,7 +4,7 @@
 \alias{RunPathway}
 \alias{.runPathway}
 \alias{RunPathway,IRISFGM-method}
-\title{Functional enrichment analysis}
+\title{RunPathway}
 \usage{
 RunPathway(object, ...)
 
@@ -29,6 +29,8 @@ RunPathway(object, ...)
 \arguments{
 \item{object}{Input IRIS-FGM object}
 
+\item{...}{other arguments passed to methods}
+
 \item{N.bicluster}{Select the numebr of bicluster to perform this function.}
 
 \item{selected.gene.cutoff}{Set up a statistical significance cutoff for all identified DEGs.}
@@ -51,7 +53,7 @@ This function is also depended on clusterProfiler, AnnotationDbi, org.Mm.eg.db, 
 # If you want to perform this function based on identified DEGs, you should use: 
 \dontrun{object <- RunPathway(object = NULL,N.bicluster = NULL, selected.gene.cutoff = 0.05,
 species = 'Human', database = 'GO', genes.source = 'CTS' }
-# If you want to perform this function based on the gene module from an identified bicluster, you should use: 
+# To rum this function based on the gene module from an identified bicluster use: 
 \dontrun{object <- RunPathway(object = NULL,N.bicluster = NULL, selected.gene.cutoff = 0.05,
 species = 'Human', database = 'GO', genes.source = 'Bicluster' }
 }

@@ -4,7 +4,7 @@
 \alias{PlotHeatmap}
 \alias{.plotHeatmap}
 \alias{PlotHeatmap,IRISFGM-method}
-\title{plot heatmap based on bicluster}
+\title{PlotHeatmap}
 \usage{
 PlotHeatmap(object, ...)
 
@@ -29,6 +29,8 @@ PlotHeatmap(object, ...)
 \arguments{
 \item{object}{Input IRISFGM object}
 
+\item{...}{other arguments passed to methods}
+
 \item{N.bicluster}{Number of biclusters.}
 
 \item{show.overlap}{Parameter (logic) indicates whether the figure shows the overlap part between two selected biclusters.}
@@ -40,5 +42,7 @@ PlotHeatmap(object, ...)
 \item{show.clusters}{Parameter (logic) indicates whether to show the cell cluster label.}
 }
 \description{
+PlotHeatmap
+
 plot heatmap based on bicluster
 }

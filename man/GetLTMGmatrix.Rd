@@ -14,6 +14,8 @@ GetLTMGmatrix(object, ...)
 }
 \arguments{
 \item{object}{Input IRIS-FGM object}
+
+\item{...}{other arguments passed to methods}
 }
 \description{
 Get LTMG matrix

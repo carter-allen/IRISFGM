@@ -21,21 +21,13 @@ setClass("Bicluster", slots = c(CoReg_gene = "ANY", CoCond_cell = "ANY", MarkerG
 #' @slot LTMG_BinaryMultisignal matrix.
 setClass("LTMGr", slots = c(LTMG_discrete = "matrix", LTMG_BinarySingleSignal = "matrix", LTMG_BinaryMultisignal = "matrix", DimReduce = "DimReduce", MarkerGene = "ANY", 
                             Pathway = "ANY", Tmp.seurat = "ANY"))
-# set IRISFGM class
-#' @title IRISFGM class
-#'
-#' @slot MetaInfo ANY.
-#' @slot Discretization matrix.
+#' IRISFGM
 #' @slot Raw_count ANY
 #' @slot Processed_count ANY
-#' @slot BiCluster Bicluster
+#' @slot MetaInfo ANY
+#' @slot Discretization matrix.
 #' @slot LTMG LTMGr.
-#'
-#' @return IRIS-FGM object
-#' @export
-#' @name IRISFGM
-#' @rdname IRISFGM
-#' @exportClass IRISFGM
+#' @slot BiCluster Bicluster
 setClass("IRISFGM", slots = c(Raw_count = "ANY", 
                               Processed_count = "ANY", 
                               MetaInfo = "ANY", 
