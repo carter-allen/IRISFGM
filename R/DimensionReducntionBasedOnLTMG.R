@@ -30,7 +30,7 @@ NULL
         Tmp.seurat <- ScaleData(Tmp.seurat)
     } else if (mat.source == "UMImatrix") {
         Tmp.seurat <- CreateSeuratObject(object@Processed_count)
-        Tmp.seurat <- FindVariableFeatures(Tmp.seurat, selection.method = "vst", nfeatures = 2000)
+        Tmp.seurat <- FindVariableFeatures(Tmp.seurat, selection.method = "vst", nfeatures = ceiling(15*sqrt(nrow(Tmp.seurat))))
         Tmp.seurat <- ScaleData(Tmp.seurat)
     } else {
         stop("please select either LTMG or UMImatrix as input matrix")
@@ -112,11 +112,12 @@ setMethod("RunClassification", "IRISFGM", .runClassification)
 #' @param object Input IRIS-FGM Object
 #' @param reduction Choose one of approaches for dimension reduction, including 'pca', 'tsne', 'umap'.
 #' @param pt_size Point size, default is 0.
+#' @param idents set current idents.
 #'
 #' @return generate plot on umap space.
 #' @name PlotDimension
 #' @examples \dontrun{PlotDimension(object)}
-.plotDimension <- function(object, reduction = "umap", pt_size = 1) {
+.plotDimension <- function(object, reduction = "umap", pt_size = 1,idents = NULL) {
     
     if (grepl("tsne", reduction, ignore.case = T) || grepl("umap", reduction, ignore.case = T) || grepl("pca", reduction, ignore.case = T)) {
         
@@ -130,21 +131,26 @@ setMethod("RunClassification", "IRISFGM", .runClassification)
     } else {
         stop("choose a dimension reduction method from pca, umap, or tsne")
     }
-    message("select condition to present")
-    message(paste0(c(1:ncol(object@MetaInfo)), " : ", c(colnames(object@MetaInfo)), "\n"))
-    ident.index <- readline(prompt = "select index of cell condition: ")
-    ident.index <- as.numeric(ident.index)
-    tmp.ident <- object@MetaInfo[, ident.index]
-    names(tmp.ident) <- rownames(object@MetaInfo)
+    if (is.null(idents)){
+        unwanted_lab <- which(colnames(object@MetaInfo) %in% c("Original","ncount_RNA","nFeature"))
+        wanted_lab <- colnames(object@MetaInfo)[c(-unwanted_lab)]
+        stop(paste0("\nDo not provide idents! ","\nPlease choose from here:\n", paste0(wanted_lab, collapse = ",")))
+    }
+    if (!idents %in% colnames(object@MetaInfo)) {
+        unwanted_lab <- which(colnames(object@MetaInfo) %in% c("Original","ncount_RNA","nFeature"))
+        wanted_lab <- colnames(object@MetaInfo)[c(-unwanted_lab)]
+        stop(paste0("\nCannot find idents: ", idents, ".", "\nPlease choose from here:\n", paste0(wanted_lab, collapse = ",")))
+    }
+    tmp.ident <- object@MetaInfo[, idents]
     # check name later add
     tmp.plot.table <- cbind.data.frame(tmp.plot.table, Cell_type = as.character(tmp.ident))
     p.cluster <- ggplot(tmp.plot.table, aes(x = tmp.plot.table[, 1], y = tmp.plot.table[, 2], col = tmp.plot.table[, "Cell_type"]))
     
     p.cluster <- p.cluster + geom_point(stroke = pt_size, size = pt_size)
     
-    p.cluster <- p.cluster + guides(colour = guide_legend(override.aes = list(size = 5))) + labs(color = colnames(object@MetaInfo)[ident.index]) + xlab("Dimension 1") + 
+    p.cluster <- p.cluster + guides(colour = guide_legend(override.aes = list(size = 5))) + labs(color = idents) + xlab("Dimension 1") + 
         ylab("Dimentsion 2")
-    p.cluster <- p.cluster + theme_classic() + coord_fixed()
+    p.cluster <- p.cluster + theme_classic()
     print(p.cluster)
 }
 
