@@ -249,7 +249,7 @@ PlotNetwork(object,N.bicluster = c(1:20))
 
 ### Perform pathway enrichment analysis on the selected the 1st FGM and visualize the results.
 ```{r bicluster_pathway, eval=TRUE, echo =TRUE}
-object <- RunPathway(object, N.bicluster =1, species = "Human",database = "GO",genes.source = "Bicluster")
+object <- RunPathway(object, N.bicluster =6, species = "Human",database = "GO",genes.source = "Bicluster")
 DotPlotPathway(object,genes.source = "Bicluster")
 ```
 
