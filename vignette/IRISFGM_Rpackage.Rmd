@@ -16,9 +16,7 @@ vignette: >
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_knit$set(root.dir = "d:/my_analysis/BRIC_TEST/2.Yan/")
-library(IRISFGM)
-load("d:/my_analysis/BRIC_TEST/2.Yan/YanObjectBRIC_qubic1.Rdata")
+knitr::opts_knit$set(root.dir = "D:/my_analysis/BRIC_TEST/vignette_YAN/")
 ```
 
 # Intorduction to IRIS-FGM
@@ -35,7 +33,27 @@ The main idea of IRIS-FGM consists of two major strategies:
 
 
 
+## Obejct structure 
+The computational frame is constructed under the S4 data structure in R. The structure of `BRIC object` is: 
 
+- -**BRIC_Object:** *name of object is called BRIC.*
+  - -**raw_count:** *raw data matrix (gene in row, cell in columns, prefer using gene symbol).*
+  - -**processed_count:** *normalized and imputation (default: FALSE).*
+  - -**Meta_info:** *cell classification information based on LTMG and Bicluster.*
+  - -**Discretization:** *discretized matrix based on qubic 1.0, which prepares for microarry and bulk RNA-Seq analysis.*
+  - -**LTMG:** *LTMG slot is for storing relative results from first strategy.*
+    - -**LTMG_discrete:** *Condition assigned matrix, which is generating from LTMG model.*
+    - -**LTMG_BinarySingleSignal:** *binary matrix based on gene “on /off.”*
+    - -**LTMG_BinaryMultisignal:** *binary matrix based on multiple condition.*
+    - -**DimReduce:** *include three dimension loading score, including PCA, Tsne, and UMAP*
+    - -**MarkerGene:** *Marker gene based on cell type identified by Seurat clustering method.*
+    - -**Pathway:** *based on marker gene.*
+    - -**tmp.Seurat:** *temporary Seurat object. In this Seurat Object, the starting matrix is LTMG signalling matrix.*
+  - -**Bicluster:** **
+    - -**Coreg_gene:** *co-regulatory genes are stored in this slot as dataframe; the first column is gene name and the second column is module number.*
+    - -**CoCond_cell:** *co-condition cell are stored in this slot as dataframe; the first column is cell name and the second column is module number.*
+    - -**MarkerGene:** *Marker gene based on cell type identified by Markov chain clustering algorithm.*
+    - -**Pathway:** *genes based on co-expression gene of gene module (from Coreg_gene).*
 
 
 
@@ -48,13 +66,12 @@ We will assum you have the following installed:
 * R (equal or greater than 3.5)
 
 Pre-install packge
-```{r pre_install, eval=FALSE, echo=TRUE}
-install.packages(c('BiocManager','devtools', 'AdaptGauss', "pheatmap", 'mixtools','MCL', 'anocva', 
-                   'qgraph','Rtools','ggpubr',"ggraph"))
-BiocManager::install(c('org.Mm.eg.db','multtest', 'org.Hs.eg.db','clusterProfiler','DEsingle',
-                       'DrImpute', 'scater', 'scran'))
-devtools::install_github(repo = 'satijalab/seurat')
-```
+`install.packages(c('BiocManager','devtools', 'AdaptGauss', "pheatmap", 'mixtools','MCL', 'anocva', "Polychrome", 'qgraph','Rtools','ggpubr',"ggraph"))`
+                   
+`BiocManager::install(c('org.Mm.eg.db','multtest', 'org.Hs.eg.db','clusterProfiler','DEsingle', 'DrImpute', 'scater', 'scran'))`
+                       
+`devtools::install_github(repo = 'satijalab/seurat')`
+
 ## Input
 
 1. The input to IRIS-FGM is the single-cell RNA-seq expression matrix:
@@ -72,9 +89,9 @@ When you perform co-expression analysis, it will output several intermediate fil
 # Installation
 
 For installation, simply type the following command in your R console, please select option 3 when R asks user to update packages:
-```{r install, eval=FALSE, echo=TRUE}
-devtools::install_github("BMEngineeR/IRISCEM", force = T)
-```
+
+`devtools::install_github("BMEngineeR/IRISFGM", force = T)`
+
 
 # Example dataset
 
@@ -94,40 +111,44 @@ IRIS-FGM can accepted 10X chromium input files, including a folder (contain gene
 ## Input data
 
 1. set working directory and import library
-```{r setwd, eval =FALSE, echo = TRUE}
-setwd("~/2.Yan/")
+```{r setwd, eval =TRUE, echo = TRUE}
+# dir.create("~/Vignette/vignette_YAN/",recursive = TRUE)
+# setwd("~/Vignette/vignette_YAN")
 library(IRISFGM)
 ```
-2. Read from .h5 file.
 
-```{r h5_files, eval= FALSE, echo = TRUE}
-InputMatrix <- ReadFrom10X_h5("~/5k_pbmc_protein_v3_filtered_feature_bc_matrix.h5")
-```
+2. Read from .h5 file. 
+`ReadFrom10X_h5("~/5k_pbmc_protein_v3_filtered_feature_bc_matrix.h5")`
 
-3. Read from 10X folder.
+3. Read from 10X folder, which should contain three files (barcode, gene name, and sparse matrix)
 
-```{r folder, eval= FALSE, echo = TRUE}
-InputMatrix <- ReadFrom10X_folder("~/10X_3K/folder_10X/")
-```
+`ReadFrom10X_folder("~/hg19/")`
+
 4. Read from .csv or .txt file
 
-we will use this data set as example to run the pipeline.
+First, we should download data from the link, then we will use this data set as example to run the pipeline.
 
-```{r txt, eval= FALSE, echo = TRUE}
-InputMatrix <- read.table("~/2.Yan/Yan_expression.txt",header = T, row.names = 1)
+```{r txt, eval= TRUE, echo = TRUE}
+download.file("https://bmbl.bmi.osumc.edu/downloadFiles/Yan_expression.txt",destfile = "./Yan_expression.txt")
+download.file("https://bmbl.bmi.osumc.edu/downloadFiles/Yan_cell_label.txt",destfile = "./Yan_cell_label.txt")
+InputMatrix <- read.table("~/Vignette/vignette_YAN/Yan_expression.txt",header = T, row.names = 1,check.names = F)
 ```
 
 ## Add meta information
 
-1. Create IRIS-FGM object.
+1. For the computational efficiency, we will use subsampling data, and create IRIS-FGM object.
 
-```{r create_object, eval= FALSE, echo = TRUE,message=FALSE}
-object <- CreateIRISFGMObject(InputMatrix)
+```{r create_object, eval= TRUE, echo = TRUE,message=TRUE}
+set.seed(123)
+seed_idx <- sample(1:nrow(InputMatrix),3000)
+InputMatrix_sub <- InputMatrix[seed_idx,]
+object <- CreateIRISFGMObject(InputMatrix_sub)
 ```
 
 2. Addmeta: this step can add customized cell label by user, the format of file passing to `meta.info` is data frame of which row name should be cell ID, and column name should be cell type.    
-```{r add_metadata, eval= FALSE, echo = TRUE}
-object <- AddMeta(object, meta.info = NULL)
+```{r add_metadata, eval= TRUE, echo = TRUE}
+my_meta <- read.table("~/Vignette/vignette_YAN/Yan_cell_label.txt",header = T,row.names = 1)
+object <- AddMeta(object, meta.info = my_meta)
 ```
 
 3. plotmeta: plot meta information based on RNA count and Feature number. This step is for the following subset step in terms of filtering out low quality data.    
@@ -137,15 +158,14 @@ PlotMeta(object)
 
 
 4. remove low quality data based on the previous plot.
-```{r subset_data, echo=FALSE,eval= FALSE, echo =  TRUE}
-object <- SubsetData(object , nFeature.upper=15000,nFeature.lower=8000,
-                         Counts.upper=700000,Counts.lower=400000)
+```{r subset_data,eval= TRUE, echo =  TRUE}
+object <- SubsetData(object , nFeature.upper=2000,nFeature.lower=250)
 ```
 
 ## Preprocesing 
 
-User can choose perform normalization or imputation based on their need. The normalization method has two options, one is the simplist CPM normalization (default `normalization = 'LibrarySizeNormalization'`). The other is from package scran and can be opened by using parameter `normalization = 'scran'`, . The imputation method is from package DrImpute and can be opened by using parameter `IsImputation = TRUE` (default as closed).
-```{r ProcessData,echo = TRUE, eval= FALSE}
+User can choose perform normalization or imputation based on their need. The normalization method has two options, one is the simplist CPM normalization (default `normalization = 'cpm'`). The other is from package scran and can be opened by using parameter `normalization = 'scran'`, . The imputation method is from package DrImpute and can be opened by using parameter `IsImputation = TRUE` (default as closed).
+```{r ProcessData,echo = TRUE, eval= TRUE}
 object <- ProcessData(object, normalization = "cpm", IsImputation = FALSE, seed = 123)
 ```
 
@@ -154,105 +174,117 @@ object <- ProcessData(object, normalization = "cpm", IsImputation = FALSE, seed 
 
 The argument `Gene_use = 500` is  top 500 highlt variant genes which are selected to run LTMG. For quick mode, we recommend to use top 2000 gene (here we use top 500 gene for saving time). On the contrary, for co-expression gene analysis, we recommend to use all gene by changing `Gene_use = "all"`. 
 ```{r run_LTMG, echo = TRUE,eval = FALSE}
+# do not show progress bar
+quiet <- function(x) { 
+  sink(tempfile()) 
+  on.exit(sink()) 
+  invisible(force(x)) 
+} 
 # demo only run top 500 gene for saving time.
-object <- RunLTMG(object, Gene_use = 500, seed = 123)
+object <- quiet(RunLTMG(object, Gene_use = "500", seed = 123))
+# you can get LTMG signal matrix
+LTMG_Matrix <- GetLTMGmatrix(object)
+LTMG_Matrix[1:5,1:5]
 ```
 
-# 3. Seurat implemented analysis.
 
-## Dimension Reduction
-User can use `reduction = "umap"` or `reductopm = "tsne"` to perform dimension reduction. 
-```{r Run_dimReduce, eval= FALSE, echo = TRUE}
-# demo only run top 500 gene for saving time.
-object <- RunDimensionReduction(object, reduction = "umap")
-```
+# 3. Biclustering
 
-## Cluster
-```{r Runclassfication, eval= FALSE, echo = TRUE}
-# demo only run top 500 gene for saving time.
-object <- RunClassification(object,  k.param = 20, resolution = 0.5, algorithm = 1)
-```
-
-## Plot dimension reduction plot
-```{r run_plotDim, eval= FALSE, echo = TRUE, warning=FALSE}
-# demo only run top 500 gene for saving time.
-PlotDimension(object,reduction = "umap")
-```
-This function need user to input group that is used to plot on the figure. Input `4` means choose the "Seurat0.5" group as cell label to plot.
-![dim](D:/my_analysis\\BRIC_TEST\\figures\\LTMG\\dimension_selection.png)
-![cluster](D:/my_analysis\\BRIC_TEST\\figures\\LTMG\\dimension_plot.png)
-
-
-# 4. Biclustering based co-expression analysis
-
-IRIS-FGM can provide biclustering function, which is based on our in-house novel algorithm, QUBIC2 (<https://github.com/maqin2001/qubic2>). Here we will show the basic biclustering usage of IRIS-FGM using a $200\times 88$ expression matrix generated from previous top 500 variant genes. However, we recommend user should use `Gene_use = all` to generate LTMG matrix. 
+IRIS-FGM can provide biclustering function, which is based on our in-house novel algorithm, 
+QUBIC2 (<https://github.com/maqin2001/qubic2>). Here we will show the basic biclustering 
+usage of IRIS-FGM using a $500\times 87$ expression matrix generated from previous top 500 variant genes. 
+However, we recommend user should use `Gene_use = all` to generate LTMG matrix. 
 
 ## LTMG-discretized bicluster (recommend for small single cell RNA-seq data)
 User can type the following command to run discretization (LTMG) + biclustering directly:
 ```{r biclustering_basedLTMG,eval= FALSE,echo = TRUE}
-object <- RunLTMG(object, Gene_use = "all", seed = 123)
 object <- CalBinaryMultiSignal(object)
-object <- RunBicluster(object, DiscretizationModel = "LTMG",OpenDual = TRUE,
-                          NumBlockOutput = 100, BlockOverlap = 0.7, BlockCellMin = 15)
+object <- RunBicluster(object, DiscretizationModel = "LTMG",OpenDual = F,
+                       NumBlockOutput = 100, BlockOverlap = 0.5, BlockCellMin = 25)
 
 ```
 
 ## Quantile-discretized bicluster (recommend for bulk RNA-Seq, microarray data, or large single cell RNA-Seq data)
 
-This will output several files, and among them you will find one named  `Yan_sub.txt.chars.blocks`,which contains the predicted biclusters.
+This will output several files, and among them you will find one named  `tmp_expression.txt.chars.blocks`,which contains the predicted biclusters.
 Or, user may use first version discretization strategy provided by QUBIC 1.0.
 ```{r biclustering_basedQuantile,eval=FALSE,echo = TRUE}
 object <- RunDiscretization(object)
-object <- RunBicluster(object, DiscretizationModel = "Quantile",OpenDual = TRUE, Extension = 0.90,
-                          NumBlockOutput = 1000, BlockOverlap = 0.7, BlockCellMin = 15)
+object <- RunBicluster(object, DiscretizationModel = "Quantile",OpenDual = F,
+                       NumBlockOutput = 100, BlockOverlap = 0.5, BlockCellMin = 25)
+```
+```{r laod_object, include=FALSE}
+load("D:/my_analysis/BRIC_TEST/vignette_YAN/Yan.object.Rdata")
 ```
 
-(The default parameters in IRIS-FGM are BlockCellMin=15, BlockOverlap=0.7, Extension=0.90, NumBlockOutput=100 you may use other parameters as you like, just specify them in the argument)
-
-## Cell type prediction based on Markove clustering
-
-The cell type prediction of IRIS-FGM is based on the biclustering results. In short, it will construct a weighted graph based on the biclusters and then do clustering on the weighted graph. Currently, we provide two commonly used clustering method: MCL .
+(The default parameters in IRIS-FGM are BlockCellMin=15, BlockOverlap=0.7,
+Extension=0.90, NumBlockOutput=100 you may use other parameters as you like, just specify them in the argument)
 
 
+# 4. Cell clustering
+
+## 4.1 Perform dimension Reduction and implement Seurat clustering method.
+User can use `reduction = "umap"` or `reductopm = "tsne"` to perform dimension reduction. 
+```{r Run_dimReduce, eval= TRUE, echo = TRUE}
+# demo only run top 500 gene for saving time.
+object <- RunDimensionReduction(object, mat.source = "UMImatrix",reduction = "umap")
+object <- RunClassification(object,  k.param = 20, resolution = 0.8, algorithm = 1)
+```
+
+## 4.2 Predict cell clusters based on Markove clustering
+
+The cell cluster prediction of IRIS-FGM is based on the biclustering results. 
+In short, it will construct a weighted graph based on the biclusters and then do clustering on the weighted graph.
 ```{r cell_type, eval=TRUE, echo =TRUE}
 object <- FindClassBasedOnMC(object)
-```
-## Visualize block and network.
-
-```{r visualize_block, eval = TRUE, echo =TRUE }
-PlotHeatmap(object ,N.bicluster =c(1,5),show.annotation = T)
+object@MetaInfo[1:5,]
 ```
 
-
-```{r visualize_network, eval = TRUE, echo =TRUE }
-PlotModuleNetwork(object, N.bicluster = 1, Node.color = "#E8E504")
+# 5. Visualization and interpretation
+## 5.1 Bicluster results
+### Check gene overlapping of FGMs. The results show first 19 FMGs have overlapping genes, and there is no overlapping gene between first 1 FMGs and the 15th FGM.
+```{r bicluster_network, eval=TRUE, echo =TRUE}
+PlotNetwork(object,N.bicluster = c(1:20))
 ```
 
-
-# 5. Biological interpretation. 
-## Cell-type-specific marker genes
-```{r CTS_marker_gene, eval = FALSE, echo =TRUE}
-object <- FindMarkers(object)
+### Perform pathway enrichment analysis on the selected the 1st FGM and visualize the results.
+```{r bicluster_pathway, eval=TRUE, echo =TRUE}
+object <- RunPathway(object, N.bicluster =1, species = "Human",database = "GO",genes.source = "Bicluster")
+DotPlotPathway(object,genes.source = "Bicluster")
 ```
-User need to select cell type to compare, while here we select `4:Suerat0.5` as cell type category to analyze.
-![markergene](D:/my_analysis\\BRIC_TEST\\figures\\LTMG\\markergebe_selection.png)
 
-Then IRIS-FGM will ask user choose a first group as reference, while here we select the third group (`3 : 2`) marked as cluster 2 in umap.
-![markergene](D:/my_analysis\\BRIC_TEST\\figures\\LTMG\\markergene_1stGroup.png)
-
-Then user requires to select the second group as compared object, while here user can choose either one group (`2 : 1`, `3 : 2`), or rest of all groups (`4 : rest of all`). 
-![markergene](D:/my_analysis\\BRIC_TEST\\figures\\LTMG\\markergene_2stGroup.png)
-
-After running the `Findmarker`, user can find table in `object@LTMG@MarkerGene` if using quick mode or find table in `object@BiCluster@MarkerGene`.
-
-## Cell-type-specific pathways.
-The first pathway analysis is based on quick mode by specifying `genes.source = "CTS"`, which means cell-type-specific marker genes; the second pathway analysis is based on genes from bicluster block. 
-```{r CTS_pathways, eval = FALSE, echo =TRUE}
-object <- RunPathway(object, selected.gene.cutoff = 0.05,
-                        species = "Human", database = "GO", genes.source = "CTS")
-object <- RunPathway(object ,module.number = 5, selected.gene.cutoff = 0.05,
-                        species = "Human", database = "GO", genes.source = "Bicluster")
+### Heatmap shows relations between any two biclusters (1th and 15th bicluster). 
+```{r bicluster_heatmap, eval=TRUE, echo =TRUE}
+PlotHeatmap(object,N.bicluster = c(1, 15),show.clusters = T,show.annotation=T)
 ```
+
+### Co-expression network shows gene correlation relations in one select FGM. 
+```{r bicluster_network_module, eval=TRUE, echo =TRUE}
+PlotModuleNetwork(object,N.bicluster = 20,method = "spearman",
+                  cutoff.neg = -0.5,
+                  cutoff.pos = 0.5,
+                  layout = "circle",
+                  node.label = T,
+                  node.col = "black",
+                  node.label.cex = 10)
+
+```
+
+## 5.1 cell clustering results
+### Visualize cell clustering results
+```{r cell_clustering_umap, eval=TRUE, echo =TRUE}
+# cell clustering results based on Seurat clustering method 
+PlotDimension(object, reduction = "umap",idents = "Seurat_r_0.8_k_20")
+# cell clustering results based on MCL clustering method 
+PlotDimension(object, reduction = "umap",idents = "MC_Label")
+```
+
+### Find global marker based on Seurat method 
+```{r cell_clustering_globalmarker, eval=TRUE, echo =TRUE}
+global_marker <- FindGlobalMarkers(object,idents = "Seurat_r_0.8_k_20")
+PlotMarkerHeatmap(Globalmarkers = global_marker,object = object,idents ="Seurat_r_0.8_k_20")
+```
+
 
 
 # sessioninfo

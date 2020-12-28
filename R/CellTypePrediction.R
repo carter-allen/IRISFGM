@@ -7,6 +7,7 @@ NULL
 #' genrate graph
 #'
 #' @param blocks input blocks
+#' @return create a graph
 GRAPH <- function(blocks) {
     A <- readLines(blocks)
     TEMP <- grep("Conds", A, value = TRUE)  ## extract condition lines in each BC
@@ -109,7 +110,7 @@ MCL <- function(Raw, blocks) {
 #'
 #' @param blocks input blocks
 #' @param K number of clusters; this parameter is used for SC clustering method. 
-#'
+#' @return spectral Clustering results 
 #' @importFrom igraph graph.data.frame
 #' @importFrom igraph as_adjacency_matrix
 #' @importFrom anocva spectralClustering
@@ -167,7 +168,7 @@ CLUSTERING <- function(Raw, blocks, method = "MCL", K = NULL) {
 #' @param method using MCL(Markov Cluster) algorithm to predict clusters. There is alternative option which is 'SC.' ( 
 #' Unnormalized spectral clustering function. Uses Partitioning Around Medoids clustering instead of K-means.)
 #' @param K expected number of predicted clusters when you are using 'SC' method for cell clustering and this parameter does not work for 'MCL'
-#'
+#' @return It will reture cell clustering results based on MCL method.
 #' @useDynLib IRISFGM
 #' @name FindClassBasedOnMC
 #' @examples \dontrun{

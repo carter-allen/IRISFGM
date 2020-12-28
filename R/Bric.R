@@ -1,3 +1,6 @@
+#' @useDynLib IRISFGM
+#' @importFrom Rcpp sourceCpp
+NULL
 
 #' @name qubic
 #' @title qubic
@@ -17,10 +20,8 @@
 #' @param c index
 #' @param o index
 #'
-#'
+#' @return qubic results
 #' @importFrom Rcpp evalCpp
-
-
 qubic <- function(i = NULL, 
                   N = FALSE, 
                   R = FALSE, 
@@ -55,7 +56,7 @@ qubic <- function(i = NULL,
     vec <- c(vec, "-c", as.character(c))
     vec <- c(vec, "-o", as.character(o))
     
-    unloadNamespace("IRISFGM")
+    # unloadNamespace("IRISFGM")
     ret <- .main(vec)
     if (ret == 42) 
         return(qubic(paste0(i, ".chars"), d = TRUE))

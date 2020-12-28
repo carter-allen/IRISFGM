@@ -6,6 +6,7 @@
 #include <list>
 #include <string>
 #include <vector>
+#include <signal.h>
 
 // [[Rcpp::plugins(openmp)]]
 
@@ -26,6 +27,7 @@ extern "C" void my_function_to_handle_aborts(int signal_number) {
 // [[Rcpp::export(.main)]]
 int qubic(const CharacterVector& str) {
   // may treat abort() more friendly, see http://stackoverflow.com/a/3911102
+  
   signal(SIGABRT, &my_function_to_handle_aborts);
   try {
     int argc = str.size();

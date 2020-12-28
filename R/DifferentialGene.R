@@ -10,6 +10,7 @@ NULL
 #' @param FDR a number to specify the threshold of FDR, default by 0.05
 #'
 #' @name FindMarker
+#' @return It will return differentially expressed gene based on DEsingle method.
 #' @importFrom DEsingle DEsingle DEtype
 #'
 .findMarker <- function(object, SimpleResult = T, FDR = 0.05) {
