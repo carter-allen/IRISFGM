@@ -12,6 +12,9 @@ Global_Zcut(MAT, seed = NULL)
 
 \item{seed}{set seed}
 }
+\value{
+global_zcut
+}
 \description{
 Global_Zcut create Zcut 
 Global_Zcut create Zcut

@@ -22,6 +22,9 @@ Unnormalized spectral clustering function. Uses Partitioning Around Medoids clus
 
 \item{K}{expected number of predicted clusters when you are using 'SC' method for cell clustering and this parameter does not work for 'MCL'}
 }
+\value{
+It will reture cell clustering results based on MCL method.
+}
 \description{
 This function is for performing Markov chain clustering regarding generated co-expression gene modules. This clustering method is working for relative small dataset.
 If you have a large dataset, We recommend you should use Seurat clustering wrapped in this IRISFGM package. See details \code{\link{RunLTMG}},

@@ -14,6 +14,9 @@ KS_ZIMG(y, rrr, Zcut)
 
 \item{Zcut}{input Zcut}
 }
+\value{
+KS_ZIMG
+}
 \description{
 KS_ZIMG
 KS_ZIMG

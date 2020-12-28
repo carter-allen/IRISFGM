@@ -8,9 +8,9 @@
 \usage{
 PlotDimension(object, ...)
 
-.plotDimension(object, reduction = "umap", pt_size = 1)
+.plotDimension(object, reduction = "umap", pt_size = 1, idents = NULL)
 
-\S4method{PlotDimension}{IRISFGM}(object, reduction = "umap", pt_size = 1)
+\S4method{PlotDimension}{IRISFGM}(object, reduction = "umap", pt_size = 1, idents = NULL)
 }
 \arguments{
 \item{object}{Input IRIS-FGM Object}
@@ -20,6 +20,8 @@ PlotDimension(object, ...)
 \item{reduction}{Choose one of approaches for dimension reduction, including 'pca', 'tsne', 'umap'.}
 
 \item{pt_size}{Point size, default is 0.}
+
+\item{idents}{set current idents.}
 }
 \value{
 generate plot on umap space.

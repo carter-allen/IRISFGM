@@ -10,6 +10,9 @@ State_return(x)
 \arguments{
 \item{x}{input vector}
 }
+\value{
+State_return
+}
 \description{
 State_return
 State_return

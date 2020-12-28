@@ -2,8 +2,8 @@
 % Please edit documentation in R/LTMGSCA.R
 \name{Pi_Zj_Zcut_new}
 \alias{Pi_Zj_Zcut_new}
-\title{Title
-Title}
+\title{Pi_Zj_Zcut_new
+Pi_Zj_Zcut_new}
 \usage{
 Pi_Zj_Zcut_new(q, mean, sd, w10)
 }
@@ -16,7 +16,10 @@ Pi_Zj_Zcut_new(q, mean, sd, w10)
 
 \item{w10}{w10}
 }
+\value{
+Pi_Zj_Zcut_new
+}
 \description{
-Title
-Title
+Pi_Zj_Zcut_new
+Pi_Zj_Zcut_new
 }

@@ -18,6 +18,9 @@ LogSeparateKRpkmNew(x, n, q, k, err = 1e-10)
 
 \item{err}{err}
 }
+\value{
+LogSeparateKRpkmNew
+}
 \description{
 Title
 Title

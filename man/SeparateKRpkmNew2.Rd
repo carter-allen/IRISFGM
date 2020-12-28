@@ -2,8 +2,8 @@
 % Please edit documentation in R/LTMGSCA.R
 \name{SeparateKRpkmNew2}
 \alias{SeparateKRpkmNew2}
-\title{Title
-Title}
+\title{SeparateKRpkmNew2
+SeparateKRpkmNew2}
 \usage{
 SeparateKRpkmNew2(x, n, q, err = 1e-10)
 }
@@ -16,7 +16,10 @@ SeparateKRpkmNew2(x, n, q, err = 1e-10)
 
 \item{err}{err}
 }
+\value{
+SeparateKRpkmNew2
+}
 \description{
-Title
-Title
+SeparateKRpkmNew2
+SeparateKRpkmNew2
 }

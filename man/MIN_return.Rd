@@ -10,6 +10,9 @@ MIN_return(x)
 \arguments{
 \item{x}{input vector}
 }
+\value{
+MIN_return
+}
 \description{
 MIN_return
 MIN_return

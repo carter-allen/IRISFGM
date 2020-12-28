@@ -18,6 +18,9 @@ SeparateKRpkmNewp(x, n, q, k, err = 1e-10)
 
 \item{err}{err}
 }
+\value{
+SeparateKRpkmNewp
+}
 \description{
 Title
 Title

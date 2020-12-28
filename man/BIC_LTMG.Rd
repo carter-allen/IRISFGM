@@ -14,6 +14,9 @@ BIC_LTMG(y, rrr, Zcut)
 
 \item{Zcut}{input global z}
 }
+\value{
+BIC_LTMG
+}
 \description{
 BIC_LTMG
 BIC_LTMG

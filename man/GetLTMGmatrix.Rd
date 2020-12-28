@@ -17,6 +17,9 @@ GetLTMGmatrix(object, ...)
 
 \item{...}{other arguments passed to methods}
 }
+\value{
+It will reture LTMG signal matrix.
+}
 \description{
 Get LTMG matrix
 }

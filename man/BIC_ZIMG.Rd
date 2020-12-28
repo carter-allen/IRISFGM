@@ -14,6 +14,9 @@ BIC_ZIMG(y, rrr, Zcut)
 
 \item{Zcut}{global zcut}
 }
+\value{
+BIC_ZIMG
+}
 \description{
 BIC_ZIMG fits different model
 BIC_ZIMG fits different model

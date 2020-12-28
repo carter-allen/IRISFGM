@@ -11,6 +11,9 @@
 
 \item{keyword}{'Conds' for co-regulatory or 'Genes' for co-expression gene}
 }
+\value{
+get blocks from biclustering results
+}
 \description{
 get block from generated temporal files
 }

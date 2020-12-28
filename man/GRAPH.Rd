@@ -9,6 +9,9 @@ GRAPH(blocks)
 \arguments{
 \item{blocks}{input blocks}
 }
+\value{
+create a graph
+}
 \description{
 genrate graph
 }

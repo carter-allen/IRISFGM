@@ -2,18 +2,10 @@
 % Please edit documentation in R/generics.R, R/PlotNetwork.R
 \name{PlotNetwork}
 \alias{PlotNetwork}
-\alias{.plotnetwork}
 \alias{PlotNetwork,IRISFGM-method}
 \title{PlotNetwork}
 \usage{
 PlotNetwork(object, ...)
-
-.plotnetwork(
-  object,
-  edge.by = "gene",
-  lay.out = "linear",
-  N.bicluster = c(1:20)
-)
 
 \S4method{PlotNetwork}{IRISFGM}(
   object,

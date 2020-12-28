@@ -12,6 +12,9 @@ MINUS(x, y)
 
 \item{y}{input y}
 }
+\value{
+MINUS
+}
 \description{
 MINUS
 MINUS

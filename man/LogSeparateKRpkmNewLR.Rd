@@ -17,6 +17,9 @@ LogSeparateKRpkmNewLR(x, n, q, r, k = 2)
 
 \item{k}{number of peaks, should be 2}
 }
+\value{
+LogSeparateKRpkmNewLR
+}
 \description{
 LogSeparateKRpkmNewLR
 }
