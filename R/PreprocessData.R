@@ -12,7 +12,7 @@ NULL
 #' @param seed set seed for reproducibility.
 #' @param IsImputation imputation method is provided by DrImpute. Default is FALSE.
 #' @param library.size Sets the scale factor for cpm normalization
-#'
+#' @return It will processdata by normalization and imputation.
 #' @name ProcessData
 #'
 #' @importFrom scater normalize logNormCounts

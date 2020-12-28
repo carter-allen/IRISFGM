@@ -100,11 +100,12 @@ setMethod("PlotNetwork", "IRISFGM", .plotnetwork)
 
 #' GenerateNetObject
 #' Generate Net Object for the network use.
+#'
 #' @param object Input IRIS-FGM object.
 #'
 #' @param N.bicluster Should be two integers indicating the number of two biclusters.
 #' @param method Should be a statistical method to calculate edge weight based on expression data. It can be either "Spearman" (default) or "Pearson."
-#'
+#' @return get generateNetObject
 #' @importFrom  stats cor
 .generateNetObject <- function(object, N.bicluster = c(1, 5), method = "spearman") {
     groups <- N.bicluster

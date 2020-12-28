@@ -3,6 +3,7 @@
 #' @param q q
 #' @param mean mean
 #' @param sd sd
+#' @return InverseMillsRatio
 InverseMillsRatio <- function(q, mean, sd) {
     x <- (q - mean)/sd
     pdf <- dnorm(x, log = TRUE)
@@ -12,12 +13,13 @@ InverseMillsRatio <- function(q, mean, sd) {
     return(d)
 }
 
-#' Title
-#' Title
+#' Pi_Zj_Zcut_new
+#' Pi_Zj_Zcut_new
 #' @param q q
 #' @param mean mean
 #' @param sd sd
 #' @param w10 w10
+#' @return Pi_Zj_Zcut_new
 Pi_Zj_Zcut_new <- function(q, mean, sd, w10) {
     a <- w10 * pnorm(q, mean, sd)
     if (sum(a) == 0) 
@@ -26,12 +28,13 @@ Pi_Zj_Zcut_new <- function(q, mean, sd, w10) {
 }
 
 
-#' Title
-#' Title
+#' SeparateKRpkmNew2
+#' SeparateKRpkmNew2
 #' @param x x
 #' @param n n
 #' @param q q
 #' @param err err
+#' @return SeparateKRpkmNew2
 SeparateKRpkmNew2 <- function(x, n, q, err = 1e-10) {
     k <- 1
     q <- max(q, min(x))
@@ -79,8 +82,8 @@ SeparateKRpkmNew2 <- function(x, n, q, err = 1e-10) {
     return(cbind(p, mean, sd))
 }
 
-#' Title
-#' Title
+#' SeparateKRpkmNew
+#' SeparateKRpkmNew
 #' @param x data, example: x<-runif(100,0,1)
 #' @param n rounds
 #' @param q cutoff
@@ -147,6 +150,7 @@ SeparateKRpkmNew <- function(x, n, q, k, err = 1e-10) {
 #' @param q q
 #' @param k k
 #' @param err err
+#' @return SeparateKRpkmNewp
 SeparateKRpkmNewp <- function(x, n, q, k, err = 1e-10) {
     q <- max(q, min(x))
     c <- sum(x < q)
@@ -199,6 +203,7 @@ SeparateKRpkmNewp <- function(x, n, q, k, err = 1e-10) {
 #' @param q q
 #' @param k k
 #' @param err err
+#' @return LogSeparateKRpkmNew
 LogSeparateKRpkmNew <- function(x, n, q, k, err = 1e-10) {
     return(SeparateKRpkmNew(log(x), n, log(q), k, err))
 }
@@ -508,6 +513,7 @@ SeparateKRpkmNewLR <- function(x, n, q, r, s = 0.05, k = 2, err = 1e-10, M = Inf
 #' @param q cutoff of the elements in x
 #' @param r maximum value of the standard diversion
 #' @param k number of peaks, should be 2 
+#' @return LogSeparateKRpkmNewLR
 LogSeparateKRpkmNewLR <- function(x, n, q, r, k = 2) {
     return(SeparateKRpkmNewLR(log(x), n, log(q), r, k))
 }

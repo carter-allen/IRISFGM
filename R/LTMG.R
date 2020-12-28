@@ -6,7 +6,7 @@ NULL
 #' MIN_return
 #' MIN_return
 #' @param x input vector
-#'
+#' @return MIN_return
 #' @rdname MIN_return
 MIN_return <- function(x) {
     return(min(x[x > 0]))
@@ -17,7 +17,7 @@ MIN_return <- function(x) {
 #' @param MAT input matrix
 #'
 #' @param seed  set seed 
-#'
+#' @return global_zcut
 #' @rdname Global_Zcut
 Global_Zcut <- function(MAT, seed = NULL) {
     VEC <- apply(MAT, 1, MIN_return)
@@ -38,11 +38,12 @@ Global_Zcut <- function(MAT, seed = NULL) {
 
 #' BIC_LTMG
 #' BIC_LTMG
+#'
 #' @param y input y
 #' 
 #' @param rrr input vector
 #' @param Zcut input global z
-#'
+#' @return BIC_LTMG
 #' @rdname BIC_LTMG
 BIC_LTMG <- function(y, rrr, Zcut) {
     n <- length(y)
@@ -66,11 +67,12 @@ BIC_LTMG <- function(y, rrr, Zcut) {
 
 #' BIC_ZIMG fits different model
 #' BIC_ZIMG fits different model
+#'
 #' @param y input vector
 #'
 #' @param rrr input vector 
 #' @param Zcut global zcut
-#'
+#' @return BIC_ZIMG 
 #' @rdname BIC_ZIMG
 BIC_ZIMG <- function(y, rrr, Zcut) {
     y <- y[y > Zcut]
@@ -95,7 +97,7 @@ BIC_ZIMG <- function(y, rrr, Zcut) {
 #' Pure_CDF
 #' 
 #' @param Vec input vector
-#'
+#' @return Pure_CDF
 #' @rdname Pure_CDF
 Pure_CDF <- function(Vec) {
     ### Vec should be sorted ###
@@ -125,7 +127,7 @@ Pure_CDF <- function(Vec) {
 #'
 #' @param rrr input vector
 #' @param Zcut input global zcut
-#'
+#' @return KS_LTMG
 #' @rdname KS_LTMG
 KS_LTMG <- function(y, rrr, Zcut) {
     y <- sort(y)
@@ -149,7 +151,7 @@ KS_LTMG <- function(y, rrr, Zcut) {
 #'
 #' @param rrr input rrr
 #' @param Zcut input Zcut
-#'
+#' @return KS_ZIMG
 #' @rdname KS_ZIMG
 KS_ZIMG <- function(y, rrr, Zcut) {
     num_c <- nrow(rrr)
@@ -168,7 +170,7 @@ KS_ZIMG <- function(y, rrr, Zcut) {
 #' State_return
 #' State_return
 #' @param x input vector
-#'
+#' @return State_return
 #' @rdname State_return
 State_return <- function(x) {
     return(order(x, decreasing = T)[1])
@@ -179,7 +181,7 @@ State_return <- function(x) {
 #' @param x input x
 #'
 #' @param y input y
-#'
+#' @return MINUS
 #' @rdname MINUS
 MINUS <- function(x, y) {
     if (x < y) {
@@ -197,7 +199,7 @@ MINUS <- function(x, y) {
 #' @param q input q
 #' @param k input k
 #' @param err random error
-#'
+#' @return Fit_LTMG
 #' @rdname Fit_LTMG
 Fit_LTMG <- function(x, n, q, k, err = 1e-10) {
     q <- max(q, min(x))
@@ -251,7 +253,7 @@ Fit_LTMG <- function(x, n, q, k, err = 1e-10) {
 #'
 #' @param Zcut_G input Zcut
 #' @param k input k as gene regulatory signal
-#'
+#' @return return LTMG
 #' @rdname LTMG
 LTMG <- function(VEC, Zcut_G, k = 5) {
     y <- log(VEC)
@@ -440,7 +442,7 @@ setMethod("RunLTMG", "IRISFGM", .RunLTMG)
 #' @description Get LTMG matrix
 #' 
 #' @param object Input IRIS-FGM object
-#'
+#' @return It will reture LTMG signal matrix.
 #' @examples \dontrun{
 #' GetLTMGmatrix(object)
 #' }

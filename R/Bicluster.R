@@ -8,6 +8,7 @@ NULL
 #'
 #' @param object IRISFGM object
 #' @param keyword 'Conds' for co-regulatory or 'Genes' for co-expression gene
+#' @return get blocks from biclustering results
 .getBlock <- function(object = NULL, keyword = "Conds") {
     tmp.block <- readLines(paste0(getwd(), "/tmp_expression.txt.chars.blocks"))
     tmp.bc <- grep(keyword, tmp.block, value = T)
@@ -78,7 +79,11 @@ setMethod("RunDiscretization", "IRISFGM", .runDiscretization)
 #' @param NumBlockOutput number of blocks to report. Default: 100.
 #' @param BlockOverlap filtering overlapping blocks. Default: 0.7.
 #' @param BlockCellMin minimum column width of the block. Default: 15 columns.
+#' @return It will return Biclustering results based on LTMG.
 .runBiclusterBaseOnLTMG <- function(object = NULL, OpenDual = FALSE, Extension = 1, NumBlockOutput = 100, BlockOverlap = 0.9, BlockCellMin = 15) {
+    if(dim(object@LTMG@LTMG_BinarySingleSignal)[1] == 0 && dim(object@LTMG@LTMG_BinaryMultisignal)[1] == 0){
+       stop("Please discretize the LTMG signal matrix by using CalBinaryMultiSignal or CalBinarySingleSignal.") 
+    }
     print("writing LTMG discretization file ...")
     tmp.dir <- paste0(getwd(), "/tmp_expression.txt.chars")
     tmp.multi <- object@LTMG@LTMG_BinaryMultisignal
@@ -98,6 +103,7 @@ setMethod("RunDiscretization", "IRISFGM", .runDiscretization)
 #' @param NumBlockOutput number of blocks to report. Default: 100.
 #' @param BlockOverlap filtering overlapping blocks. Default: 0.7.
 #' @param BlockCellMin minimum column width of the block. Default: 15 columns.
+#' @return It will perform discretization
 .runBiclusterBaseOnDiscretization <- function(object = NULL, OpenDual = TRUE, Extension = 1, NumBlockOutput = 100, BlockOverlap = 0.7, BlockCellMin = 15) {
     tmp.dir <- paste0(getwd(), "/tmp_expression.txt.chars")
     if (file.exists(tmp.dir)) {

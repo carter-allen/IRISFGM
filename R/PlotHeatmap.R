@@ -11,7 +11,7 @@ NULL
 #' @param seed Set seeds for reproducibility.
 #' @param show.annotation Parameter (logic) indicates whether to show annotation (biclusters number and cell cluster labels).
 #' @param show.clusters Parameter (logic) indicates whether to show the cell cluster label.
-#'
+#' @return It will generate a heatmap based on selected two FGMs.
 #' @name PlotHeatmap
 #' @import pheatmap
 #' @import Polychrome RColorBrewer
