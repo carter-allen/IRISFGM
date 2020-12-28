@@ -1,29 +1,30 @@
 #' ProcessData
 #'
 #' @param ... other arguments passed to methods
-#' @param object
+#' @param object input IRIS-FGM object
+#'
 #' @rdname ProcessData
 #' @export
 setGeneric(name = "ProcessData", def = function(object, ...) standardGeneric("ProcessData"))
 
 #' ReadFrom10X_folder
 #'
-#' @param object
+#' @param input input data
 #' @rdname ReadFrom10X_folder
 #' @export
-setGeneric(name = "ReadFrom10X_folder", def = function(object) standardGeneric("ReadFrom10X_folder"))
+setGeneric(name = "ReadFrom10X_folder", def = function(input) standardGeneric("ReadFrom10X_folder"))
 
 #' ReadFrom10X_h5
 #'
-#' @param object
+#' @param input input data
 #' @rdname ReadFrom10X_h5
 #' @export
-setGeneric(name = "ReadFrom10X_h5", def = function(object) standardGeneric("ReadFrom10X_h5"))
+setGeneric(name = "ReadFrom10X_h5", def = function(input) standardGeneric("ReadFrom10X_h5"))
 
 #' AddMeta
 #'
 #' @param ... other arguments passed to methods
-#' @param object
+#' @param object input IRIS-FGM object
 #' @export
 #' @rdname AddMeta
 setGeneric(name = "AddMeta", def = function(object, ...) standardGeneric("AddMeta"))
@@ -31,7 +32,7 @@ setGeneric(name = "AddMeta", def = function(object, ...) standardGeneric("AddMet
 #' RunLTMG
 #'
 #' @param ... other arguments passed to methods
-#' @param object
+#' @param object input IRIS-FGM object
 #' @rdname RunLTMG
 #' @export
 setGeneric(name = "RunLTMG", def = function(object, ...) standardGeneric("RunLTMG"))
@@ -40,7 +41,7 @@ setGeneric(name = "RunLTMG", def = function(object, ...) standardGeneric("RunLTM
 #' GetLTMGmatrix
 #'
 #' @param ... other arguments passed to methods
-#' @param object
+#' @param object input IRIS-FGM object
 #' @export
 #' @rdname GetLTMGmatrix
 setGeneric(name = "GetLTMGmatrix", def = function(object, ...) standardGeneric("GetLTMGmatrix"))
@@ -48,7 +49,7 @@ setGeneric(name = "GetLTMGmatrix", def = function(object, ...) standardGeneric("
 
 #' CalBinarySingleSignal
 #'
-#' @param object
+#' @param object input IRIS-FGM object
 #' @export
 #' @rdname CalBinarySingleSignal
 setGeneric(name = "CalBinarySingleSignal", def = function(object) standardGeneric("CalBinarySingleSignal"))
@@ -56,14 +57,14 @@ setGeneric(name = "CalBinarySingleSignal", def = function(object) standardGeneri
 #' GetBinarySingleSignal
 #'
 #' @param ... other arguments passed to methods
-#' @param object
+#' @param object input IRIS-FGM object
 #' @export
 #' @rdname GetBinarySingleSignal
 setGeneric(name = "GetBinarySingleSignal", def = function(object, ...) standardGeneric("GetBinarySingleSignal"))
 
 #' CalBinaryMultiSignal
 #'
-#' @param object
+#' @param object input IRIS-FGM object
 #' @export
 #' @rdname CalBinaryMultiSignal
 setGeneric(name = "CalBinaryMultiSignal", def = function(object) standardGeneric("CalBinaryMultiSignal"))
@@ -71,7 +72,7 @@ setGeneric(name = "CalBinaryMultiSignal", def = function(object) standardGeneric
 #' GetBinaryMultiSignal
 #'
 #' @param ... other arguments passed to methods
-#' @param object
+#' @param object input IRIS-FGM object
 #' @export
 #' @rdname GetBinaryMultiSignal
 setGeneric(name = "GetBinaryMultiSignal", def = function(object, ...) standardGeneric("GetBinaryMultiSignal"))
@@ -79,7 +80,7 @@ setGeneric(name = "GetBinaryMultiSignal", def = function(object, ...) standardGe
 #' RunDiscretization
 #'
 #' @param ... other arguments passed to methods
-#' @param object
+#' @param object input IRIS-FGM object
 #' @export
 #' @rdname RunDiscretization
 setGeneric(name = "RunDiscretization", def = function(object, ...) standardGeneric("RunDiscretization"))
@@ -87,7 +88,7 @@ setGeneric(name = "RunDiscretization", def = function(object, ...) standardGener
 #' RunBicluster
 #'
 #' @param ... other arguments passed to methods
-#' @param object
+#' @param object input IRIS-FGM object
 #' @export
 #' @rdname RunBicluster
 setGeneric(name = "RunBicluster", def = function(object, ...) standardGeneric("RunBicluster"))
@@ -97,7 +98,7 @@ setGeneric(name = "RunBicluster", def = function(object, ...) standardGeneric("R
 #' RunDimensionReduction
 #'
 #' @param ... other arguments passed to methods
-#' @param object
+#' @param object input IRIS-FGM object
 #' @export
 #' @rdname RunDimensionReduction
 setGeneric(name = "RunDimensionReduction", def = function(object, ...) standardGeneric("RunDimensionReduction"))
@@ -105,7 +106,7 @@ setGeneric(name = "RunDimensionReduction", def = function(object, ...) standardG
 #' RunClassification
 #'
 #' @param ... other arguments passed to methods
-#' @param object
+#' @param object input IRIS-FGM object
 #' @export
 #' @rdname RunClassification
 setGeneric(name = "RunClassification", def = function(object, ...) standardGeneric("RunClassification"))
@@ -113,7 +114,7 @@ setGeneric(name = "RunClassification", def = function(object, ...) standardGener
 #' FindMarker
 #'
 #' @param ... other arguments passed to methods
-#' @param object
+#' @param object input IRIS-FGM object
 #' @export
 #' @rdname FindMarker
 setGeneric(name = "FindMarker", def = function(object, ...) standardGeneric("FindMarker"))
@@ -121,7 +122,7 @@ setGeneric(name = "FindMarker", def = function(object, ...) standardGeneric("Fin
 #' FindGlobalMarkers
 #'
 #' @param ... other arguments passed to methods
-#' @param object
+#' @param object input IRIS-FGM object
 #' @export
 #' @rdname FindGlobalMarkers
 setGeneric(name = "FindGlobalMarkers", def = function(object, ...) standardGeneric("FindGlobalMarkers"))
@@ -129,7 +130,7 @@ setGeneric(name = "FindGlobalMarkers", def = function(object, ...) standardGener
 #' RunPathway
 #'
 #' @param ... other arguments passed to methods
-#' @param object
+#' @param object input IRIS-FGM object
 #' @export
 #' @rdname RunPathway
 setGeneric(name = "RunPathway", def = function(object, ...) standardGeneric("RunPathway"))
@@ -137,7 +138,7 @@ setGeneric(name = "RunPathway", def = function(object, ...) standardGeneric("Run
 #' PlotHeatmap
 #'
 #' @param ... other arguments passed to methods
-#' @param object
+#' @param object input IRIS-FGM object
 #' @export
 #' @rdname PlotHeatmap
 setGeneric(name = "PlotHeatmap", def = function(object, ...) standardGeneric("PlotHeatmap"))
@@ -145,7 +146,7 @@ setGeneric(name = "PlotHeatmap", def = function(object, ...) standardGeneric("Pl
 #' PlotDimension
 #'
 #' @param ... other arguments passed to methods
-#' @param object
+#' @param object input IRIS-FGM object
 #' @export
 #' @rdname PlotDimension
 setGeneric(name = "PlotDimension", def = function(object, ...) standardGeneric("PlotDimension"))
@@ -153,7 +154,7 @@ setGeneric(name = "PlotDimension", def = function(object, ...) standardGeneric("
 #' FindClassBasedOnMC
 #'
 #' @param ... other arguments passed to methods
-#' @param object 
+#' @param object input IRIS-FGM object
 #' @export
 #' @rdname FindClassBasedOnMC
 setGeneric(name = "FindClassBasedOnMC", def = function(object, ...) standardGeneric("FindClassBasedOnMC"))
@@ -161,7 +162,7 @@ setGeneric(name = "FindClassBasedOnMC", def = function(object, ...) standardGene
 #' DotPlotPathway
 #'
 #' @param ... other arguments passed to methods
-#' @param object 
+#' @param object input IRIS-FGM object
 #' @export
 #' @rdname DotPlotPathway
 setGeneric(name = "DotPlotPathway", def = function(object, ...) standardGeneric("DotPlotPathway"))
@@ -169,7 +170,7 @@ setGeneric(name = "DotPlotPathway", def = function(object, ...) standardGeneric(
 #' PlotNetwork
 #'
 #' @param ... other arguments passed to methods
-#' @param object
+#' @param object input IRIS-FGM object
 #' @export
 #' @rdname PlotNetwork
 setGeneric(name = "PlotNetwork", def = function(object, ...) standardGeneric("PlotNetwork"))
@@ -177,7 +178,7 @@ setGeneric(name = "PlotNetwork", def = function(object, ...) standardGeneric("Pl
 #' PlotMeta
 #'
 #' @param ... other arguments passed to methods
-#' @param object
+#' @param object input IRIS-FGM object
 #' @export
 #' @rdname PlotMeta
 setGeneric(name = "PlotMeta", def = function(object, ...) standardGeneric("PlotMeta"))
@@ -185,7 +186,7 @@ setGeneric(name = "PlotMeta", def = function(object, ...) standardGeneric("PlotM
 #' SubsetData
 #'
 #' @param ... other arguments passed to methods
-#' @param object
+#' @param object input IRIS-FGM object
 #' @export
 #' @rdname SubsetData
 setGeneric(name = "SubsetData", def = function(object, ...) standardGeneric("SubsetData"))
@@ -193,7 +194,7 @@ setGeneric(name = "SubsetData", def = function(object, ...) standardGeneric("Sub
 #' PlotModuleNetwork
 #'
 #' @param ... other arguments passed to methods
-#' @param object
+#' @param object input IRIS-FGM object
 #' @export
 #' @rdname PlotModuleNetwork
 setGeneric(name = "PlotModuleNetwork", def = function(object, ...) standardGeneric("PlotModuleNetwork"))

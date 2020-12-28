@@ -13,6 +13,8 @@ ReadFrom10X_folder(input.dir = NULL)
 }
 \arguments{
 \item{input.dir}{Input directory. It should contain three file, including barcode file, feature file, and sparse counts matrix.}
+
+\item{input}{input data}
 }
 \value{
 The output from \code{\link{Read10X}}
