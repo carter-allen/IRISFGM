@@ -173,9 +173,10 @@ CLUSTERING <- function(Raw, blocks, method = "MCL", K = NULL) {
 #' @return It will reture cell clustering results based on MCL method.
 #' @useDynLib IRISFGM
 #' @name FindClassBasedOnMC
-#' @examples \dontrun{
-#' object <- FindClassBasedOnMC(object)
-#' }
+#' @examples 
+#' # data(example_object)
+#' # example_object <- FindClassBasedOnMC(example_object)
+#' 
 .final <- function(object = NULL, method = "MCL", K = 5) {
     # chars file
     input <- paste0(getwd(), "/tmp_expression.txt.chars")

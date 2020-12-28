@@ -1,5 +1,6 @@
-
 #' CreateIRISFGMObject
+#' @name CreateIRISFGMObject 
+#' @title CreateIRISFGMObject
 #' @description Create IRIS-FGM object
 #' @param x Input expression matrix which should be a matrix or dataframe.
 #' @param min.cell each gene should be expressed by at least this many cell.
@@ -10,7 +11,11 @@
 #' @return it should return a IRISFGM object of which structure can be found in tutorial.
 #' @export
 #'
-#' @examples \dontrun{object <- CreateIRISCEMObject(x = input_matrix, min.cell = 0, min.gene =0}
+#' @examples 
+#' x <- matrix(rnorm(100),ncol = 10) 
+#' colnames(x) <- paste0("cell",1:ncol(x))
+#' rownames(x) <- paste0("gene",1:nrow(x))
+#' object <- CreateIRISFGMObject(x)
 globalVariables(c("input_matrix"))
 CreateIRISFGMObject <- function(x = input_matrix, min.cell = 0, 
                                 min.gene = 0, 

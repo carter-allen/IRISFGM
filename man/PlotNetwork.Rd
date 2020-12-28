@@ -36,5 +36,7 @@ PlotNetwork
 This function is to plot the network for selected biclusters to show the genes (or cells) overlapping relations.
 }
 \examples{
-\dontrun{object <- PlotNetwork(object,edge.by = 'gene',N.bicluster =c(1:20) )}
+data(example_object)
+PlotNetwork(example_object,
+N.bicluster =c(1:20))
 }

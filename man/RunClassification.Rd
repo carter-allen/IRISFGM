@@ -44,10 +44,10 @@ It will generate cell type inforamtion.
 This function is based on Seurat package.
 }
 \examples{
-\dontrun{
-object <- RunClassification(object, 
+data(example_object)
+example_object <- RunClassification(example_object, 
 dims = 1:15,
 k.param = 20, 
 resolution = 0.6,
-algorithm = 1)}
+algorithm = 1)
 }

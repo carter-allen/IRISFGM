@@ -16,14 +16,15 @@ NULL
 #' @name RunDimensionReduction 
 #' @importFrom Seurat CreateSeuratObject ScaleData RunPCA RunTSNE RunUMAP FindVariableFeatures
 #' @return This function will generate pca, tsne, or umap dimension reduction results.
-#' @examples \dontrun{
-#' obejct <- RunDimensionReduction(object,
+#' @examples 
+#' data(example_object)
+#' example_obejct <- RunDimensionReduction(example_object,
 #'    mat.source= 'LTMG',
 #'    reduction = 'umap', 
 #'    dims = 1:15 ,
 #'    perplexity = 15, 
 #'    seed = 1)
-#'    }
+#'
 .runDimensionReduction <- function(object, mat.source = c("LTMG", "UMImatrix"), reduction = "umap", dims = 1:15, perplexity = 15, seed = 1) {
     if (mat.source == "LTMG") {
         Tmp.seurat <- CreateSeuratObject(object@LTMG@LTMG_discrete)
@@ -76,12 +77,13 @@ setMethod("RunDimensionReduction", "IRISFGM", .runDimensionReduction)
 #' @importFrom Seurat FindNeighbors FindClusters
 #' @import ggplot2
 #' @return It will generate cell type inforamtion.
-#' @examples \dontrun{
-#' object <- RunClassification(object, 
+#' @examples 
+#' data(example_object)
+#' example_object <- RunClassification(example_object, 
 #' dims = 1:15,
 #' k.param = 20, 
 #' resolution = 0.6,
-#' algorithm = 1)}
+#' algorithm = 1)
 .runClassification <- function(object, dims = 1:15, k.param = 20, resolution = 0.6, algorithm = 1) {
     if (is.null(object@LTMG@Tmp.seurat)) {
         stop("There is no temporary seurat obejct getting detected. \n Try to run RundimensionRuduction first.")
@@ -118,7 +120,9 @@ setMethod("RunClassification", "IRISFGM", .runClassification)
 #'
 #' @return generate plot on umap space.
 #' @name PlotDimension
-#' @examples \dontrun{PlotDimension(object)}
+#' @examples 
+#' data("example_obejct")
+#' PlotDimension(object,idents = "Seurat_r_0.8_k_20")
 .plotDimension <- function(object, reduction = "umap", pt_size = 1,idents = NULL) {
     
     if (grepl("tsne", reduction, ignore.case = TRUE) || grepl("umap", reduction, ignore.case = TRUE) || grepl("pca", reduction, ignore.case = TRUE)) {

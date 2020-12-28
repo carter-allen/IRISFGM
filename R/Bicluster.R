@@ -50,6 +50,9 @@ NULL
 #' 
 #' 
 #' @return It will generate quantile based binary matrix.
+#' @examples 
+#' # data(example_object)
+#' # example_object <- RunDiscretization(example_object, q = 0.06)
 .runDiscretization <- function(object = NULL, q = 0.06) {
     message("writing temporary expression file ...")
     tmp.dir <- paste0(getwd(), "/tmp_expression.txt")
@@ -131,23 +134,23 @@ setMethod("RunDiscretization", "IRISFGM", .runDiscretization)
 #' 'tmp_expression.txt.chars', and biclsuter block named 'tmp_expression.txt.chars.block'.
 #' @examples
 #' # based on LTMG discretization
-#' \dontrun{
-#' object <- RunBicluster(object, 
-#' DiscretizationModel = 'LTMG',
-#' OpenDual = F,
-#' NumBlockOutput = 1000, 
-#' BlockOverlap = 0.7, 
-#' BlockCellMin = 15)
-#' }
+#' # data(example_data)
+#' # example_object <- RunBicluster(example_object, 
+#' # DiscretizationModel = 'LTMG',
+#' # OpenDual = F,
+#' # NumBlockOutput = 1000, 
+#' # BlockOverlap = 0.7, 
+#' # BlockCellMin = 15)
+#' 
 #' # based on quantile discretization
-#' \dontrun{
-#' object <- RunBicluster(object, 
-#' DiscretizationModel = 'Quantile',
-#' OpenDual = F, 
-#' NumBlockOutput = 1000, 
-#' BlockOverlap = 0.7, 
-#' BlockCellMin = 15)
-#' }
+#' # data(example_data)
+#' # example_object <- RunBicluster(example_object, 
+#' # DiscretizationModel = 'Quantile',
+#' # OpenDual = F, 
+#' # NumBlockOutput = 1000, 
+#' # BlockOverlap = 0.7, 
+#' # BlockCellMin = 15)
+#' 
 .runBicluster <- function(object = NULL, DiscretizationModel = "Quantile", OpenDual = FALSE, Extension = 1.0, NumBlockOutput = 100, BlockOverlap = 0.7, BlockCellMin = 15) {
     if (DiscretizationModel != "LTMG" && DiscretizationModel != "Quantile") {
         stop("please select either LTMG or Quantile")

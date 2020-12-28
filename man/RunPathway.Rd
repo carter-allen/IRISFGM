@@ -54,6 +54,9 @@ This function is also depended on clusterProfiler, AnnotationDbi, org.Mm.eg.db, 
 \dontrun{object <- RunPathway(object = NULL,N.bicluster = NULL, selected.gene.cutoff = 0.05,
 species = 'Human', database = 'GO', genes.source = 'CTS' }
 # To rum this function based on the gene module from an identified bicluster use: 
-\dontrun{object <- RunPathway(object = NULL,N.bicluster = NULL, selected.gene.cutoff = 0.05,
-species = 'Human', database = 'GO', genes.source = 'Bicluster' }
+data("example_object")
+object <- RunPathway(object = example_object, 
+N.bicluster = 4, 
+selected.gene.cutoff = 0.05,
+species = 'Human', database = 'GO', genes.source = 'Bicluster')
 }

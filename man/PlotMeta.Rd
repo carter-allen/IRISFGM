@@ -24,5 +24,13 @@ It will generate two violin plots regarding number of RNA count and identified g
 This function can plot figure based on numebr total count information and this step is for the quality control. we shoud exclude extreme value in data.
 }
 \examples{
-\dontrun{PlotMeta(object)}
+x <- matrix(rnorm(100),ncol = 10) 
+colnames(x) <- paste0("cell",1:ncol(x))
+rownames(x) <- paste0("gene",1:nrow(x))
+my_meta <- data.frame(row.names = paste0("cell",1:ncol(x)),
+cluster = c(rep("ClusterA",5),rep("ClusterB",5)))
+object <- CreateIRISFGMObject(x)
+object <- AddMeta(object, 
+meta.info = my_meta)
+PlotMeta(object)
 }

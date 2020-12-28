@@ -55,10 +55,8 @@ This function is for finding global marker
 FindGlobalMarkers is based on Seurat FindAllMarkers and the data from Tmp.seurat slots.
 }
 \examples{
-\dontrun{
-Global_marker <- FindGlobalMarkers(object,
-idents = "Seurat0.6",
-logfc.threshold = 0.25,
-test.use = "wilcox"
-)}
+data("example_object")
+markers <- FindGlobalMarkers(
+object = example_object,
+idents = "Seurat_r_0.8_k_20")
 }

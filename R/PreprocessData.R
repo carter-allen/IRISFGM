@@ -19,7 +19,15 @@ NULL
 #' @importFrom scran quickCluster computeSumFactors
 #' @importFrom Seurat as.sparse
 #' @importFrom DrImpute DrImpute
-
+#' @import methods
+#' @import grDevices
+#' @import graphics
+#' @import utils
+#' @import knitr
+#' @examples  
+#' data("example_object")
+#' example_object <- ProcessData(example_object,
+#' normalization = "cpm")
 .processData <- function(object = NULL, 
                          normalization = "cpm", 
                          library.size = 1e+05, 

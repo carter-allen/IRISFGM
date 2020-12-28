@@ -8,9 +8,9 @@
 \usage{
 FindMarker(object, ...)
 
-.findMarker(object, SimpleResult = T, FDR = 0.05)
+.findMarker(object, SimpleResult = TRUE, FDR = 0.05)
 
-\S4method{FindMarker}{IRISFGM}(object, SimpleResult = T, FDR = 0.05)
+\S4method{FindMarker}{IRISFGM}(object, SimpleResult = TRUE, FDR = 0.05)
 }
 \arguments{
 \item{object}{input IRISFGM object}
@@ -29,4 +29,9 @@ FindMarker
 
 Find marker based on DEsingle method
 Find marker based on DEsingle method
+}
+\examples{
+data(example_object)
+# It is an interactive function which requires user to provide the preferred cell labels.
+# example_object <- FindMarker(example_object)
 }

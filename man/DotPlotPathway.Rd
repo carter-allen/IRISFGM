@@ -38,7 +38,7 @@ This function will generate dot plot for pathway enrichment results.
 Plot dotplot for enrichment pathway
 }
 \examples{
-\dontrun{
-DotPlotPathway(object,genes.source = "module" )
-}
+data("example_object")
+DotPlotPathway(example_object, genes.source = "module" )
+
 }

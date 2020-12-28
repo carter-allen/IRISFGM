@@ -12,16 +12,14 @@ ProcessData(object, ...)
   object = NULL,
   normalization = "cpm",
   library.size = 1e+05,
-  IsImputation = FALSE,
-  seed = 123
+  IsImputation = FALSE
 )
 
 \S4method{ProcessData}{IRISFGM}(
   object = NULL,
   normalization = "cpm",
   library.size = 1e+05,
-  IsImputation = FALSE,
-  seed = 123
+  IsImputation = FALSE
 )
 }
 \arguments{
@@ -35,12 +33,16 @@ ProcessData(object, ...)
 \item{library.size}{Sets the scale factor for cpm normalization}
 
 \item{IsImputation}{imputation method is provided by DrImpute. Default is FALSE.}
-
-\item{seed}{set seed for reproducibility.}
 }
 \value{
 It will processdata by normalization and imputation.
 }
 \description{
 Process data via normalization and imputation.
+}
+\examples{
+ 
+data("example_object")
+example_object <- ProcessData(example_object,
+normalization = "cpm")
 }

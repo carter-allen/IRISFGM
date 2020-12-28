@@ -28,5 +28,5 @@ GetBinaryMultiSignal
 This function is for getting multisignal from LTMG signaling matrix.
 }
 \examples{
-\dontrun{object <- CalBinaryMultiSignal(object)}
+Multisignal_matrix <- GetBinaryMultiSignal(example_object)
 }

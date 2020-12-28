@@ -33,4 +33,5 @@ Collate:
     'PlotNetwork.R'
     'PreprocessData.R'
     'RcppExports.R'
+    'data.R'
 biocViews: Software, GeneExpression, SingleCell, Clustering, DifferentialExpression, Preprocessing, DimensionReduction, Visualization, Normalization, DataImport

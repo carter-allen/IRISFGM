@@ -41,7 +41,10 @@ NULL
 #' @importFrom igraph graph_from_adjacency_matrix
 #' @importFrom ggraph ggraph geom_node_point geom_edge_arc scale_edge_width geom_node_text theme_graph
 #' @import ggplot2
-#' @examples \dontrun{object <- PlotNetwork(object,edge.by = 'gene',N.bicluster =c(1:20) )}
+#' @examples 
+#' data(example_object)
+#' PlotNetwork(example_object,
+#' N.bicluster =c(1:20))
 globalVariables(c("name", "weight", "status","weight"))
 .plotnetwork <- function(object, edge.by = "gene", lay.out = "linear", N.bicluster = c(1:20)) {
     Bic.list <- .separateBic(object)
@@ -113,7 +116,6 @@ setMethod("PlotNetwork", "IRISFGM", .plotnetwork)
 #' @param N.bicluster Should be two integers indicating the number of two biclusters.
 #' @param method Should be a statistical method to calculate edge weight based on expression data. It can be either "Spearman" (default) or "Pearson."
 #' @return get generateNetObject
-#' @importFrom  stats cor
 .generateNetObject <- function(object, N.bicluster = c(1, 5), method = "spearman") {
     groups <- N.bicluster
     tmp.data <- object@Processed_count
@@ -170,13 +172,18 @@ setMethod("PlotNetwork", "IRISFGM", .plotnetwork)
 #' @return It will generate co-expression network based on selected bicluster (can be one or multiple.)
 #' @name PlotModuleNetwork
 #'
-#' @examples \dontrun{
-#' object <- PlotModuleNetwork(object = NULL, 
-#' N.bicluster = c(1,5), 
-#' Node.color = '#E8E504', 
-#' cutoff=0.7, 
+#' @examples 
+#' data("example_object")
+#' PlotModuleNetwork(object = example_object, 
+#' method = "spearman", 
+#' node.col = "black",
+#' N.bicluster = c(1, 5),
+#' cutoff.neg = -0.8, 
+#' cutoff.pos = 0.8, 
+#' layout = "circle", 
+#' node.label = TRUE, 
 #' node.label.cex = 1) 
-#' }
+#' 
 .plotmodulenetwork <- function(object = NULL, 
                                method = "spearman",
                                node.col = "orange",

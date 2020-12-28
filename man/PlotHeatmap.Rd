@@ -11,19 +11,17 @@ PlotHeatmap(object, ...)
 .plotHeatmap(
   object = object,
   N.bicluster = c(1, 5),
-  show.overlap = F,
-  seed = 123,
-  show.annotation = F,
-  show.clusters = F
+  show.overlap = FALSE,
+  show.annotation = FALSE,
+  show.clusters = FALSE
 )
 
 \S4method{PlotHeatmap}{IRISFGM}(
   object = object,
   N.bicluster = c(1, 5),
-  show.overlap = F,
-  seed = 123,
-  show.annotation = F,
-  show.clusters = F
+  show.overlap = FALSE,
+  show.annotation = FALSE,
+  show.clusters = FALSE
 )
 }
 \arguments{
@@ -34,8 +32,6 @@ PlotHeatmap(object, ...)
 \item{N.bicluster}{Number of biclusters.}
 
 \item{show.overlap}{Parameter (logic) indicates whether the figure shows the overlap part between two selected biclusters.}
-
-\item{seed}{Set seeds for reproducibility.}
 
 \item{show.annotation}{Parameter (logic) indicates whether to show annotation (biclusters number and cell cluster labels).}
 
@@ -48,4 +44,12 @@ It will generate a heatmap based on selected two FGMs.
 PlotHeatmap
 
 plot heatmap based on bicluster
+}
+\examples{
+data(example_object)
+PlotHeatmap(example_object,
+N.bicluster = c(1,20),
+show.annotation = TRUE, 
+show.cluster =TRUE)
+
 }

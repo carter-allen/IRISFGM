@@ -5,12 +5,10 @@
 \title{Global_Zcut create Zcut 
 Global_Zcut create Zcut}
 \usage{
-Global_Zcut(MAT, seed = NULL)
+Global_Zcut(MAT)
 }
 \arguments{
 \item{MAT}{input matrix}
-
-\item{seed}{set seed}
 }
 \value{
 global_zcut

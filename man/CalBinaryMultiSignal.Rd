@@ -22,5 +22,6 @@ It will return a binary matrix based on LTMG signal matrix.
 This function is for calculating multisignal from LTMG signaling matrix.
 }
 \examples{
-\dontrun{object <- CalBinaryMultiSignal(object)}
+data("example_object")
+example_object <- CalBinaryMultiSignal(example_object)
 }

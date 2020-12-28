@@ -8,17 +8,22 @@ NULL
 #' @param object Input IRISFGM object
 #' @param show.overlap Parameter (logic) indicates whether the figure shows the overlap part between two selected biclusters.
 #' @param N.bicluster Number of biclusters.
-#' @param seed Set seeds for reproducibility.
 #' @param show.annotation Parameter (logic) indicates whether to show annotation (biclusters number and cell cluster labels).
 #' @param show.clusters Parameter (logic) indicates whether to show the cell cluster label.
 #' @return It will generate a heatmap based on selected two FGMs.
 #' @name PlotHeatmap
 #' @import pheatmap
 #' @import Polychrome RColorBrewer
+#' @examples 
+#' data(example_object)
+#' PlotHeatmap(example_object,
+#' N.bicluster = c(1,20),
+#' show.annotation = TRUE, 
+#' show.cluster =TRUE)
+#' 
 .plotHeatmap <- function(object = object, 
                          N.bicluster = c(1, 5), 
                          show.overlap = FALSE, 
-                         seed = 123, 
                          show.annotation = FALSE, 
                          show.clusters = FALSE) {
     vec.boolean <- vector(mode = "logical")

@@ -27,7 +27,6 @@ GetBinarySingleSignal
 Get binary Single Signal matrix
 }
 \examples{
-\dontrun{
-GetBinarySingleSignal(object)
-}
+Singlesignal_matrix <- GetBinarySingleSignal(example_object)
+
 }

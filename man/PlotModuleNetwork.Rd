@@ -64,11 +64,15 @@ The size of the nodes indicates the degree of presence.
  The thickness of edges indicates the value of the correlation coefficient.
 }
 \examples{
-\dontrun{
-object <- PlotModuleNetwork(object = NULL, 
-N.bicluster = c(1,5), 
-Node.color = '#E8E504', 
-cutoff=0.7, 
+data("example_object")
+PlotModuleNetwork(object = example_object, 
+method = "spearman", 
+node.col = "black",
+N.bicluster = c(1, 5),
+cutoff.neg = -0.8, 
+cutoff.pos = 0.8, 
+layout = "circle", 
+node.label = TRUE, 
 node.label.cex = 1) 
-}
+
 }

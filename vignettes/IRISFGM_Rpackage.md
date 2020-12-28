@@ -108,7 +108,8 @@ IRIS-FGM can accepted 10X chromium input files, including a folder (contain gene
 ## Input data
 
 1. set working directory and import library
-```{r setwd, eval =TRUE, echo = TRUE}
+
+```r
 # dir.create("your working directory",recursive = TRUE)
 # setwd("your working directory")
 library(IRISFGM)
@@ -125,7 +126,9 @@ library(IRISFGM)
 
 First, we should download data from the link, then we will use this data set as example to run the pipeline.
 
-```{r txt, eval= TRUE, echo = TRUE}
+
+```r
+download.file("https://bmbl.bmi.osumc.edu/downloadFiles/Yan_cell_label.txt",destfile = "./Yan_cell_label.txt")
 InputMatrix <- read.table(url("https://bmbl.bmi.osumc.edu/downloadFiles/Yan_expression.txt"),
                           header = TRUE, 
                           row.names = 1,
@@ -136,157 +139,50 @@ InputMatrix <- read.table(url("https://bmbl.bmi.osumc.edu/downloadFiles/Yan_expr
 
 1. For the computational efficiency, we will use subsampling data, and create IRIS-FGM object.
 
-```{r create_object, eval= TRUE, echo = TRUE,message=TRUE}
+
+```r
 set.seed(123)
 seed_idx <- sample(1:nrow(InputMatrix),3000)
 InputMatrix_sub <- InputMatrix[seed_idx,]
 object <- CreateIRISFGMObject(InputMatrix_sub)
 ```
 
+```
+## Creating IRISCEM object. 
+## The original input file contains 90 cells and 3000 genes 
+## Removed 97 genes that total expression value is equal or less than 0
+## Removed 0 cells that number of expressed gene is equal or less than 0
+```
+
 2. Addmeta: this step can add customized cell label by user, the format of file passing to `meta.info` is data frame of which row name should be cell ID, and column name should be cell type.    
-```{r add_metadata, eval= TRUE, echo = TRUE}
-my_meta <- read.table(url("https://bmbl.bmi.osumc.edu/downloadFiles/Yan_cell_label.txt"),header = TRUE,row.names = 1)
-object <- AddMeta(object, meta.info = my_meta)
-```
-
-3. plotmeta: plot meta information based on RNA count and Feature number. This step is for the following subset step in terms of filtering out low quality data.    
-```{r plot_metadata,eval= TRUE, echo = TRUE}
-PlotMeta(object)
-```
-
-
-4. remove low quality data based on the previous plot.
-```{r subset_data,eval= TRUE, echo =  TRUE}
-object <- SubsetData(object , nFeature.upper=2000,nFeature.lower=250)
-```
-
-## Preprocesing 
-
-User can choose perform normalization or imputation based on their need. The normalization method has two options, one is the simplist CPM normalization (default `normalization = 'cpm'`). The other is from package scran and can be opened by using parameter `normalization = 'scran'`, . The imputation method is from package DrImpute and can be opened by using parameter `IsImputation = TRUE` (default as closed).
-```{r ProcessData,echo = TRUE, eval= TRUE}
-object <- ProcessData(object, normalization = "cpm", IsImputation = FALSE)
-```
-
-
-# 2. Run LTMG
-
-The argument `Gene_use = 500` is  top 500 highlt variant genes which are selected to run LTMG. For quick mode, we recommend to use top 2000 gene (here we use top 500 gene for saving time). On the contrary, for co-expression gene analysis, we recommend to use all gene by changing `Gene_use = "all"`. 
-```{r run_LTMG, echo = TRUE,eval = FALSE}
-# do not show progress bar
-quiet <- function(x) { 
-  sink(tempfile()) 
-  on.exit(sink()) 
-  invisible(force(x)) 
-} 
-# demo only run top 500 gene for saving time.
-object <- quiet(RunLTMG(object, Gene_use = "500"))
-# you can get LTMG signal matrix
-LTMG_Matrix <- GetLTMGmatrix(object)
-LTMG_Matrix[1:5,1:5]
-```
-
-
-# 3. Biclustering
-
-IRIS-FGM can provide biclustering function, which is based on our in-house novel algorithm, 
-QUBIC2 (<https://github.com/maqin2001/qubic2>). Here we will show the basic biclustering 
-usage of IRIS-FGM using a $500\times 87$ expression matrix generated from previous top 500 variant genes. 
-However, we recommend user should use `Gene_use = all` to generate LTMG matrix. 
-
-## LTMG-discretized bicluster (recommend for small single cell RNA-seq data)
-User can type the following command to run discretization (LTMG) + biclustering directly:
-```{r biclustering_basedLTMG,eval= FALSE,echo = TRUE}
-object <- CalBinaryMultiSignal(object)
-object <- RunBicluster(object, DiscretizationModel = "LTMG",OpenDual = FALSE,
-                       NumBlockOutput = 100, BlockOverlap = 0.5, BlockCellMin = 25)
-
-```
-
-## Quantile-discretized bicluster (recommend for bulk RNA-Seq, microarray data, or large single cell RNA-Seq data)
-
-This will output several files, and among them you will find one named  `tmp_expression.txt.chars.blocks`,which contains the predicted biclusters.
-Or, user may use first version discretization strategy provided by QUBIC 1.0.
-```{r biclustering_basedQuantile,eval=FALSE,echo = TRUE}
-object <- RunDiscretization(object)
-object <- RunBicluster(object, DiscretizationModel = "Quantile",OpenDual = FALSE,
-                       NumBlockOutput = 100, BlockOverlap = 0.5, BlockCellMin = 25)
-```
-
-
-(The default parameters in IRIS-FGM are BlockCellMin=15, BlockOverlap=0.7,
-Extension=0.90, NumBlockOutput=100 you may use other parameters as you like, just specify them in the argument)
-
-
-# 4. Cell clustering
-
-## 4.1 Perform dimension Reduction and implement Seurat clustering method.
-User can use `reduction = "umap"` or `reductopm = "tsne"` to perform dimension reduction. 
-```{r Run_dimReduce, eval= FALSE, echo = TRUE}
-# demo only run top 500 gene for saving time.
-object <- RunDimensionReduction(object, mat.source = "UMImatrix",reduction = "umap")
-object <- RunClassification(object, k.param = 20, resolution = 0.8, algorithm = 1)
-```
-
-## 4.2 Predict cell clusters based on Markove clustering
-
-The cell cluster prediction of IRIS-FGM is based on the biclustering results. 
-In short, it will construct a weighted graph based on the biclusters and then do clustering on the weighted graph. To facilitate the process, we will use the pre-generated object to perform cell clustering result based on biclustering results.
-```{r cell_type, eval=FALSE, echo =TRUE}
-object <- FindClassBasedOnMC(object)
-```
-```{r load_example_object, eval= TRUE, echo = TRUE}
-data("example_object")
-example_object@MetaInfo[1:5,]
-```
-
-# 5. Visualization and interpretation
-## 5.1 Bicluster results
-### Check gene overlapping of FGMs. The results show first 19 FMGs have overlapping genes, and there is no overlapping gene between first 1 FMGs and the 15th FGM.
-```{r bicluster_network, eval=TRUE, echo =TRUE}
-PlotNetwork(example_object,N.bicluster = c(1:20))
-```
-
-### Perform pathway enrichment analysis on the selected the 1st FGM and visualize the results.
-```{r bicluster_pathway, eval=TRUE, echo =TRUE}
-example_object <- RunPathway(example_object, N.bicluster =4, species = "Human",database = "GO",genes.source = "Bicluster")
-DotPlotPathway(example_object,genes.source = "Bicluster")
-```
-
-### Heatmap shows relations between any two biclusters (1th and 15th bicluster). 
-```{r bicluster_heatmap, eval=TRUE, echo =TRUE}
-PlotHeatmap(example_object,N.bicluster = c(1, 20),show.clusters = TRUE,show.annotation=TRUE)
-```
-
-### Co-expression network shows gene correlation relations in one select FGM. 
-```{r bicluster_network_module, eval=TRUE, echo =TRUE}
-PlotModuleNetwork(example_object,N.bicluster = 3,method = "spearman",
-                  cutoff.neg = -0.5,
-                  cutoff.pos = 0.5,
-                  layout = "circle",
-                  node.label = TRUE,
-                  node.col = "black",
-                  node.label.cex = 10)
-
-```
-
-## 5.1 cell clustering results
-### Visualize cell clustering results
-```{r cell_clustering_umap, eval=TRUE, echo =TRUE}
-# cell clustering results based on Seurat clustering method 
-PlotDimension(example_object,  reduction = "umap",idents = "Seurat_r_0.8_k_20")
-# cell clustering results based on MCL clustering method 
-PlotDimension(example_object, reduction = "umap",idents = "MC_Label")
-```
-
-### Find global marker based on Seurat method 
-```{r cell_clustering_globalmarker, eval=TRUE, echo =TRUE}
-global_marker <- FindGlobalMarkers(example_object,idents = "Seurat_r_0.8_k_20")
-PlotMarkerHeatmap(Globalmarkers = global_marker,object = example_object,idents ="Seurat_r_0.8_k_20")
-```
 
 
 
-# sessioninfo
-```{r}
-sessionInfo()
-```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

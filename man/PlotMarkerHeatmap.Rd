@@ -38,11 +38,14 @@ PlotMarkerHeatmap will visualize global marker
 This function will generate global marker gene heatmap
 }
 \examples{
-\dontrun{
-markers <- FindGlobalMarkers(Global_marker,
-object = object,
-idents = "Seurat0.6",
-top.gene = 50,
-scale = "row")
-}
+data("example_object")
+markers <- FindGlobalMarkers(
+object = example_object,
+idents = "Seurat_r_0.8_k_20")
+
+PlotMarkerHeatmap(
+Globalmarkers = markers,
+object = example_object,
+idents = "Seurat_r_0.8_k_20")
+
 }

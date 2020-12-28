@@ -10,10 +10,16 @@ NULL
 #'
 #' @return It will add meta informatoin to IRISFGM.
 #' @name AddMeta
-#' @examples \dontrun{
-#' AddMeta(object, 
-#' meta.info = my.meta)
-#' }  
+#' @examples 
+#' x <- matrix(rnorm(100),ncol = 10) 
+#' colnames(x) <- paste0("cell",1:ncol(x))
+#' rownames(x) <- paste0("gene",1:nrow(x))
+#' my_meta <- data.frame(row.names = paste0("cell",1:ncol(x)),
+#' cluster = c(rep("ClusterA",5),rep("ClusterB",5)))
+#' object <- CreateIRISFGMObject(x)
+#' object <- AddMeta(object, 
+#' meta.info = my_meta)
+#'
 .addMeta <- function(object = NULL, meta.info = NULL) {
     if (is.null(meta.info)) {
         message("Do not provide meta info table for the object.")
@@ -48,7 +54,16 @@ globalVariables(c("RNA_count.name","RNA_count","Feature_number.name","Feature_nu
 #' @name PlotMeta
 #' @return It will generate two violin plots regarding number of RNA count and identified gene number.
 #'
-#' @examples \dontrun{PlotMeta(object)}
+#' @examples 
+#' x <- matrix(rnorm(100),ncol = 10) 
+#' colnames(x) <- paste0("cell",1:ncol(x))
+#' rownames(x) <- paste0("gene",1:nrow(x))
+#' my_meta <- data.frame(row.names = paste0("cell",1:ncol(x)),
+#' cluster = c(rep("ClusterA",5),rep("ClusterB",5)))
+#' object <- CreateIRISFGMObject(x)
+#' object <- AddMeta(object, 
+#' meta.info = my_meta)
+#' PlotMeta(object)
 .plotMeta <- function(object = NULL) {
     if (is.null(object@MetaInfo)) {
         stop("Can not find meta data, please run AddMeta")
@@ -80,12 +95,12 @@ setMethod("PlotMeta", "IRISFGM", .plotMeta)
 #' @return it will filter out some cell regarding threshhold.
 #'
 #' @examples # Use Yan's data which posts on github tutorial
-#' \dontrun{ 
-#' object <- SubsetData(object, 
+#' data("example_object")
+#' example_object <- SubsetData(example_object, 
 #'     nFeature.upper=15000,
 #'     nFeature.lower=8000, 
 #'     Counts.upper=700000,
-#'     Counts.lower=400000)}
+#'     Counts.lower=400000)
 #' 
 .subset_data <- function(object, nFeature.upper = Inf, nFeature.lower = -Inf, Counts.upper = Inf, Counts.lower = -Inf) {
     Meta <- object@MetaInfo

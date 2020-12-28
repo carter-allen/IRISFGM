@@ -8,9 +8,9 @@
 \usage{
 RunLTMG(object, ...)
 
-.RunLTMG(object, Gene_use = NULL, seed = 123, k = 5)
+.RunLTMG(object, Gene_use = NULL, k = 5)
 
-\S4method{RunLTMG}{IRISFGM}(object, Gene_use = NULL, seed = 123, k = 5)
+\S4method{RunLTMG}{IRISFGM}(object, Gene_use = NULL, k = 5)
 }
 \arguments{
 \item{object}{Input IRIS-FGM object}
@@ -18,8 +18,6 @@ RunLTMG(object, ...)
 \item{...}{other arguments passed to methods}
 
 \item{Gene_use}{using X numebr of top variant gene. input a number, recommend 2000.}
-
-\item{seed}{Set seeds for reproducibility}
 
 \item{k}{Number of components.}
 }
@@ -31,16 +29,9 @@ We will use Left-truncated Mixture Gaussian distribution to model the regulatory
 }
 \examples{
 # If you want to explore DEG, we recommend you should use top 2000 highly variant gene. 
-\dontrun{
-object <- RunLTMG(object,
-Gene_use = 2000, 
-seed = 123, 
+data("example_object")
+example_object <- RunLTMG(example_object,
+Gene_use = 2000,
 k = 5)
-}
-# If you want to run bicluster based on LTMG model, we recommend you should use all genes.
-\dontrun{
-object <- RunLTMG(object,
-Gene_use ='all', 
-seed = 123, 
-k = 5)}
+
 }

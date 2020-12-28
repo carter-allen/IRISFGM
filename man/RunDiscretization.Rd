@@ -25,3 +25,7 @@ It will generate quantile based binary matrix.
 \description{
 Run discretization based on Quantile method
 }
+\examples{
+# data(example_object)
+# example_object <- RunDiscretization(example_object, q = 0.06)
+}

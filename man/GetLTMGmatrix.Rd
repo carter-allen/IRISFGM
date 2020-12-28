@@ -24,7 +24,6 @@ It will reture LTMG signal matrix.
 Get LTMG matrix
 }
 \examples{
-\dontrun{
-GetLTMGmatrix(object)
-}
+LTMG_signalmatrix <- GetLTMGmatrix(example_object)
+
 }

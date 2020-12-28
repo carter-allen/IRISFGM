@@ -319,26 +319,19 @@ LTMG <- function(VEC, Zcut_G, k = 5) {
 #' @return it will reture a LTMG signal matrix
 #' @importFrom AdaptGauss Intersect2Mixtures
 #' @importFrom mixtools normalmixEM
-#' @importFrom stats sd
+#' @import stats
 #' @examples # If you want to explore DEG, we recommend you should use top 2000 highly variant gene. 
-#' \dontrun{
-#' object <- RunLTMG(object,
-#' Gene_use = 2000, 
-#' seed = 123, 
+#' data("example_object")
+#' example_object <- RunLTMG(example_object,
+#' Gene_use = 2000,
 #' k = 5)
-#' }
-#' # If you want to run bicluster based on LTMG model, we recommend you should use all genes.
-#' \dontrun{
-#' object <- RunLTMG(object,
-#' Gene_use ='all', 
-#' seed = 123, 
-#' k = 5)}
+#' 
 .RunLTMG <- function(object, Gene_use = NULL, k = 5) {
     MAT <- as.matrix(object@Processed_count)
     # set.seed(seed)
     MAT <- ifelse(is.na(MAT), 0, MAT)
     MAT <- MAT[rowSums(MAT) > 0, colSums(MAT) > 0]
-    Zcut_G <- log(Global_Zcut(MAT, seed = seed))
+    Zcut_G <- log(Global_Zcut(MAT))
     LTMG_Res <- c()
     gene_name <- c()
     if (is.null(Gene_use) || grepl("all", Gene_use, ignore.case = TRUE)) {
@@ -441,9 +434,9 @@ setMethod("RunLTMG", "IRISFGM", .RunLTMG)
 #' 
 #' @param object Input IRIS-FGM object
 #' @return It will reture LTMG signal matrix.
-#' @examples \dontrun{
-#' GetLTMGmatrix(object)
-#' }
+#' @examples 
+#' LTMG_signalmatrix <- GetLTMGmatrix(example_object)
+#' 
 .GetLTMGmatrix <- function(object) {
     tmp <- object@LTMG@LTMG_discrete
     return(tmp)
@@ -464,9 +457,10 @@ setMethod("GetLTMGmatrix", "IRISFGM", .GetLTMGmatrix)
 #'
 #' @return It will return a binary matrix based on LTMG signal matrix.
 #'
-#' @examples \dontrun{
-#' object <- CalBinarySingleSignal(object)
-#' }
+#' @examples 
+#' data("example_object")
+#' example_object <- CalBinarySingleSignal(example_object)
+#' 
 .CalBinarySingleSignal <- function(object = NULL) {
     MAT <- object@LTMG@LTMG_discrete
     SingleSignal <- ifelse(MAT > 0, 1, MAT)
@@ -486,9 +480,9 @@ setMethod("CalBinarySingleSignal", "IRISFGM", .CalBinarySingleSignal)
 #'
 #' @return It will export the Binarized matrix based on LTMG signal matrix.
 #'
-#' @examples \dontrun{
-#' GetBinarySingleSignal(object)
-#' }
+#' @examples
+#' Singlesignal_matrix <- GetBinarySingleSignal(example_object)
+#' 
 .GetBinarySingleSignal <- function(object = NULL) {
     tmp <- object@LTMG@LTMG_BinarySingleSignal
     return(tmp)
@@ -506,7 +500,9 @@ setMethod("GetBinarySingleSignal", "IRISFGM", .GetBinarySingleSignal)
 #'
 #' @return It will return a binary matrix based on LTMG signal matrix.
 #'
-#' @examples \dontrun{object <- CalBinaryMultiSignal(object)}
+#' @examples 
+#' data("example_object")
+#' example_object <- CalBinaryMultiSignal(example_object)
 .CalBinaryMultiSignal <- function(object = NULL) {
     x <- object@LTMG@LTMG_discrete
     x <- x[rowSums(x) > 0, ]
@@ -551,7 +547,8 @@ setMethod("CalBinaryMultiSignal", "IRISFGM", .CalBinaryMultiSignal)
 #'
 #' @return It will get a binary matrix based on LTMG signal matrix.
 #'
-#' @examples \dontrun{object <- CalBinaryMultiSignal(object)}
+#' @examples 
+#' Multisignal_matrix <- GetBinaryMultiSignal(example_object)
 .GetBinaryMultiSignal <- function(object = NULL) {
     tmp <- object@LTMG@LTMG_BinaryMultisignal
     return(tmp)

@@ -12,7 +12,10 @@ NULL
 #' @name FindMarker
 #' @return It will return differentially expressed gene based on DEsingle method.
 #' @importFrom DEsingle DEsingle DEtype
-#'
+#' @examples 
+#' data(example_object)
+#' # It is an interactive function which requires user to provide the preferred cell labels.
+#' # example_object <- FindMarker(example_object)
 .findMarker <- function(object, SimpleResult = TRUE, FDR = 0.05) {
     # two group number as factor.
     message("select condition to compare")
@@ -95,12 +98,11 @@ setMethod("FindMarker", "IRISFGM", .findMarker)
 #' @return Output is a differentially expressed gene list
 #' @importFrom Seurat Idents FindAllMarkers AddMetaData Idents<-
 #'
-#' @examples \dontrun{
-#' Global_marker <- FindGlobalMarkers(object,
-#' idents = "Seurat0.6",
-#' logfc.threshold = 0.25,
-#' test.use = "wilcox"
-#' )}
+#' @examples
+#' data("example_object")
+#' markers <- FindGlobalMarkers(
+#' object = example_object,
+#' idents = "Seurat_r_0.8_k_20")
 .findglobalMarkers <- function(object = NULL, idents = NULL, logfc.threshold = 0.25, test.use = "wilcox", only.pos = TRUE, random.seed = 1, min.pct = 0.1) {
     tmp.seurat <- object@LTMG@Tmp.seurat
     tmp.seurat <- AddMetaData(tmp.seurat, metadata = object@MetaInfo)
@@ -139,14 +141,19 @@ setMethod("FindGlobalMarkers", "IRISFGM", .findglobalMarkers)
 #' @return heatmap
 #' @name PlotMarkerHeatmap
 #' @export
-#' @import colorspace Polychrome
-#' @examples \dontrun{
-#' markers <- FindGlobalMarkers(Global_marker,
-#' object = object,
-#' idents = "Seurat0.6",
-#' top.gene = 50,
-#' scale = "row")
-#' }
+#' @import Polychrome
+#' @importFrom colorspace qualitative_hcl
+#' @examples 
+#' data("example_object")
+#' markers <- FindGlobalMarkers(
+#' object = example_object,
+#' idents = "Seurat_r_0.8_k_20")
+#' 
+#' PlotMarkerHeatmap(
+#' Globalmarkers = markers,
+#' object = example_object,
+#' idents = "Seurat_r_0.8_k_20")
+#' 
 PlotMarkerHeatmap <- function(Globalmarkers = NULL, 
                               object = NULL,
                               idents = NULL, 

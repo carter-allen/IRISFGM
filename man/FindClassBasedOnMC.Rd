@@ -31,7 +31,7 @@ If you have a large dataset, We recommend you should use Seurat clustering wrapp
 \code{\link{RunDimensionReduction}}, and \code{\link{RunClassification}}.
 }
 \examples{
-\dontrun{
-object <- FindClassBasedOnMC(object)
-}
+# data(example_object)
+# example_object <- FindClassBasedOnMC(example_object)
+
 }

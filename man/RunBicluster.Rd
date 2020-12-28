@@ -54,21 +54,21 @@ This function will identify the Biclusters based on LTMG or Quantile normalizati
 }
 \examples{
 # based on LTMG discretization
-\dontrun{
-object <- RunBicluster(object, 
-DiscretizationModel = 'LTMG',
-OpenDual = F,
-NumBlockOutput = 1000, 
-BlockOverlap = 0.7, 
-BlockCellMin = 15)
-}
+# data(example_data)
+# example_object <- RunBicluster(example_object, 
+# DiscretizationModel = 'LTMG',
+# OpenDual = F,
+# NumBlockOutput = 1000, 
+# BlockOverlap = 0.7, 
+# BlockCellMin = 15)
+
 # based on quantile discretization
-\dontrun{
-object <- RunBicluster(object, 
-DiscretizationModel = 'Quantile',
-OpenDual = F, 
-NumBlockOutput = 1000, 
-BlockOverlap = 0.7, 
-BlockCellMin = 15)
-}
+# data(example_data)
+# example_object <- RunBicluster(example_object, 
+# DiscretizationModel = 'Quantile',
+# OpenDual = F, 
+# NumBlockOutput = 1000, 
+# BlockOverlap = 0.7, 
+# BlockCellMin = 15)
+
 }

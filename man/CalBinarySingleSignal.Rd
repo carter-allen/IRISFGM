@@ -26,7 +26,7 @@ CalBinarySingleSignal
 Binarizing single signal function via distinguishing zero or non-zero value based on LTMG matrix
 }
 \examples{
-\dontrun{
-object <- CalBinarySingleSignal(object)
-}
+data("example_object")
+example_object <- CalBinarySingleSignal(example_object)
+
 }
