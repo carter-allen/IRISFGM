@@ -262,9 +262,8 @@ SeparateKRpkmNewLRPlus <- function(x, n, q, r, s = 0.05, k = 2, err = 1e-10, M =
         }
         return(results_c)
     }
-    
     if (is.na(max(x_r.length[x_r.input]) < 5)) {
-        browser()
+       # browser()
     }
     if (max(x_r.length[x_r.input]) < 5) {
         warning("Too little non-zero part, forced ZIG\n")
@@ -367,7 +366,7 @@ SeparateKRpkmNewLRPlus <- function(x, n, q, r, s = 0.05, k = 2, err = 1e-10, M =
                 print(col)
                 print(dnorm(x_r[[col]][1], mean[1, col], sd[1, col]))
                 print(dnorm(x_r[[col]][2], mean[2, col], sd[2, col]))
-                browser()
+                #browser()
             }
             if (anyNA(mean0)) {
                 warning("mean0 conttains NA\n")

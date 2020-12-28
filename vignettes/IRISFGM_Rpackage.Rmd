@@ -10,7 +10,7 @@ output:
     toc: yes
     highlight: pygments
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteIndexEntry{IRIS-FGM vignette}
   %\VignetteEngine{knitr::rmarkdown}
   \usepackage[utf8]{inputenc}
 ---
@@ -87,7 +87,7 @@ When you perform co-expression analysis, it will output several intermediate fil
 
 For installation, simply type the following command in your R console, please select option 3 when R asks user to update packages:
 
-`devtools::install_github("BMEngineeR/IRISFGM", force = T)`
+`devtools::install_github("BMEngineeR/IRISFGM", force = TRUE)`
 
 
 # Example dataset
@@ -127,7 +127,10 @@ First, we should download data from the link, then we will use this data set as 
 
 ```{r txt, eval= TRUE, echo = TRUE}
 download.file("https://bmbl.bmi.osumc.edu/downloadFiles/Yan_cell_label.txt",destfile = "./Yan_cell_label.txt")
-InputMatrix <- read.table(url("https://bmbl.bmi.osumc.edu/downloadFiles/Yan_expression.txt"),header = T, row.names = 1,check.names = F)
+InputMatrix <- read.table(url("https://bmbl.bmi.osumc.edu/downloadFiles/Yan_expression.txt"),
+                          header = TRUE, 
+                          row.names = 1,
+                          check.names = FALSE)
 ```
 
 ## Add meta information
@@ -143,7 +146,7 @@ object <- CreateIRISFGMObject(InputMatrix_sub)
 
 2. Addmeta: this step can add customized cell label by user, the format of file passing to `meta.info` is data frame of which row name should be cell ID, and column name should be cell type.    
 ```{r add_metadata, eval= TRUE, echo = TRUE}
-my_meta <- read.table("~/Vignette/vignette_YAN/Yan_cell_label.txt",header = T,row.names = 1)
+my_meta <- read.table("~/Vignette/vignette_YAN/Yan_cell_label.txt",header = TRUE,row.names = 1)
 object <- AddMeta(object, meta.info = my_meta)
 ```
 
@@ -195,7 +198,7 @@ However, we recommend user should use `Gene_use = all` to generate LTMG matrix.
 User can type the following command to run discretization (LTMG) + biclustering directly:
 ```{r biclustering_basedLTMG,eval= FALSE,echo = TRUE}
 object <- CalBinaryMultiSignal(object)
-object <- RunBicluster(object, DiscretizationModel = "LTMG",OpenDual = F,
+object <- RunBicluster(object, DiscretizationModel = "LTMG",OpenDual = FALSE,
                        NumBlockOutput = 100, BlockOverlap = 0.5, BlockCellMin = 25)
 
 ```
@@ -206,7 +209,7 @@ This will output several files, and among them you will find one named  `tmp_exp
 Or, user may use first version discretization strategy provided by QUBIC 1.0.
 ```{r biclustering_basedQuantile,eval=FALSE,echo = TRUE}
 object <- RunDiscretization(object)
-object <- RunBicluster(object, DiscretizationModel = "Quantile",OpenDual = F,
+object <- RunBicluster(object, DiscretizationModel = "Quantile",OpenDual = FALSE,
                        NumBlockOutput = 100, BlockOverlap = 0.5, BlockCellMin = 25)
 ```
 
@@ -222,7 +225,7 @@ User can use `reduction = "umap"` or `reductopm = "tsne"` to perform dimension r
 ```{r Run_dimReduce, eval= TRUE, echo = TRUE}
 # demo only run top 500 gene for saving time.
 object <- RunDimensionReduction(object, mat.source = "UMImatrix",reduction = "umap")
-object <- RunClassification(object,  k.param = 20, resolution = 0.8, algorithm = 1)
+object <- RunClassification(object, k.param = 20, resolution = 0.8, algorithm = 1)
 ```
 
 ## 4.2 Predict cell clusters based on Markove clustering
@@ -249,7 +252,7 @@ DotPlotPathway(object,genes.source = "Bicluster")
 
 ### Heatmap shows relations between any two biclusters (1th and 15th bicluster). 
 ```{r bicluster_heatmap, eval=TRUE, echo =TRUE}
-PlotHeatmap(object,N.bicluster = c(1, 15),show.clusters = T,show.annotation=T)
+PlotHeatmap(object,N.bicluster = c(1, 15),show.clusters = TRUE,show.annotation=TRUE)
 ```
 
 ### Co-expression network shows gene correlation relations in one select FGM. 
@@ -258,7 +261,7 @@ PlotModuleNetwork(object,N.bicluster = 20,method = "spearman",
                   cutoff.neg = -0.5,
                   cutoff.pos = 0.5,
                   layout = "circle",
-                  node.label = T,
+                  node.label = TRUE,
                   node.col = "black",
                   node.label.cex = 10)
 

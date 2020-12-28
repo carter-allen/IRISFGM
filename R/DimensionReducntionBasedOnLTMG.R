@@ -37,12 +37,14 @@ NULL
     }
     Tmp.seurat <- suppressMessages(RunPCA(Tmp.seurat, features = rownames(Tmp.seurat@assays$RNA)))
     object@LTMG@DimReduce@PCA <- Tmp.seurat@reductions$pca@cell.embeddings
-    if (grepl("tsne", reduction, ignore.case = T) || grepl("umap", reduction, ignore.case = T)) {
-        if (grepl("tsne", reduction, ignore.case = T)) {
-            Tmp.seurat <- RunTSNE(Tmp.seurat, dims = dims, seed.use = seed, perplexity = perplexity)
+    if (grepl("tsne", reduction, ignore.case = TRUE) || grepl("umap", reduction, ignore.case = TRUE)) {
+        if (grepl("tsne", reduction, ignore.case = TRUE)) {
+            Tmp.seurat <- RunTSNE(Tmp.seurat, dims = dims, 
+                                  seed.use = seed, 
+                                  perplexity = perplexity)
             object@LTMG@DimReduce@TSNE <- Tmp.seurat@reductions$tsne@cell.embeddings
         }
-        if (grepl("umap", reduction, ignore.case = T)) {
+        if (grepl("umap", reduction, ignore.case = TRUE)) {
             Tmp.seurat <- suppressMessages(RunUMAP(Tmp.seurat, dims = dims))
             object@LTMG@DimReduce@UMAP <- Tmp.seurat@reductions$umap@cell.embeddings
         }
@@ -119,13 +121,13 @@ setMethod("RunClassification", "IRISFGM", .runClassification)
 #' @examples \dontrun{PlotDimension(object)}
 .plotDimension <- function(object, reduction = "umap", pt_size = 1,idents = NULL) {
     
-    if (grepl("tsne", reduction, ignore.case = T) || grepl("umap", reduction, ignore.case = T) || grepl("pca", reduction, ignore.case = T)) {
+    if (grepl("tsne", reduction, ignore.case = TRUE) || grepl("umap", reduction, ignore.case = TRUE) || grepl("pca", reduction, ignore.case = TRUE)) {
         
-        if (grepl("tsne", reduction, ignore.case = T)) {
+        if (grepl("tsne", reduction, ignore.case = TRUE)) {
             tmp.plot.table <- object@LTMG@DimReduce@TSNE[, c(1, 2)]
-        } else if (grepl("umap", reduction, ignore.case = T)) {
+        } else if (grepl("umap", reduction, ignore.case = TRUE)) {
             tmp.plot.table <- object@LTMG@DimReduce@UMAP[, c(1, 2)]
-        } else if (grepl("tsne", reduction, ignore.case = T)) {
+        } else if (grepl("tsne", reduction, ignore.case = TRUE)) {
             tmp.plot.table <- object@LTMG@DimReduce@PCA[, c(1, 2)]
         }
     } else {
@@ -144,12 +146,17 @@ setMethod("RunClassification", "IRISFGM", .runClassification)
     tmp.ident <- object@MetaInfo[, idents]
     # check name later add
     tmp.plot.table <- cbind.data.frame(tmp.plot.table, Cell_type = as.character(tmp.ident))
-    p.cluster <- ggplot(tmp.plot.table, aes(x = tmp.plot.table[, 1], y = tmp.plot.table[, 2], col = tmp.plot.table[, "Cell_type"]))
-    
+    p.cluster <- ggplot(tmp.plot.table, 
+                        aes(x = tmp.plot.table[, 1], 
+                            y = tmp.plot.table[, 2], 
+                            col = tmp.plot.table[, "Cell_type"])
+                        )
     p.cluster <- p.cluster + geom_point(stroke = pt_size, size = pt_size)
     
-    p.cluster <- p.cluster + guides(colour = guide_legend(override.aes = list(size = 5))) + labs(color = idents) + xlab("Dimension 1") + 
-        ylab("Dimentsion 2")
+    p.cluster <- p.cluster + 
+      guides(colour = guide_legend(override.aes = list(size = 5))) + 
+      labs(color = idents) + xlab("Dimension 1") + 
+      ylab("Dimentsion 2")
     p.cluster <- p.cluster + theme_classic()
     print(p.cluster)
 }
@@ -157,6 +164,7 @@ setMethod("RunClassification", "IRISFGM", .runClassification)
 #' @rdname PlotDimension
 #' @export
 setMethod("PlotDimension", "IRISFGM", .plotDimension)
+
 
 
 

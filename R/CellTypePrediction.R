@@ -54,7 +54,7 @@ GRAPH <- function(blocks) {
 #' @return MCL clustering results
 #'
 MCL <- function(Raw, blocks) {
-    RAW <- read.table(Raw, header = T, sep = "\t")
+    RAW <- read.table(Raw, header = TRUE, sep = "\t")
     CellNum <- dim(RAW)[2] - 1  # the number of cells
     Graph <- GRAPH(blocks)
     G <- igraph::graph.data.frame(Graph, directed = FALSE)  # convert file into graph
@@ -69,7 +69,7 @@ MCL <- function(Raw, blocks) {
     KK <- as.data.frame(do.call(rbind, lapply(CLUST, "[[", 1)))  # extract the number of clusters
     CAN_I <- c(which(as.numeric(as.character(KK$V1)) >= 2))  # results that has more than 5 clusters
     tt <- as.numeric(as.character(KK$V1))
-    tt <- sort(table(tt), decreasing = T)[1]
+    tt <- sort(table(tt), decreasing = TRUE)[1]
     Final_K <- as.numeric(names(tt))
     
     if (length(CAN_I) != 0) {
@@ -95,7 +95,9 @@ MCL <- function(Raw, blocks) {
         } else {
             LEFT <- setdiff(names(RAW)[-1], V_name)
             LEFT_Cluster <- rep(Final_K + 1, length(LEFT))
-            df_cell_label <- data.frame(cell = c(names(memb), LEFT), cluster = c(memb, LEFT_Cluster), K = rep(Final_K + 1, CellNum))
+            df_cell_label <- data.frame(cell = c(names(memb), LEFT), 
+                                        cluster = c(memb, LEFT_Cluster), 
+                                        K = rep(Final_K + 1, CellNum))
             label <- df_cell_label$cluster
         }
     } else {
@@ -115,7 +117,7 @@ MCL <- function(Raw, blocks) {
 #' @importFrom igraph as_adjacency_matrix
 #' @importFrom anocva spectralClustering
 SC <- function(Raw, blocks, K) {
-    RAW <- read.table(Raw, header = T, sep = "\t")  # expression data
+    RAW <- read.table(Raw, header = TRUE, sep = "\t")  # expression data
     CellNum <- dim(RAW)[2] - 1  # the number of cells
     Graph <- GRAPH(blocks)
     G <- igraph::graph.data.frame(Graph, directed = FALSE)  # convert file into graph
@@ -178,7 +180,7 @@ CLUSTERING <- function(Raw, blocks, method = "MCL", K = NULL) {
     # chars file
     input <- paste0(getwd(), "/tmp_expression.txt.chars")
     tmp.label <- CLUSTERING(input, paste0(input, ".blocks"), method, K = K)  # not sure how to deal with that K
-    if (any(grepl("MC", colnames(object@MetaInfo), ignore.case = T))) {
+    if (any(grepl("MC", colnames(object@MetaInfo), ignore.case = TRUE))) {
         number.bric.label <- length(grep("MC", colnames(object@MetaInfo)))
         bric.label.orginal.name <- colnames(object@MetaInfo)[grep("MC", colnames(object@MetaInfo))]
         object@MetaInfo <- cbind(object@MetaInfo, MC_Label = tmp.label)

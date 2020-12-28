@@ -46,7 +46,8 @@ globalVariables(c("name", "weight", "status","weight"))
 .plotnetwork <- function(object, edge.by = "gene", lay.out = "linear", N.bicluster = c(1:20)) {
     Bic.list <- .separateBic(object)
     Bic.list.select <- Bic.list[N.bicluster]
-    ntwork.adjacency.mtx <- matrix(1:(length(N.bicluster) * length(N.bicluster)), nrow = length(N.bicluster))
+    ntwork.adjacency.mtx <- matrix(1:(length(N.bicluster) * length(N.bicluster)),
+                                   nrow = length(N.bicluster))
     rownames(ntwork.adjacency.mtx) <- colnames(ntwork.adjacency.mtx) <- names(Bic.list.select)
     for (i in 1:nrow(ntwork.adjacency.mtx)) {
         for (j in 1:ncol(ntwork.adjacency.mtx)) {
@@ -54,17 +55,23 @@ globalVariables(c("name", "weight", "status","weight"))
             tmp.block.2 <- Bic.list.select[[colnames(ntwork.adjacency.mtx)[j]]]
             if (edge.by == "gene") {
                 n.intersect <- length(intersect(rownames(tmp.block.1), rownames(tmp.block.2)))
-                n.intersect.proportion <- n.intersect/length(union(rownames(tmp.block.1), rownames(tmp.block.2)))
+                n.intersect.proportion <- n.intersect/length(union(rownames(tmp.block.1), 
+                                                                   rownames(tmp.block.2)))
             } else if (edge.by == "cell") {
-                n.intersect <- length(intersect(colnames(tmp.block.1), colnames(tmp.block.2)))
-                n.intersect.proportion <- n.intersect/length(union(colnames(tmp.block.1), colnames(tmp.block.2)))
+                n.intersect <- length(intersect(colnames(tmp.block.1), 
+                                                colnames(tmp.block.2)))
+                n.intersect.proportion <- n.intersect/length(union(colnames(tmp.block.1), 
+                                                                   colnames(tmp.block.2)))
             } else {
                 stop(paste("Please select 'gene' or 'cell' to edge.by parameter"))
             }
             ntwork.adjacency.mtx[i, j] <- n.intersect.proportion
         }
     }
-    edge.list <- graph_from_adjacency_matrix(adjmatrix = ntwork.adjacency.mtx, mode = "undirected", weighted = T, diag = F)
+    edge.list <- graph_from_adjacency_matrix(adjmatrix = ntwork.adjacency.mtx, 
+                                             mode = "undirected", 
+                                             weighted = TRUE, 
+                                             diag = FALSE)
     label = rownames(ntwork.adjacency.mtx)
     # degree.node <- degree(edge.list)
     # layout_df <- create_layout(edge.list, layout = layout)
@@ -183,7 +190,7 @@ setMethod("PlotNetwork", "IRISFGM", .plotnetwork)
     my.list <- .generateNetObject(object = object, N.bicluster = N.bicluster, method = method)
     cort <- my.list[[1]]
     my.adjacency <- ifelse(cort < cutoff.neg | cort > cutoff.pos, cort, 0)
-    g <- graph_from_adjacency_matrix(my.adjacency, weighted = T, diag = F, mode = "undirected")
+    g <- graph_from_adjacency_matrix(my.adjacency, weighted = TRUE, diag = FALSE, mode = "undirected")
     if (length(N.bicluster) > 1) {
         vertex.attributes(g)$Bicluster <- c(rep(names(my.list[[2]][1]), length(my.list[[2]][[1]])), rep(names(my.list[[2]][2]), length(my.list[[2]][[2]])), 
                                             rep(names(my.list[[2]][3]), length(my.list[[2]][[3]])), rep(names(my.list[[2]][4]), length(my.list[[2]][[4]])))
@@ -199,10 +206,14 @@ setMethod("PlotNetwork", "IRISFGM", .plotnetwork)
     p.base <- ggraph(layout)
     #p.base <- p.base + geom_node_point(aes(size = degree_number, alpha = degree_number), color = node.col)
     p.base <- p.base + geom_node_point(aes(size = degree_number), color = node.col)
-    if (node.label == T) {
-        p.base <- p.base + geom_node_text(aes(label = name, size = node.label.cex), repel = T)
+    if (node.label == TRUE) {
+        p.base <- p.base + geom_node_text(aes(label = name, size = node.label.cex), repel = TRUE)
     }
-    p.base <- p.base + geom_edge_link0(aes(width = abs(weight), color = status), alpha = 1) + scale_edge_width(range = c(0.5, 2)) + coord_fixed() + theme_void()
+    p.base <- p.base + 
+      geom_edge_link0(aes(width = abs(weight), color = status), alpha = 1) + 
+      scale_edge_width(range = c(0.5, 2)) + 
+      coord_fixed() + 
+      theme_void()
     print(p.base)
 }
 

@@ -13,7 +13,7 @@ NULL
 #' @return It will return differentially expressed gene based on DEsingle method.
 #' @importFrom DEsingle DEsingle DEtype
 #'
-.findMarker <- function(object, SimpleResult = T, FDR = 0.05) {
+.findMarker <- function(object, SimpleResult = TRUE, FDR = 0.05) {
     # two group number as factor.
     message("select condition to compare")
     message(paste0(c(1:ncol(object@MetaInfo)), " : ", c(colnames(object@MetaInfo)), "\n"))
@@ -23,14 +23,22 @@ NULL
     names(tmp.ident) <- rownames(object@MetaInfo)
     label.used <- colnames(object@MetaInfo)[ident.index]
     # create index table
-    tmp.group.table <- data.frame(index = 1:length(unique(tmp.ident)), condition = as.character(sort(unique(tmp.ident))), stringsAsFactors = F)
+    tmp.group.table <- data.frame(index = 1:length(unique(tmp.ident)), 
+                                  condition = as.character(sort(unique(tmp.ident))), 
+                                  stringsAsFactors = FALSE)
     tmp.group.table <- rbind(tmp.group.table, c(nrow(tmp.group.table) + 1, "rest of all"))
     # select groups to compare
     message("select index (left) of first group to compare : ")
-    message(paste0(tmp.group.table$index[1:nrow(tmp.group.table) - 1], " : ", tmp.group.table$condition[1:nrow(tmp.group.table) - 1], "\n"))
+    message(paste0(tmp.group.table$index[1:nrow(tmp.group.table) - 1], 
+                   " : ", 
+                   tmp.group.table$condition[1:nrow(tmp.group.table) - 1], 
+                   "\n"))
     group.1.idx <- readline("input first group index : ")
     message("select index (left) of second group to compare : ")
-    message(paste0(tmp.group.table$index[tmp.group.table$index != group.1.idx], " : ", tmp.group.table$condition[tmp.group.table$index != group.1.idx], "\n"))
+    message(paste0(tmp.group.table$index[tmp.group.table$index != group.1.idx], 
+                   " : ", 
+                   tmp.group.table$condition[tmp.group.table$index != group.1.idx], 
+                   "\n"))
     group.2.idx <- readline(prompt = "select index of group 2: ")
     group.1 <- tmp.group.table[tmp.group.table$index == group.1.idx, 2]
     group.2 <- tmp.group.table[tmp.group.table$index == group.2.idx, 2]
@@ -52,13 +60,15 @@ NULL
     results.classified <- DEtype(results = results, threshold = FDR)
     if (SimpleResult == TRUE) {
         gene.name <- rownames(results.classified)
-        results.classified <- cbind(log(results.classified$foldChange), results.classified$pvalue, results.classified$pvalue.adj.FDR)
+        results.classified <- cbind(log(results.classified$foldChange), 
+                                    results.classified$pvalue, 
+                                    results.classified$pvalue.adj.FDR)
         colnames(results.classified) <- c("LFC", "pval", "pvalue.adj.FDR")
         rownames(results.classified) <- gene.name
         results.classified <- as.data.frame(results.classified)
         results.classified <- results.classified[results.classified$pvalue.adj.FDR < FDR, ]
     }
-    if (grepl("MC", label.used, ignore.case = T)) {
+    if (grepl("MC", label.used, ignore.case = TRUE)) {
         object@BiCluster@MarkerGene <- results.classified
     } else {
         object@LTMG@MarkerGene <- results.classified
@@ -137,10 +147,18 @@ setMethod("FindGlobalMarkers", "IRISFGM", .findglobalMarkers)
 #' top.gene = 50,
 #' scale = "row")
 #' }
-PlotMarkerHeatmap <- function(Globalmarkers = NULL, object = NULL,idents = NULL, top.gene = 50, p.adj = 0.05, scale = "row",label.size = 1) {
+PlotMarkerHeatmap <- function(Globalmarkers = NULL, 
+                              object = NULL,
+                              idents = NULL, 
+                              top.gene = 50, 
+                              p.adj = 0.05, 
+                              scale = "row",
+                              label.size = 1) {
     marker.list <- Globalmarkers
     marker.list <- marker.list[marker.list$p_val_adj < p.adj, ]
-    marker.cluster.index <- as.data.frame(cbind(index = 1:length(unique(marker.list$cluster)), cluster = unique(as.character(marker.list$cluster))), stringsAsFactors = F)
+    marker.cluster.index <- as.data.frame(cbind(index = 1:length(unique(marker.list$cluster)), 
+                                                cluster = unique(as.character(marker.list$cluster))), 
+                                          stringsAsFactors = FALSE)
     sub.marker.list <- c()
     for (i in 1:length(unique(marker.list$cluster))) {
         tmp.cluster <- marker.cluster.index$cluster[marker.cluster.index$index == i]
@@ -178,7 +196,7 @@ PlotMarkerHeatmap <- function(Globalmarkers = NULL, object = NULL,idents = NULL,
     if(max(heatmap.matrix) > 100){
         heatmap.matrix <- log1p(heatmap.matrix)
     }
-    heatmap(as.matrix(heatmap.matrix), Colv = NA, Rowv = NA, scale = scale, ColSideColors = colSide, col = colMain, labCol = "0",)
+    heatmap(as.matrix(heatmap.matrix), Colv = NA, Rowv = NA, scale = scale, ColSideColors = colSide, col = colMain, labCol = "0")
     if (length(unique(col.data)) <= 8){
         col_lab <- qualitative_hcl(length(unique(col.data)), palette = "Dynamic")
     } else{

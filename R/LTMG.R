@@ -16,16 +16,15 @@ MIN_return <- function(x) {
 #' Global_Zcut create Zcut 
 #' @param MAT input matrix
 #'
-#' @param seed  set seed 
 #' @return global_zcut
 #' @rdname Global_Zcut
-Global_Zcut <- function(MAT, seed = NULL) {
+Global_Zcut <- function(MAT) {
     VEC <- apply(MAT, 1, MIN_return)
-    set.seed(seed)
+    # set.seed(seed)
     VEC <- VEC + rnorm(length(VEC), 0, 1e-04)
     Zcut_univ <- 0
     tryCatch({
-        set.seed(seed)
+        #set.seed(seed)
         MIN_fit = normalmixEM(log(VEC), k = 2)
         INTER <- Intersect2Mixtures(Mean1 = MIN_fit$mu[1], SD1 = MIN_fit$sigma[1], Weight1 = MIN_fit$lambda[1], Mean2 = MIN_fit$mu[2], SD2 = MIN_fit$sigma[2], 
                                     Weight2 = MIN_fit$lambda[2])
@@ -173,7 +172,7 @@ KS_ZIMG <- function(y, rrr, Zcut) {
 #' @return State_return
 #' @rdname State_return
 State_return <- function(x) {
-    return(order(x, decreasing = T)[1])
+    return(order(x, decreasing = TRUE)[1])
 }
 
 #' MINUS
@@ -287,7 +286,7 @@ LTMG <- function(VEC, Zcut_G, k = 5) {
         for (K in 2:k) {
             tryCatch({
                 rrr <- Fit_LTMG(y, 100, Zcut, K)
-                rrr <- matrix(as.numeric(rrr[!is.na(rrr[, 2]), ]), ncol = 3, byrow = F)
+                rrr <- matrix(as.numeric(rrr[!is.na(rrr[, 2]), ]), ncol = 3, byrow = FALSE)
                 TEMP <- BIC_LTMG(y, rrr, Zcut)
                 # print(TEMP)
                 if (TEMP < MARK) {
@@ -300,7 +299,7 @@ LTMG <- function(VEC, Zcut_G, k = 5) {
     }
     
     rrr_LTMG <- rrr_LTMG[order(rrr_LTMG[, 2]), ]
-    rrr_use <- matrix(as.numeric(rrr_LTMG), ncol = 3, byrow = F)
+    rrr_use <- matrix(as.numeric(rrr_LTMG), ncol = 3, byrow = FALSE)
     
     return(rrr_LTMG)
 }
@@ -313,7 +312,6 @@ LTMG <- function(VEC, Zcut_G, k = 5) {
 #' We will use Left-truncated Mixture Gaussian distribution to model the regulatory signal of each gene. Parameter, 'Gene_use', decides number of top high variant gene for LTMG modeling, and here we use all genes.
 #'
 #' @param object Input IRIS-FGM object 
-#' @param seed Set seeds for reproducibility
 #' @param k Number of components.
 #' @param Gene_use using X numebr of top variant gene. input a number, recommend 2000.
 #'
@@ -335,26 +333,26 @@ LTMG <- function(VEC, Zcut_G, k = 5) {
 #' Gene_use ='all', 
 #' seed = 123, 
 #' k = 5)}
-.RunLTMG <- function(object, Gene_use = NULL, seed = 123, k = 5) {
+.RunLTMG <- function(object, Gene_use = NULL, k = 5) {
     MAT <- as.matrix(object@Processed_count)
-    set.seed(seed)
+    # set.seed(seed)
     MAT <- ifelse(is.na(MAT), 0, MAT)
     MAT <- MAT[rowSums(MAT) > 0, colSums(MAT) > 0]
     Zcut_G <- log(Global_Zcut(MAT, seed = seed))
     LTMG_Res <- c()
     gene_name <- c()
-    if (is.null(Gene_use) || grepl("all", Gene_use, ignore.case = T)) {
+    if (is.null(Gene_use) || grepl("all", Gene_use, ignore.case = TRUE)) {
         
         message("using all genes.")
         Gene_use_name <- rownames(MAT)
     } else {
-        Gene_use_name <- rownames(MAT)[order(apply(MAT, 1, var), decreasing = T)[1:Gene_use]]
+        Gene_use_name <- rownames(MAT)[order(apply(MAT, 1, var), decreasing = TRUE)[1:Gene_use]]
     }
     
     LTMG_Res <- c()
     SEQ <- floor(seq(from = 1, to = length(Gene_use_name), length.out = 11))
     
-    set.seed(seed)
+    #set.seed(seed)
     for (i in 1:length(Gene_use_name)) {
         if (i %in% SEQ) {
             cat(paste0("Progress:", (grep("T", SEQ == i) - 1) * 10, "%\n"))
@@ -392,7 +390,7 @@ LTMG <- function(VEC, Zcut_G, k = 5) {
             for (K in 2:k) {
                 tryCatch({
                     rrr <- Fit_LTMG(y, 100, Zcut, K)
-                    rrr <- matrix(as.numeric(rrr[!is.na(rrr[, 2]), ]), ncol = 3, byrow = F)
+                    rrr <- matrix(as.numeric(rrr[!is.na(rrr[, 2]), ]), ncol = 3, byrow = FALSE)
                     TEMP <- BIC_LTMG(y, rrr, Zcut)
                     # print(TEMP)
                     if (TEMP < MARK) {
@@ -409,7 +407,7 @@ LTMG <- function(VEC, Zcut_G, k = 5) {
             y_state <- rep(0, length(y))
         } else {
             rrr_LTMG <- rrr_LTMG[order(rrr_LTMG[, 2]), ]
-            rrr_use <- matrix(as.numeric(rrr_LTMG), ncol = 3, byrow = F)
+            rrr_use <- matrix(as.numeric(rrr_LTMG), ncol = 3, byrow = FALSE)
             
             y_use <- y[y > Zcut]
             y_value <- NULL

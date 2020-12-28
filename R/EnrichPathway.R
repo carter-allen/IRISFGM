@@ -9,10 +9,10 @@ NULL
 #'
 #' @return GO pathway enrichment analysis
 .RunGO <- function(genes.use = NULL, species = "mouse") {
-    if (grepl("mouse", species, ignore.case = T)) {
+    if (grepl("mouse", species, ignore.case = TRUE)) {
         pathway <- invisible(suppressMessages(enrichGO(gene = genes.use, OrgDb = org.Mm.eg.db, ont = "ALL", keyType = "SYMBOL", pAdjustMethod = "BH", pvalueCutoff = 0.05, 
                                                        qvalueCutoff = 0.05)))
-    } else if (grepl("human", species, ignore.case = T)) {
+    } else if (grepl("human", species, ignore.case = TRUE)) {
         pathway <- invisible(suppressMessages(enrichGO(gene = genes.use, OrgDb = org.Hs.eg.db, ont = "ALL", keyType = "SYMBOL", pAdjustMethod = "BH", pvalueCutoff = 0.05, 
                                                        qvalueCutoff = 0.05)))
     }
@@ -26,9 +26,9 @@ NULL
 #'
 #' @return converted ID
 .IDConvert <- function(genes.use = NULL, species = NULL) {
-    if (grepl("mouse", species, ignore.case = T)) {
+    if (grepl("mouse", species, ignore.case = TRUE)) {
         gene.convert <- bitr(genes.use, fromType = "SYMBOL", toType = c("ENSEMBL", "ENTREZID"), OrgDb = org.Mm.eg.db)
-    } else if (grepl("human", species, ignore.case = T)) {
+    } else if (grepl("human", species, ignore.case = TRUE)) {
         gene.convert <- bitr(genes.use, fromType = "SYMBOL", toType = c("ENSEMBL", "ENTREZID"), OrgDb = org.Hs.eg.db)
     }
     return(gene.convert)
@@ -42,10 +42,10 @@ NULL
 #' @return KEGG results
 #'
 .RunKEGG <- function(genes.use = NULL, species = "mouse") {
-    if (grepl("mouse", species, ignore.case = T)) {
+    if (grepl("mouse", species, ignore.case = TRUE)) {
         pathway <- invisible(suppressMessages(enrichKEGG(gene = genes.use, organism = "mmu", keyType = "kegg", pAdjustMethod = "BH", pvalueCutoff = 0.05, 
                                                          qvalueCutoff = 0.05)))
-    } else if (grepl("human", species, ignore.case = T)) {
+    } else if (grepl("human", species, ignore.case = TRUE)) {
         pathway <- invisible(suppressMessages(enrichKEGG(gene = genes.use, organism = "hsa", keyType = "kegg", pAdjustMethod = "BH", pvalueCutoff = 0.05, 
                                                          qvalueCutoff = 0.05)))
     }
