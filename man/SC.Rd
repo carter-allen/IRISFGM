@@ -14,6 +14,9 @@ SC(Raw, blocks, K)
 
 \item{K}{number of clusters; this parameter is used for SC clustering method.}
 }
+\value{
+spectral Clustering results
+}
 \description{
 spectral Clustering method 
 spectral Clustering method

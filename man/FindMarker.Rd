@@ -21,6 +21,9 @@ FindMarker(object, ...)
 
 \item{FDR}{a number to specify the threshold of FDR, default by 0.05}
 }
+\value{
+It will return differentially expressed gene based on DEsingle method.
+}
 \description{
 FindMarker
 

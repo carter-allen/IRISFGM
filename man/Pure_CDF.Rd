@@ -10,6 +10,9 @@ Pure_CDF(Vec)
 \arguments{
 \item{Vec}{input vector}
 }
+\value{
+Pure_CDF
+}
 \description{
 Pure_CDF
 Pure_CDF

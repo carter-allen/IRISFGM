@@ -27,6 +27,9 @@ Generate temporal discretized file}
 
 \item{BlockCellMin}{minimum column width of the block. Default: 15 columns.}
 }
+\value{
+It will perform discretization
+}
 \description{
 Run Discretization
 Generate temporal discretized file

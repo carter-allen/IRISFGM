@@ -14,6 +14,9 @@ InverseMillsRatio(q, mean, sd)
 
 \item{sd}{sd}
 }
+\value{
+InverseMillsRatio
+}
 \description{
 Title
 Title

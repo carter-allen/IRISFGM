@@ -14,6 +14,9 @@ Generate Net Object for the network use.}
 
 \item{method}{Should be a statistical method to calculate edge weight based on expression data. It can be either "Spearman" (default) or "Pearson."}
 }
+\value{
+get generateNetObject
+}
 \description{
 GenerateNetObject
 Generate Net Object for the network use.

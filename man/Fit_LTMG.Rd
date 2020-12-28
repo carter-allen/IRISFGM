@@ -18,6 +18,9 @@ Fit_LTMG(x, n, q, k, err = 1e-10)
 
 \item{err}{random error}
 }
+\value{
+Fit_LTMG
+}
 \description{
 Fit_LTMG
 Fit_LTMG

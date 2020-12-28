@@ -14,6 +14,9 @@ KS_LTMG(y, rrr, Zcut)
 
 \item{Zcut}{input global zcut}
 }
+\value{
+KS_LTMG
+}
 \description{
 KS_LTMG
 KS_LTMG

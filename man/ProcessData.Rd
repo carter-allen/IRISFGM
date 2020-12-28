@@ -38,6 +38,9 @@ ProcessData(object, ...)
 
 \item{seed}{set seed for reproducibility.}
 }
+\value{
+It will processdata by normalization and imputation.
+}
 \description{
 Process data via normalization and imputation.
 }

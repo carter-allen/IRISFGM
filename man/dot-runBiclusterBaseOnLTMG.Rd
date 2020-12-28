@@ -26,6 +26,9 @@
 
 \item{BlockCellMin}{minimum column width of the block. Default: 15 columns.}
 }
+\value{
+It will return Biclustering results based on LTMG.
+}
 \description{
 Run bicluster based on LTMG
 }

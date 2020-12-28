@@ -47,6 +47,9 @@ qubic(
 
 \item{o}{index}
 }
+\value{
+qubic results
+}
 \description{
 QUBIC Performs a QUalitative BIClustering.
 }

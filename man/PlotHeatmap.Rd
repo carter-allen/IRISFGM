@@ -41,6 +41,9 @@ PlotHeatmap(object, ...)
 
 \item{show.clusters}{Parameter (logic) indicates whether to show the cell cluster label.}
 }
+\value{
+It will generate a heatmap based on selected two FGMs.
+}
 \description{
 PlotHeatmap
 

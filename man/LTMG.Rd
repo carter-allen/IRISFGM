@@ -14,6 +14,9 @@ LTMG(VEC, Zcut_G, k = 5)
 
 \item{k}{input k as gene regulatory signal}
 }
+\value{
+return LTMG
+}
 \description{
 LTMG
 LTMG
