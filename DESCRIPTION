@@ -10,6 +10,7 @@ License: GPL (>= 2)
 Imports: Rcpp (>= 1.0.0), MCL, anocva, Polychrome, RColorBrewer, colorspace, AnnotationDbi, ggplot2, org.Hs.eg.db, org.Mm.eg.db, pheatmap, AdaptGauss, DEsingle,DrImpute, Matrix, Seurat, SingleCellExperiment, clusterProfiler, ggpubr, ggraph, igraph, mixtools, scater, scran, stats, methods
 LinkingTo: Rcpp
 RoxygenNote: 7.1.1
+VignetteBuilder: knitr
 Encoding: UTF-8
 Collate: 
     'Classes.R'
