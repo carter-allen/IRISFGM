@@ -1,4 +1,11 @@
 # IRIS-FGM
+Status update on Dec/28/2020:
+
+The new package has passed the Bioconductor automatic check on local computers without any errors and warnings 
+<img src="https://user-images.githubusercontent.com/26455910/103252357-80aa8b00-494a-11eb-8dac-973658ba78e9.png" alt="IRISFGM_status1">
+<img src="https://user-images.githubusercontent.com/26455910/103252384-a2a40d80-494a-11eb-80a3-dc76af43e6a1.png" alt="IRISFGM_status2">
+
+
 ---<span style="color:green;">I</span>ntegrative sc<span style="color: red;">R</span>NA-Seq <span style="color: red;">I</span>nterpretation <span style="color: red;">S</span>ystem for <span style="color: red;">F</span>unctional <span style="color: red;">G</span>ene <span style="color: red;">M</span>odule analysis
 
 ## Abstract
