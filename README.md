@@ -12,7 +12,7 @@ The new package has passed the Bioconductor automatic check on local computers w
 Single-cell RNA-Seq data is useful in discovering cell heterogeneity and signature genes in specific cell populations in cancer and other complex diseases. Specifically, the investigation of functional gene modules (FGM) can help to understand gene interactive networks and complex biological processes. QUBIC2 is recognized as one of the most efficient and effective tools for FGM identification from scRNA-Seq data. However, its availability is limited to a C implementation, and its applicative power is affected by only a few downstream analyses functionalities. We developed an R package named IRIS-FGM (integrative scRNA-Seq interpretation system for functional gene module analysis) to support the investigation of FGMs and cell clustering using scRNA-Seq data. Empowered by QUBIC2, IRIS-FGM can identify co-expressed and co-regulated FGMs, predict types/clusters, identify differentially expressed genes, and perform functional enrichment analysis. It is noteworthy that IRIS-FGM also applies Seurat objects that can be easily used in the Seurat vignettes.
 
 ## Workflow
-<img src="https://user-images.githubusercontent.com/26455910/90200476-f64ff900-dda5-11ea-902c-c91726c22eac.jpg" alt="IRISFGM_working_flow">
+<img src="https://user-images.githubusercontent.com/26455910/103300172-4550a080-49cc-11eb-9b32-15747ea45f79.png" alt="IRISFGM_working_flow">
 
 ## Environment
 
@@ -29,7 +29,7 @@ R (equal or greater than 3.5)
 1. Install required packages from CRAN: 
 
 ```
-install.packages(c('BiocManager','devtools', 'AdaptGauss', "pheatmap", 'mixtools','MCL', 'anocva', 'qgraph','Rtools','ggpubr',"ggraph","Seurat"))
+install.packages(c('BiocManager','devtools', 'AdaptGauss', "pheatmap", 'mixtools','MCL', 'anocva', 'qgraph','Rtools','ggpubr',"ggraph","Seurat","Polychrome"))
 ```
                    
 2. Install required packages from Bioconductor:  
@@ -38,10 +38,10 @@ install.packages(c('BiocManager','devtools', 'AdaptGauss', "pheatmap", 'mixtools
 BiocManager::install(c('org.Mm.eg.db','multtest','org.Hs.eg.db','clusterProfiler','DEsingle', 'DrImpute','scater', 'scran'))
 ```
 
-3. Install IRIS-FGM from github:
+3. Install IRISFGM from github:
 
 ```
-devtools::install_github("BMEngineeR/IRIS-FGM", force = T)
+devtools::install_github("BMEngineeR/IRISFGM")
 ```
 
 Now the MetaQUBIC is successfully installed and ready for use. 
@@ -50,7 +50,7 @@ Now the MetaQUBIC is successfully installed and ready for use.
 
 1. Download example data from [Yan's RPKM 90 cell embroyonic single cell RNA-Seq data](https://bmbl.bmi.osumc.edu/downloadFiles/Yan_expression.txt), [meta file (cell type information)](https://bmbl.bmi.osumc.edu/downloadFiles/Yan_cell_label.txt) and [paper](https://www.nature.com/articles/nsmb.2660). The alternative way to download is to use the step 2 method in this section.
 
-2. Set the working directory where you put data and import the IRIS-FGM library.
+2. Set the working directory where you put data and import the IRISFGM library.
 ```{r setwd, eval =FALSE, echo = TRUE}
 setwd("./my_working_dir/")
 library(IRISFGM)
@@ -66,7 +66,7 @@ InputMatrix <- read.table("./my_working_dir/Yan_expression.txt",header = T, row.
 Meta_info <- read.table("./my_working_dir/Yan_cell_label.txt",header = T,row.names = 1)
 ```
 
-IRIS-FGM also provides the function to read in 10X scRNA-Seq data format.
+IRISFGM also provides the function to read in 10X scRNA-Seq data format.
 
 Read HDF5 file```ReadFrom10X_h5()``` or read the folder which contain three files (barcode, sparse matrix, genes)```ReadFrom10X_folder()```
 
@@ -74,9 +74,9 @@ Read HDF5 file```ReadFrom10X_h5()``` or read the folder which contain three file
 
 ## Analysis data
 ### Data preprocessing and LTMG modeling
-1. **Create IRIS-FGM object**:
+1. **Create IRISFGM object**:
 ```{r create_object, eval= FALSE, echo = TRUE,message=FALSE}
-object <- CreateIRISCEMObject(InputMatrix)
+object <- CreateIRISFGMObject(InputMatrix)
 ```
 2. **Adding meta information for your cell**:
 
@@ -107,20 +107,20 @@ PlotMeta(object)
 
 Users can choose to perform normalization based on their needs. The normalization method has two options, one is the simplest CPM normalization (default `normalization = 'LibrarySizeNormalization'`). The other is from package scran and can be opened by using parameter `normalization = 'scran'`. Compared to the CPM normalization method, scran will be more accurate but takes more time.
 ```
-object <- ProcessData(object, normalization = "LibrarySizeNormalization")
+object <- ProcessData(object, normalization = "cpm")
 ```
 5. **LTMG modeling**:
 
 Here, we will use Left-truncated Mixture Gaussian distribution to model the regulatory signal of each gene. Parameter, 'Gene_use', decides number of top highly variant gene for LTMG modeling, and here we use top 2000 highly variant genes.
 ```{r run_LTMG, echo = TRUE,eval = FALSE}
-object <- RunLTMG(object, Gene_use = "2000", seed = 123)
+object <- RunLTMG(object, Gene_use = "2000")
 ```
 ### Biclustering
 
-IRIS-FGM can provide biclustering function, which is based on our in-house novel algorithm, [QUBIC2] (https://github.com/maqin2001/qubic2) to predict functional gene module. 
+IRISFGM can provide biclustering function, which is based on our in-house novel algorithm, [QUBIC2] (https://github.com/maqin2001/qubic2) to predict functional gene module. 
 
 **Discretization & biclustering**  
-If you have more cells to analyze functional gene module you can use LTMG or Quantile based discretization ([QUBIC](https://academic.oup.com/nar/article/37/15/e101/2409951)). In this step, IRIS-FGM will generate files in the local working directory and do not remove them before finishing your analysis (files include tmp_expression.txt, tmp_expression.txt.chars, tmp_expression.txt.chars.blocks, tmp_expression.txt.chars.chars, and tmp_expression.txt.rules).
+If you have more cells to analyze functional gene module you can use LTMG or Quantile based discretization ([QUBIC](https://academic.oup.com/nar/article/37/15/e101/2409951)). In this step, IRISFGM will generate files in the local working directory and do not remove them before finishing your analysis (files include tmp_expression.txt, tmp_expression.txt.chars, tmp_expression.txt.chars.blocks, tmp_expression.txt.chars.chars, and tmp_expression.txt.rules).
 
 1. LTMG based discretization: 
 
