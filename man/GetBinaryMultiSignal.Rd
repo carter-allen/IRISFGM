@@ -28,5 +28,6 @@ GetBinaryMultiSignal
 This function is for getting multisignal from LTMG signaling matrix.
 }
 \examples{
+data(example_object)
 Multisignal_matrix <- GetBinaryMultiSignal(example_object)
 }

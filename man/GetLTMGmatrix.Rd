@@ -24,6 +24,7 @@ It will reture LTMG signal matrix.
 Get LTMG matrix
 }
 \examples{
+data(example_object)
 LTMG_signalmatrix <- GetLTMGmatrix(example_object)
 
 }

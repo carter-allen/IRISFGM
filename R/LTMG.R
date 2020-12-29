@@ -323,7 +323,7 @@ LTMG <- function(VEC, Zcut_G, k = 5) {
 #' @examples # If you want to explore DEG, we recommend you should use top 2000 highly variant gene. 
 #' data("example_object")
 #' example_object <- RunLTMG(example_object,
-#' Gene_use = 2000,
+#' Gene_use = "all",
 #' k = 5)
 #' 
 .RunLTMG <- function(object, Gene_use = NULL, k = 5) {
@@ -435,6 +435,7 @@ setMethod("RunLTMG", "IRISFGM", .RunLTMG)
 #' @param object Input IRIS-FGM object
 #' @return It will reture LTMG signal matrix.
 #' @examples 
+#' data(example_object)
 #' LTMG_signalmatrix <- GetLTMGmatrix(example_object)
 #' 
 .GetLTMGmatrix <- function(object) {
@@ -481,6 +482,7 @@ setMethod("CalBinarySingleSignal", "IRISFGM", .CalBinarySingleSignal)
 #' @return It will export the Binarized matrix based on LTMG signal matrix.
 #'
 #' @examples
+#' data(example_object)
 #' Singlesignal_matrix <- GetBinarySingleSignal(example_object)
 #' 
 .GetBinarySingleSignal <- function(object = NULL) {
@@ -548,6 +550,7 @@ setMethod("CalBinaryMultiSignal", "IRISFGM", .CalBinaryMultiSignal)
 #' @return It will get a binary matrix based on LTMG signal matrix.
 #'
 #' @examples 
+#' data(example_object)
 #' Multisignal_matrix <- GetBinaryMultiSignal(example_object)
 .GetBinaryMultiSignal <- function(object = NULL) {
     tmp <- object@LTMG@LTMG_BinaryMultisignal

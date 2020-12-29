@@ -30,6 +30,6 @@ generate plot on umap space.
 Generate Umap and it requires user to input cell label index on console window.
 }
 \examples{
-data("example_obejct")
-PlotDimension(object,idents = "Seurat_r_0.8_k_20")
+data("example_object")
+PlotDimension(example_object,idents = "Seurat_r_0.8_k_20")
 }

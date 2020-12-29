@@ -27,6 +27,7 @@ GetBinarySingleSignal
 Get binary Single Signal matrix
 }
 \examples{
+data(example_object)
 Singlesignal_matrix <- GetBinarySingleSignal(example_object)
 
 }

@@ -16,7 +16,7 @@ A data frame with 970 rows (gene) and 90 columns(cell):
 \url{https://bmbl.bmi.osumc.edu/downloadFiles/Yan_expression.txt}
 }
 \usage{
-example_object
+data(example_object)
 }
 \description{
 The example data was pre-generated IRISFGM object and it was generated from the partial data from Yan's data which contain 90 human embryo cells.

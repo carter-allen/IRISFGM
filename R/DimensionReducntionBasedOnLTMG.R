@@ -121,8 +121,8 @@ setMethod("RunClassification", "IRISFGM", .runClassification)
 #' @return generate plot on umap space.
 #' @name PlotDimension
 #' @examples 
-#' data("example_obejct")
-#' PlotDimension(object,idents = "Seurat_r_0.8_k_20")
+#' data("example_object")
+#' PlotDimension(example_object,idents = "Seurat_r_0.8_k_20")
 .plotDimension <- function(object, reduction = "umap", pt_size = 1,idents = NULL) {
     
     if (grepl("tsne", reduction, ignore.case = TRUE) || grepl("umap", reduction, ignore.case = TRUE) || grepl("pca", reduction, ignore.case = TRUE)) {
