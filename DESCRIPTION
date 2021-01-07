@@ -36,4 +36,4 @@ Collate:
     'data.R'
 biocViews: Software, GeneExpression, SingleCell, Clustering, DifferentialExpression, Preprocessing, DimensionReduction, Visualization, Normalization, DataImport
 Depends: 
-    R (>= 4.0)
+    R (>= 4.1)
