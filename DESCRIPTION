@@ -4,7 +4,7 @@ Title: Comprehensive Analysis of Gene Interactivity Networks Based on Single-Cel
 Version: 0.99.1
 Date: 2020-12-22
 Authors@R: c(person("Yuzhou", "Chang", role = c("aut", "cre"),
-                     email = "Yuzhou.Chang@osumc.edu"),
+                     email = "yuzhou.chang@osumc.edu"),
               person("Qin", "Ma", role = "aut"),
               person("Carter", "Allen", role = "aut"),
               person("Dongjun", "Chung", role = "aut"))
